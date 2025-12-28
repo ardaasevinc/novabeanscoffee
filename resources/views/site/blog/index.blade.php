@@ -1,0 +1,217 @@
+@extends('layouts.site')
+
+@section('content')
+<!-- Page Blog Start -->
+    <div class="page-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-1.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">The Art of Crafting the Perfect Espresso: Tips and Tricks</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.2s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-2.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">Top 5 Coffee Brewing Methods to Elevate Your Morning Routine</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.4s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-3.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">Exploring Single-Origin Coffees: A Journey of Flavors</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.6s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-4.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">How to Pair Coffee with Desserts for a Gourmet Experience</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="0.8s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-5.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">The Sustainability Behind Your Cup: Ethical Coffee Sourcing</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <!-- Post Item Start -->
+                    <div class="post-item wow fadeInUp" data-wow-delay="1s">
+                        <!-- Post Featured Image Start-->
+                        <div class="post-featured-image">
+                            <a href="blog-single.html" data-cursor-text="View">
+                                <figure class="image-anime">
+                                    <img src="assets/images/post-6.jpg" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                        <!-- Post Featured Image End -->
+
+                        <!-- Blog Item Body Start -->
+                        <div class="blog-item-body">
+                            <!-- Post Item Content Start -->
+                            <div class="post-item-content">
+                                <h2><a href="blog-single.html">The Science of Coffee Roasting: Unlocking Richer Flavors</a></h2>
+                            </div>
+                            <!-- Post Item Content End -->
+
+                            <!-- Blog Item Button Start -->
+                            <div class="blog-item-btn">
+                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            </div>
+                            <!-- Blog Item Button End -->
+                        </div>
+                        <!-- Blog Item Body End -->
+                    </div>
+                    <!-- Post Item End -->
+                </div>
+
+                <div class="col-lg-12">
+                    <!-- Page Pagination Start -->
+                    <div class="page-pagination wow fadeInUp" data-wow-delay="1.2s">
+                        <ul class="pagination">
+                            <li><a href="#"><i class="fa-solid fa-arrow-left-long"></i></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#"><i class="fa-solid fa-arrow-right-long"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Page Pagination End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Blog End -->
+@endsection
