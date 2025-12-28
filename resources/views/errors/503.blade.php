@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <!-- Error Page Image Start -->
                     <div class="error-page-image wow fadeInUp">
-                        <img src="assets/images/404-error-img.png" alt="">
+                        <img src="assets/images/503-image.png" alt="">
                     </div>
                     <!-- Error Page Image End -->
                     
