@@ -32,7 +32,7 @@
 </p>
                             </div>
                             <div class="footer-contact-button">
-                                <a href="{{ route('site.contact') }}" class="btn-default btn-highlighted">Yol Haritası</a>
+                                <a href="{{ url('https://www.google.com/maps/place/Nova+Beans+Coffee/@41.1434348,28.4578381,17z/data=!3m2!4b1!5s0x14b545184996ffa1:0xef7d3f9a3169d0bc!4m6!3m5!1s0x14b54511450974d9:0x19e29aef6922b992!8m2!3d41.1434348!4d28.460413!16s%2Fg%2F11lmj5fpx9?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D') }}" class="btn-default btn-highlighted">Yol Haritası</a>
                             </div>
                         </div>
                         <!-- Footer Contact Item End -->
