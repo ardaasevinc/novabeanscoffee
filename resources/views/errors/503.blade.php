@@ -14,10 +14,10 @@
                     <!-- Error Page Content Start -->
                     <div class="error-page-content">
                         <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Oops! Aradığınız sayfayı bulamadık.</h2>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">Mutfağımızda Yeni Lezzetler Pişiyor</h2>
                         </div>
                         <div class="error-page-content-body">
-                            <p class="wow fadeInUp" data-wow-delay="0.25s">Dört bir yanı aradık ama aradığınız lezzeti bulamadık. İzin verin, sizi enfes bir ziyafete götürecek yolu tarif edelim.</p>
+                            <p class="wow fadeInUp" data-wow-delay="0.25s">Size daha iyi bir deneyim sunabilmek için dijital mutfağımızda küçük bir tadilat yapıyoruz. Şeflerimiz hazırlıklarını tamamlarken gösterdiğiniz sabır için teşekkür ederiz. Çok yakında, daha lezzetli bir şekilde karşınızda olacağız.</p>
                             <a class="btn-default wow fadeInUp" data-wow-delay="0.5s" href="./"><span>Nova Kitchen</span></a>
                         </div>
                     </div>
