@@ -14,7 +14,7 @@
                     <!-- Error Page Content Start -->
                     <div class="error-page-content">
                         <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">503!Oops! Aradığınız sayfayı bulamadık.</h2>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">Oops! Aradığınız sayfayı bulamadık.</h2>
                         </div>
                         <div class="error-page-content-body">
                             <p class="wow fadeInUp" data-wow-delay="0.25s">Dört bir yanı aradık ama aradığınız lezzeti bulamadık. İzin verin, sizi enfes bir ziyafete götürecek yolu tarif edelim.</p>
