@@ -12,8 +12,8 @@
                             </div>
                             <div class="footer-contact-detail">
                                 <h3>Bize Ulaşın</h3>
-                                <p>T. <a href="tel:+123456789">+123 456 789</a></p>
-                                <p>M. <a href="mainto:info@domainname.com">info@novakitchen.com.tr</a></p>
+                                <p>T. <a href="tel:+90 545 528 01 93">+90 545 528 01 93</a></p>
+                                <p>M. <a href="mailto:info@novakitchen.com.tr">info@novakitchen.com.tr</a></p>
                             </div>
                             <div class="footer-contact-button">
                                 <a href="contact.html" class="btn-default btn-highlighted">Bize Ulaşın</a>

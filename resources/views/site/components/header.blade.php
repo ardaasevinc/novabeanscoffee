@@ -46,17 +46,17 @@
                                     <div class="offcanvas-body">
                                         <!-- Header Title Box Start -->
                                         <div class="header-title-box">
-                                            <h2>welcome to roast coffee & tea</h2>
-                                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                                            <h2>Nova Kitchen'a <br>Hoş Geldiniz.</h2>
+                                            <p>MAKE IT NICE</p>
                                         </div>
                                         <!-- Header Title Box End -->
 
                                         <!-- Header Sidebar Info Start -->
                                         <div class="header-sidebar-info">
-                                            <h2><a href="tel:+123456789">+123 456 789</a></h2>
+                                            <h2><a href="tel:+123456789">+90 545 528 01 93</a></h2>
                                             <ul>
-                                                <li>62 Big Tree St, Livonia, New York 14487, USA</li>
-                                                <li><a href="mailto:info@domainname.com">info@domainname.com</a></li>
+                                                <li>Ferhatpaşa Mahallesi Mescit Sokak Çağlayan Ege Ticaret Merkezi No:1 Kat: 2 Çatalca/İstanbul</li>
+                                                <li><a href="mailto:info@novakitchen.com.tr">info@novakitchen.com.tr</a></li>
                                             </ul>
                                         </div>
                                         <!-- Header Sidebar Info End -->
@@ -64,9 +64,9 @@
                                         <!-- Header Sidebar Timing Start -->
                                         <div class="header-sidebar-timing">
                                             <ul>
-                                                <li>Monday - Friday : 8.00am - 21.00pm</li>
-                                                <li>Saturday - Sunday : 9.00am - 22.00pm</li>
-                                                <li>Holiday : Closed</li>
+                                                <li>Pazartesi-Cuma : 8.00 - 21.00</li>
+                                                <li>Cumartesi - Pazar : 9.00am - 22.00pm</li>
+                                                <li>Mutfak Kapanış : 23:00</li>
                                             </ul>
                                         </div>
                                         <!-- Header Sidebar Timing End -->
@@ -74,9 +74,9 @@
                                         <!-- Header Sidebar Social List Start -->
                                         <div class="header-sidebar-social-list">
                                             <ul>
-                                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li>
+                                                <li><a href="{{ url('https://instagram.com/novabeanscoffee') }}"><i class="fa-brands fa-instagram"></i></a></li>
+                                                {{-- <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li> --}}
                                             </ul>
                                         </div>
                                         <!-- Header Sidebar Social List End -->

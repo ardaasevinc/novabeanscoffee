@@ -1,113 +1,79 @@
-<!-- Why Choose Us Section Start -->
-    <div class="why-choose-us light-bg-section">
+<div class="why-choose-us light-bg-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <!-- Why Choose Content Start -->
                     <div class="why-choose-content">
-                        <!-- Section Title Start -->
                         <div class="section-title">
-                            <h3 class="wow fadeInUp">why choose us</h3>
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Where flavor meets comfort and services
-                            </h2>
+                            <h3 class="wow fadeInUp">Neden Biz?</h3>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">Lezzetin, konforun ve hizmetin buluşma noktası</h2>
                         </div>
-                        <!-- Section Title End -->
-
-                        <!-- Why Choose Button Start -->
                         <div class="why-choose-btn wow fadeInUp" data-wow-delay="0.2s">
-                            <a href="contact.html" class="btn-default">contact us</a>
+                            <a href="contact.html" class="btn-default">İletişime Geçin</a>
                         </div>
-                        <!-- Why Choose Button End -->
+                        </div>
                     </div>
-                    <!-- Why Choose Content End -->
-                </div>
 
                 <div class="col-lg-6">
-                    <!-- Why Choose List Start -->
                     <div class="why-choose-list wow fadeInUp" data-wow-delay="0.2s">
-                        <!-- Why Choose Item Start -->
                         <div class="why-choose-item">
                             <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-1.svg" alt="">
+                                <img src="{{ asset('assets/images/icon-why-choose-1.svg') }}" alt="Hizmet İkonu">
                             </div>
                             <div class="why-choose-item-content">
-                                <h3>fully responsive</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
+                                <h3>Kusursuz Hizmet</h3>
+                                <p>Her detayında memnuniyetinizi düşünen profesyonel ekibimizle, beklentilerinizin ötesinde bir ağırlama deneyimi
+                                    sunuyoruz.</p>
+                            </div>
+                        </div>
+                        <div class="why-choose-item">
+                            <div class="icon-box">
+                                <img src="{{ asset('assets/images/icon-why-choose-2.svg') }}" alt="Taze Malzeme İkonu">
+                            </div>
+                            <div class="why-choose-item-content">
+                                <h3>Taze Malzemeler</h3>
+                                <p>Mutfağımızda sadece mevsimin en taze ürünlerini ve yerel üreticilerden temin edilen en kaliteli malzemeleri
+                                    kullanıyoruz.</p>
+                            </div>
+                        </div>
+                        <div class="why-choose-item">
+                            <div class="icon-box">
+                                <img src="{{ asset('assets/images/icon-why-choose-3.svg') }}" alt="Şef İkonu">
+                            </div>
+                            <div class="why-choose-item-content">
+                                <h3>Usta Şefler</h3>
+                                <p>Gastronomi sanatını tutkuyla icra eden deneyimli şeflerimizin elinden çıkan, damağınızda iz bırakacak imza lezzetler.
                                 </p>
                             </div>
                         </div>
-                        <!-- Why Choose Item End -->
-
-                        <!-- Why Choose Item Start -->
                         <div class="why-choose-item">
                             <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-2.svg" alt="">
+                                <img src="{{ asset('assets/images/icon-why-choose-4.svg') }}" alt="Hızlı Servis İkonu">
                             </div>
                             <div class="why-choose-item-content">
-                                <h3>fresh ingredients</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
-                                </p>
+                                <h3>Hızlı Servis</h3>
+                                <p>Lezzetten ve sunum kalitesinden ödün vermeden, zamanınıza saygı duyan seri ve akıcı servis anlayışı.</p>
                             </div>
                         </div>
-                        <!-- Why Choose Item End -->
-
-                        <!-- Why Choose Item Start -->
                         <div class="why-choose-item">
                             <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-3.svg" alt="">
+                                <img src="{{ asset('assets/images/icon-why-choose-5.svg') }}" alt="Atmosfer İkonu">
                             </div>
                             <div class="why-choose-item-content">
-                                <h3>exclusive chef's</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
-                                </p>
+                                <h3>Samimi Atmosfer</h3>
+                                <p>Modern tasarımın sıcak detaylarla harmanlandığı, kendinizi evinizde hissedeceğiniz huzurlu bir ortam.</p>
                             </div>
                         </div>
-                        <!-- Why Choose Item End -->
-
-                        <!-- Why Choose Item Start -->
                         <div class="why-choose-item">
                             <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-4.svg" alt="">
+                                <img src="{{ asset('assets/images/icon-why-choose-6.svg') }}" alt="Wifi İkonu">
                             </div>
                             <div class="why-choose-item-content">
-                                <h3>fast services</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
-                                </p>
+                                <h3>Ücretsiz Wi-Fi</h3>
+                                <p>Lezzetli anlarınızı paylaşmanız veya işlerinizi takip edebilmeniz için kesintisiz ve hızlı internet bağlantısı.</p>
                             </div>
                         </div>
-                        <!-- Why Choose Item End -->
-
-
-                        <!-- Why Choose Item Start -->
-                        <div class="why-choose-item">
-                            <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-5.svg" alt="">
-                            </div>
-                            <div class="why-choose-item-content">
-                                <h3>friendly atmosphere</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
-                                </p>
-                            </div>
                         </div>
-                        <!-- Why Choose Item End -->
-
-
-                        <!-- Why Choose Item Start -->
-                        <div class="why-choose-item">
-                            <div class="icon-box">
-                                <img src="assets/images/icon-why-choose-6.svg" alt="">
-                            </div>
-                            <div class="why-choose-item-content">
-                                <h3>Free WIFI</h3>
-                                <p>Designed to reduce allergens, dust, and pollutants, these systems create a healthier.
-                                </p>
-                            </div>
-                        </div>
-                        <!-- Why Choose Item End -->
                     </div>
-                    <!-- Why Choose List End -->
-                </div>
             </div>
         </div>
     </div>
-    <!-- Why Choose Us Section End -->
