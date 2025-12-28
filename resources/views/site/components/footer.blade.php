@@ -11,12 +11,12 @@
                                 <img src="assets/images/icon-phone-accent.svg" alt="">
                             </div>
                             <div class="footer-contact-detail">
-                                <h3>contact us</h3>
+                                <h3>Bize Ulaşın</h3>
                                 <p>T. <a href="tel:+123456789">+123 456 789</a></p>
-                                <p>M. <a href="mainto:info@domainname.com">info@domainname.com</a></p>
+                                <p>M. <a href="mainto:info@domainname.com">info@novakitchen.com.tr</a></p>
                             </div>
                             <div class="footer-contact-button">
-                                <a href="contact.html" class="btn-default btn-highlighted">contact us</a>
+                                <a href="contact.html" class="btn-default btn-highlighted">Bize Ulaşın</a>
                             </div>
                         </div>
                         <!-- Footer Contact Item End -->
@@ -27,11 +27,12 @@
                                 <img src="assets/images/icon-location-accent.svg" alt="logo" style="height:80px;">
                             </div>
                             <div class="footer-contact-detail">
-                                <h3>address</h3>
-                                <p>29721 Westheimer Road, Santa Ana, Illinois 85486</p>
+                                <h3>adres</h3>
+                                <p>Mescit Sokak Çağlayan Ege Ticaret Merkezi No:1 Kat: 2 İç Kapı No:206, Çatalca, İstanbul 34540
+</p>
                             </div>
                             <div class="footer-contact-button">
-                                <a href="contact.html" class="btn-default btn-highlighted">get direction</a>
+                                <a href="{{ route('site.contact') }}" class="btn-default btn-highlighted">Yol Haritası</a>
                             </div>
                         </div>
                         <!-- Footer Contact Item End -->
@@ -42,12 +43,12 @@
                                 <img src="assets/images/icon-clock-accent.svg" alt="">
                             </div>
                             <div class="footer-contact-detail">
-                                <h3>opening hours</h3>
-                                <p>Everyday: From 12.30 To 23.00</p>
-                                <p>Kitchen Closes At 22.00</p>
+                                <h3>Çalışma Saatlerimiz</h3>
+                                <p>Haftanın her günü: 08.30 To 02.00</p>
+                                <p>Mutfak Kapanışı 23.00</p>
                             </div>
                             <div class="footer-contact-button">
-                                <a href="book-table.html" class="btn-default btn-highlighted">reserve a table</a>
+                                <a href="{{ route('site.book-table') }}" class="btn-default btn-highlighted">Rezervasyon</a>
                             </div>
                         </div>
                         <!-- Footer Contact Item End -->
@@ -60,7 +61,7 @@
                     <div class="footer-copyright">
                         <!-- Footer Copyright Text Start -->
                         <div class="footer-copyright-text order-md-1 order-3">
-                            <p>Copyright © 2025 All Rights Reserved.</p>
+                            <p> © {{ now()->year }} Nova Kitchen için özel tasarlanmıştır.<BR>Tüm Hakları Saklıdır.</p>
                         </div>
                         <!-- Footer Copyright Text End -->
 
@@ -74,8 +75,8 @@
                         <div class="footer-social-links order-md-3 order-2">
                             <ul>
                                 <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li>
+                                {{-- <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li> --}}
                             </ul>
                         </div>
                         <!-- Footer Social Links End -->
