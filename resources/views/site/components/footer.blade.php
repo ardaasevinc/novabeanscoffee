@@ -74,7 +74,7 @@
                         <!-- Footer Social Links Start -->
                         <div class="footer-social-links order-md-3 order-2">
                             <ul>
-                                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                                <li><a href="https://instagram.com/novabeanscoffee.com"><i class="fa-brands fa-instagram"></i></a></li>
                                 {{-- <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
                                 <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li> --}}
                             </ul>
