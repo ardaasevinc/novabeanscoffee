@@ -20,7 +20,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('site.menu') }}">Menu</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('site.contact') }}">Bize Ulaşın</a></a></li>  
                                 <li class="nav-item"><a class="nav-link" href="{{ url('https://novabeanscoffee.com') }}">NovaBeans</a></li>                           
-                                <li class="nav-item highlighted-menu"><a class="nav-link" href="book-table.html">Book A Table</a></li>                             
+                                <li class="nav-item highlighted-menu"><a class="nav-link" href="book-table.html">Rezervasyon</a></li>                             
                             </ul>
                         </div>
 
