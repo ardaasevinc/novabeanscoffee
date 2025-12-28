@@ -14,11 +14,11 @@
                     <!-- Error Page Content Start -->
                     <div class="error-page-content">
                         <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Oops! page not found</h2>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">503!Oops! Aradığınız sayfayı bulamadık.</h2>
                         </div>
                         <div class="error-page-content-body">
-                            <p class="wow fadeInUp" data-wow-delay="0.25s">We've searched far and wide but couldn't find your coffee fix.Let us brew a path to help you discover something delightful.</p>
-                            <a class="btn-default wow fadeInUp" data-wow-delay="0.5s" href="./"><span>back to home</span></a>
+                            <p class="wow fadeInUp" data-wow-delay="0.25s">Dört bir yanı aradık ama aradığınız lezzeti bulamadık. İzin verin, sizi enfes bir ziyafete götürecek yolu tarif edelim.</p>
+                            <a class="btn-default wow fadeInUp" data-wow-delay="0.5s" href="./"><span>Nova Kitchen</span></a>
                         </div>
                     </div>
                     <!-- Error Page Content End -->
