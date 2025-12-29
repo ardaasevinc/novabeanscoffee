@@ -40,7 +40,7 @@
                                                     <div class="menu-list-image">
                                                         <figure>
                                                             @if($menu->img)
-                                                                <img src="{{ asset('uploads/' . $menu->img) }}" alt="{{ $menu->title }}">
+                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting->icon_192x192) }}" alt="{{ $menu->title }}">
                                                             @else
                                                                 {{-- Placeholder --}}
                                                                 <img src="{{ asset('assets/images/original-coffee-img-1.png') }}" alt="Menu Item">
@@ -51,7 +51,7 @@
                                                         <div class="menu-item-title">
                                                             <h3>{{ $menu->title }}</h3>
                                                             <hr>
-                                                            <span>{{ $menu->price }} ₺</span>
+                                                            <span>{{ $menu->price }}₺</span>
                                                         </div>
                                                         <div class="menu-item-content">
                                                             {{-- Açıklama RichText olabilir, strip_tags ile temizliyoruz --}}

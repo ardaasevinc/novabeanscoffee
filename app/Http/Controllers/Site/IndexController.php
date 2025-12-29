@@ -30,7 +30,7 @@ class IndexController extends Controller
                 $category->menus()
                     ->where('is_published', true)
                     ->latest()
-                    ->take(5) // Her kategoriden sadece son 5 ürün
+                    ->take(5) 
                     ->get()
             );
         }

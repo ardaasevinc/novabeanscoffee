@@ -59,7 +59,7 @@
                                                     <div class="menu-list-item">
                                                         <div class="menu-list-image">
                                                             <figure>
-                                                                <img src="{{ asset('uploads/' . $menu->img) }}" 
+                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting->icon_192x192 ) }}" 
                                                                      alt="{{ $menu->title }}" 
                                                                      style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
                                                             </figure>
@@ -69,7 +69,7 @@
                                                             <div class="menu-item-title">
                                                                 <h3>{{ $menu->title }}</h3>
                                                                 <hr>
-                                                                <span>{{ $menu->price }} ₺</span>
+                                                                <span>{{ $menu->price }}₺</span>
                                                             </div>
                                                             <div class="menu-item-content">
                                                                 {{-- Açıklamayı düz metin olarak ve kısa haliyle basıyoruz --}}

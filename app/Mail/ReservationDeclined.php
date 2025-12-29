@@ -5,22 +5,29 @@ namespace App\Mail;
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ReservationDeclined extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $reservation;
+    public function __construct(
+        public Reservation $reservation 
+    ) {}
 
-    public function __construct(Reservation $reservation)
+    public function envelope(): Envelope
     {
-        $this->reservation = $reservation;
+        return new Envelope(
+            subject: 'Rezervasyon Talebiniz Hakkında - Nova Kitchen',
+        );
     }
 
-    public function build()
+    public function content(): Content
     {
-        return $this->subject('Rezervasyon Talebiniz Hakkında - NovaKitchen')
-                    ->view('emails.reservation_declined');
+        return new Content(
+            view: 'emails.reservation_declined',
+        );
     }
 }

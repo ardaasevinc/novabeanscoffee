@@ -63,7 +63,7 @@ class MenuResource extends Resource
 
                                         Forms\Components\TextInput::make('price')
                                             ->label('Fiyat')
-                                            ->numeric()
+                                            
                                             ->prefix('₺')
                                             ->default(0)
                                             ->helperText('Ürünün satış fiyatı.')

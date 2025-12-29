@@ -26,14 +26,14 @@
 
                     {{-- Başarı Mesajı --}}
                     @if(session('success'))
-                        <div class="alert alert-success wow fadeInUp">
+                        <div class="text-success mb-5">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     {{-- Hata Mesajları --}}
                     @if ($errors->any())
-                        <div class="alert alert-danger wow fadeInUp">
+                        <div class="text-danger mb-5">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>

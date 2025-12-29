@@ -2,22 +2,31 @@
 <html lang="zxx">
 
 <head>
-    <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
+    
+    <title>{{ $setting->meta_title ?? 'Nova Kitchen Restaurant' }}</title>
+    <meta name="description" content="{{ $setting->meta_desc ?? '' }}">
+    <meta name="keywords" content="{{ $setting->meta_keywords ?? '' }}">
     <meta name="author" content="Awaiken">
-    <!-- Page Title -->
-    <title>Nova Kitchen Restaurant | Çatalca</title>
-    <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
-    <!-- Google Fonts Css-->
+
+    @if($setting->favicon)
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('uploads/' . $setting->favicon) }}">
+    @endif
+    
+    @if($setting->icon_192x192)
+        <link rel="apple-touch-icon" href="{{ asset('uploads/' . $setting->icon_192x192) }}">
+    @endif
+
+    <meta name="theme-color" content="{{ $setting->themecolor ?? '#121D23' }}">
+    
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <link href="{{ asset('assets/css/slicknav.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}">
@@ -26,10 +35,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/mousecursor.css') }}">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" media="screen">
-
-    <meta name="theme-color" content="#121D23">
-    <link rel="manifest" href="{{ asset('assets/manifest.json') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/icons/icon-192x192.png') }}">
 </head>
 
 <body>

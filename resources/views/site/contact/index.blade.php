@@ -81,7 +81,7 @@
 
                     {{-- Başarı Mesajı --}}
                     @if(session('success'))
-                        <div class="alert alert-success wow fadeInUp">
+                        <div class="text-success mb-5">
                             {{ session('success') }}
                         </div>
                     @endif
