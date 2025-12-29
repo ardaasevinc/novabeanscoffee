@@ -18,7 +18,7 @@
                             @foreach($allServices as $item)
                                 <li>
                                     {{-- Aktif olan hizmete class ekliyoruz --}}
-                                    <a href="{{ route('site.service.detail', $item->slug) }}" 
+                                    <a href="{{ route('site.services.detail', $item->slug) }}" 
                                        class="{{ $item->id === $service->id ? 'active' : '' }}">
                                         {{ $item->title }}
                                     </a>
@@ -106,39 +106,55 @@
                         Veritabanında "Hizmet SSS" yapısı olmadığı için burayı sabit bıraktım.
                         İsterseniz admin panelinden RichEditor içine de SSS ekleyebilirsiniz.
                     --}}
-                    <div class="page-single-faqs mt-5">
-                        <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Sıkça Sorulan Sorular</h2>
-                        </div>
-
-                        <div class="faq-accordion" id="faqaccordion">
-                            <div class="accordion-item wow fadeInUp">
-                                <h2 class="accordion-header" id="heading1">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                        Bu hizmet için rezervasyon süreci nasıl?
-                                    </button>
-                                </h2>
-                                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#faqaccordion">
-                                    <div class="accordion-body">
-                                        <p>İletişim sayfamızdan veya telefon numaramızdan bize ulaşarak detaylı planlama yapabilirsiniz.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.2s">
-                                <h2 class="accordion-header" id="heading2">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                        Fiyatlandırma nasıl yapılıyor?
-                                    </button>
-                                </h2>
-                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqaccordion">
-                                    <div class="accordion-body">
-                                        <p>Hizmetin kapsamına, kişi sayısına ve özel isteklere göre size özel teklif hazırlıyoruz.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
+                    @if($faqs->count()>0)
+                    
+                <div class="faqs-content">
+                    <div class="section-title">
+                        <h3 class="wow fadeInUp">Sıkça Sorulan Sorular</h3>
+                        <h2 class="text-anime-style-3" data-cursor="-opaque">NovaKitchen Hakkında <br>Merak Edilenler
+                        </h2>
                     </div>
+
+                    <div class="faq-accordion" id="accordion">
+                        @if($faqs->count() > 0)
+                            @foreach($faqs as $faq)
+                                <div class="accordion-item wow fadeInUp" data-wow-delay="{{ 0.2 + ($loop->index * 0.2) }}s">
+                                    <h2 class="accordion-header" id="heading{{ $faq->id }}">
+                                        {{--
+                                        Mantık: İlk eleman ($loop->first) ise buton normal, değilse 'collapsed' sınıfı alır.
+                                        aria-expanded: İlk eleman true, diğerleri false.
+                                        --}}
+                                        <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapse{{ $faq->id }}"
+                                            aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                            aria-controls="collapse{{ $faq->id }}">
+                                            {{ $faq->question }}
+                                        </button>
+                                    </h2>
+
+                                    {{--
+                                    Mantık: İlk eleman ($loop->first) ise 'show' sınıfı alır ve açık gelir.
+                                    --}}
+                                    <div id="collapse{{ $faq->id }}"
+                                        class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                        aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#accordion">
+                                        <div class="accordion-body">
+                                            {{-- Rich Text İçerik --}}
+                                            {!! $faq->answer !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="alert alert-info wow fadeInUp">
+                                Henüz soru eklenmemiş.
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            
+            @endif
                     
                 </div>
             </div>

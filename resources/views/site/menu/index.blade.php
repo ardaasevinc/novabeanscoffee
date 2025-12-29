@@ -66,7 +66,7 @@
                                 </div>
                             @endforeach
                     @else
-                        <div class="alert alert-warning wow fadeInUp">
+                        <div class="text-light">
                             Henüz menü eklenmemiş.
                         </div>
                     @endif

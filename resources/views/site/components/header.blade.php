@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <!-- Logo Start -->
-                <a class="navbar-brand" href="./">
+                <a class="navbar-brand" href="{{ route('site.index') }}">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" style="height: 60px;">
                 </a>
                 <!-- Logo End -->
@@ -95,8 +95,7 @@
                                     <!-- Header Sidebar Timing Start -->
                                     <div class="header-sidebar-timing">
                                         <ul>
-                                            <li>Pazartesi-Cuma : 8.00 - 21.00</li>
-                                            <li>Cumartesi - Pazar : 9.00am - 22.00pm</li>
+                                            <li>Haftaiçi : 08.30 - 02.00</li>
                                             <li>Mutfak Kapanış : 23:00</li>
                                         </ul>
                                     </div>

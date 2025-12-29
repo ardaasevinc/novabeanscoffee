@@ -10,7 +10,7 @@
             <div class="col-lg-6">
                 <div class="book-table-image">
                     <figure class="image-anime">
-                        <img src="{{ asset('assets/images/book-table-image.jpg') }}" alt="Rezervasyon">
+                        <img src="{{ asset('assets/images/524x704.webp') }}" alt="Rezervasyon">
                     </figure>
                 </div>
             </div>

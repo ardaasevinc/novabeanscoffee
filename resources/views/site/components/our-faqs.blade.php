@@ -1,3 +1,4 @@
+@if($faqs->count()>0)
 <div class="our-faqs">
     <div class="container">
         <div class="row align-items-center">
@@ -54,10 +55,11 @@
                 <div class="faqs-image">
                     <figure class="image-anime">
                         {{-- Buradaki görseli sabit bıraktım, istersen Setting modelinden çekebiliriz --}}
-                        <img src="{{ asset('assets/images/faq-image.jpg') }}" alt="NovaKitchen Restaurant">
+                        <img src="{{ asset('assets/images/524x638.webp') }}" alt="NovaKitchen Restaurant">
                     </figure>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endif

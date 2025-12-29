@@ -25,7 +25,7 @@
 
                             <div class="service-content">
                                 <h3>
-                                    <a href="{{ route('site.service.detail', $service->slug) }}">
+                                    <a href="{{ route('site.services.detail', $service->slug) }}">
                                         {{ $service->title }}
                                     </a>
                                 </h3>
@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="service-readmore-btn">
-                                <a href="{{ route('site.service.detail', $service->slug) }}" class="readmore-btn">Devamını Oku</a>
+                                <a href="{{ route('site.services.detail', $service->slug) }}" class="readmore-btn">Devamını Oku</a>
                             </div>
                         </div>
                         </div>

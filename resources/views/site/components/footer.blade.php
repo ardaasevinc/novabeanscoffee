@@ -50,11 +50,12 @@
                         </div>
                         <div class="footer-contact-detail">
                             <h3>Çalışma Saatlerimiz</h3>
-                            <p>Haftanın her günü: 08:30 ile 02:00</p>
-                            <p>Mutfak Kapanışı: 23:00</p>
+                            <p>Haftaiçi : 08.30 - 02.00</p>
+                            <p>Haftasonu : 08.30 - 02.00</p>
+                                            <p>Mutfak Kapanış : 23:00</p>
                         </div>
                         <div class="footer-contact-button">
-                            <a href="{{ route('site.book-table') }}" class="btn-default btn-highlighted">Rezervasyon</a>
+                            <a href="{{ route('site.reservation') }}" class="btn-default btn-highlighted">Rezervasyon</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +67,7 @@
                     <div class="footer-copyright-text order-md-1 order-3">
                         <p>© {{ now()->year }} 
                            {{ $setting->footer_text ? strip_tags($setting->footer_text) : 'Nova Kitchen' }} 
-                           için özel tasarlanmıştır.<br>Tüm Hakları Saklıdır.</p>
+                           
                     </div>
 
                     {{-- LOGO --}}

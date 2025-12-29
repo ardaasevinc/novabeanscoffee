@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site\Services;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service; // Service modelini dahil etmeyi unutma
+use App\Models\Faq;
 
 class IndexController extends Controller
 {
@@ -30,7 +31,10 @@ class IndexController extends Controller
 
     // Sayfa başlığı
     $page_title = $service->title;
+      $faqs = Faq::where('is_published', true)
+                   ->orderBy('sort', 'asc')
+                   ->get();
 
-    return view('site.services.detail', compact('page_title', 'service', 'allServices'));
+    return view('site.services.detail', compact('page_title', 'service', 'allServices','faqs'));
 }
 }
