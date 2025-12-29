@@ -72,7 +72,7 @@
         <table class="main">
             <tr>
                 <td class="header">
-                    <img src="https://novakitchen.com.tr/images/logo.svg" alt="Nova Kitchen" width="160">
+                    <img src="https://novakitchen.com.tr/assets/images/logo.svg" alt="Nova Kitchen" width="160">
                 </td>
             </tr>
 
