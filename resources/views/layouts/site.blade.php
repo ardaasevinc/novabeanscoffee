@@ -10,7 +10,7 @@
     <meta name="keywords" content="">
     <meta name="author" content="Awaiken">
     <!-- Page Title -->
-    <title>Nova Kitchen Restaurant  |  Çatalca</title>
+    <title>Nova Kitchen Restaurant | Çatalca</title>
     <!-- Favicon Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}">
     <!-- Google Fonts Css-->
@@ -26,6 +26,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/mousecursor.css') }}">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" media="screen">
+
+    <meta name="theme-color" content="#121D23">
+    <link rel="manifest" href="{{ asset('assets/manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/icons/icon-192x192.png') }}">
 </head>
 
 <body>

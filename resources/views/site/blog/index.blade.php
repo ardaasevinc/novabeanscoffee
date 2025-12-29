@@ -1,217 +1,59 @@
 @extends('layouts.site')
 
 @section('content')
-<!-- Page Blog Start -->
-    <div class="page-blog">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-1.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
+@include('site.components.page-header')
 
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">The Art of Crafting the Perfect Espresso: Tips and Tricks</a></h2>
+<div class="page-blog">
+    <div class="container">
+        <div class="row">
+            
+            @if($blogs->count() > 0)
+                @foreach($blogs as $blog)
+                    <div class="col-lg-4 col-md-6">
+                        {{-- Animasyon gecikmesini her eleman için 0.2sn artırıyoruz --}}
+                        <div class="post-item wow fadeInUp" data-wow-delay="{{ 0.1 + ($loop->index * 0.1) }}s">
+                            
+                            <div class="post-featured-image">
+                                <a href="{{ route('site.blog.detail', $blog->slug) }}" data-cursor-text="İncele">
+                                    <figure class="image-anime">
+                                        @if($blog->img)
+                                            <img src="{{ asset('uploads/' . $blog->img) }}" alt="{{ $blog->title }}">
+                                        @else
+                                            {{-- Resim yoksa placeholder --}}
+                                            <img src="{{ asset('assets/images/post-1.jpg') }}" alt="Varsayılan Resim">
+                                        @endif
+                                    </figure>
+                                </a>
                             </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
+                            <div class="blog-item-body">
+                                <div class="post-item-content">
+                                    <h2>
+                                        <a href="{{ route('site.blog.detail', $blog->slug) }}">
+                                            {{ $blog->title }}
+                                        </a>
+                                    </h2>
+                                </div>
+                                <div class="blog-item-btn">
+                                    <a href="{{ route('site.blog.detail', $blog->slug) }}" class="readmore-btn">Devamını Oku</a>
+                                </div>
+                                </div>
                             </div>
-                            <!-- Blog Item Button End -->
                         </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
+                @endforeach
+            @else
+                <div class="col-12">
+                    <div class="alert alert-info">Henüz blog yazısı eklenmemiş.</div>
                 </div>
+            @endif
 
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.2s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-2.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">Top 5 Coffee Brewing Methods to Elevate Your Morning Routine</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Blog Item Button End -->
-                        </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
+            <div class="col-lg-12">
+                <div class="page-pagination wow fadeInUp" data-wow-delay="0.5s">
+                    {{-- Laravel Pagination Linkleri --}}
+                    {{-- Teman Bootstrap 5 kullanıyorsa bu uyumlu olacaktır --}}
+                    {{ $blogs->links('pagination::bootstrap-5') }}
                 </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.4s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-3.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">Exploring Single-Origin Coffees: A Journey of Flavors</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Blog Item Button End -->
-                        </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
                 </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.6s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-4.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">How to Pair Coffee with Desserts for a Gourmet Experience</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Blog Item Button End -->
-                        </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.8s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-5.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">The Sustainability Behind Your Cup: Ethical Coffee Sourcing</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Blog Item Button End -->
-                        </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="1s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="blog-single.html" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="assets/images/post-6.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Blog Item Body Start -->
-                        <div class="blog-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="blog-single.html">The Science of Coffee Roasting: Unlocking Richer Flavors</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Blog Item Button Start -->
-                            <div class="blog-item-btn">
-                                <a href="blog-single.html" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Blog Item Button End -->
-                        </div>
-                        <!-- Blog Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
-                </div>
-
-                <div class="col-lg-12">
-                    <!-- Page Pagination Start -->
-                    <div class="page-pagination wow fadeInUp" data-wow-delay="1.2s">
-                        <ul class="pagination">
-                            <li><a href="#"><i class="fa-solid fa-arrow-left-long"></i></a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#"><i class="fa-solid fa-arrow-right-long"></i></a></li>
-                        </ul>
-                    </div>
-                    <!-- Page Pagination End -->
-                </div>
-            </div>
         </div>
     </div>
-    <!-- Page Blog End -->
+</div>
 @endsection

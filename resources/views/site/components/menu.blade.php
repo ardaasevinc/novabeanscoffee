@@ -1,638 +1,102 @@
-<!-- Our Pricing Section Start -->
+@if($menuCategories->count() > 0)
     <div class="our-pricing">
         <div class="container">
             <div class="row section-row">
                 <div class="col-lg-12">
-                    <!-- Section Title Start -->
                     <div class="section-title">
-                        <h3 class="wow fadeInUp">Our pricing</h3>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Savor every moment, without the premium
-                            price</h2>
+                        <h3 class="wow fadeInUp">Menümüz</h3>
+                        <h2 class="text-anime-style-3" data-cursor="-opaque">Lezzet dolu anların keyfini çıkarın</h2>
                     </div>
-                    <!-- Section Title End -->
-                </div>
+                    </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="our-pricing-box tab-content" id="pricingtab">
-                        <!-- Sidebar Our Support Nav start -->
+                        
                         <div class="our-support-nav wow fadeInUp" data-wow-delay="0.2s">
                             <ul class="nav nav-tabs" id="mvTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="btn-default btn-highlighted active" id="all-tab" data-bs-toggle="tab"
-                                        data-bs-target="#all" type="button" role="tab" aria-selected="true">All
-                                        Menu</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="btn-default btn-highlighted" id="see-food-tab" data-bs-toggle="tab"
-                                        data-bs-target="#see-food" type="button" role="tab" aria-selected="false">See
-                                        food</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="btn-default btn-highlighted" id="desserts-tab" data-bs-toggle="tab"
-                                        data-bs-target="#desserts" type="button" role="tab"
-                                        aria-selected="false">Desserts</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="btn-default btn-highlighted" id="drink-tab" data-bs-toggle="tab"
-                                        data-bs-target="#drink" type="button" role="tab" aria-selected="true">Drink &
-                                        wine</button>
-                                </li>
+                                @foreach($menuCategories as $category)
+                                    <li class="nav-item" role="presentation">
+                                        {{-- İlk elemana 'active' sınıfı veriyoruz --}}
+                                        <button class="btn-default btn-highlighted {{ $loop->first ? 'active' : '' }}" 
+                                                id="{{ $category->slug }}-tab" 
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#{{ $category->slug }}" 
+                                                type="button" 
+                                                role="tab" 
+                                                aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                                            {{ $category->title }}
+                                        </button>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
-                        <!-- Sidebar Our Support Nav End -->
-
-                        <!-- Pricing Boxes Start -->
-                        <div class="pricing-boxes tab-pane fade show active" id="all" role="tabpanel">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6">
-                                    <!-- Pricing Image Start -->
-                                    <div class="pricing-image">
-                                        <figure class="image-anime">
-                                            <img src="assets/images/pricing-tab-image-1.jpg" alt="">
-                                        </figure>
+                        @foreach($menuCategories as $category)
+                            <div class="pricing-boxes tab-pane fade {{ $loop->first ? 'show active' : '' }}" 
+                                 id="{{ $category->slug }}" 
+                                 role="tabpanel">
+                                
+                                <div class="row align-items-center">
+                                    {{-- SOL: Kategori Görseli --}}
+                                    <div class="col-lg-6">
+                                        <div class="pricing-image">
+                                            <figure class="image-anime">
+                                                @if($category->img)
+                                                    <img src="{{ asset('uploads/' . $category->img) }}" alt="{{ $category->title }}" style="width: 100%; height: auto; border-radius: 20px;">
+                                                @else
+                                                    <img src="{{ asset('assets/images/pricing-tab-image-1.jpg') }}" alt="Varsayılan">
+                                                @endif
+                                            </figure>
+                                        </div>
                                     </div>
-                                    <!-- Pricing Image End -->
-                                </div>
 
-                                <div class="col-lg-6">
-                                    <!-- Our Menu List Start -->
-                                    <div class="our-menu-list">
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-1.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
+                                    {{-- SAĞ: Ürün Listesi (Son 5) --}}
+                                    <div class="col-lg-6">
+                                        <div class="our-menu-list">
+                                            @if($category->home_menus->isNotEmpty())
+                                                @foreach($category->home_menus as $menu)
+                                                    <div class="menu-list-item">
+                                                        <div class="menu-list-image">
+                                                            <figure>
+                                                                <img src="{{ asset('uploads/' . $menu->img) }}" 
+                                                                     alt="{{ $menu->title }}" 
+                                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
+                                                            </figure>
+                                                        </div>
 
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>chips & dip</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
+                                                        <div class="menu-item-body">
+                                                            <div class="menu-item-title">
+                                                                <h3>{{ $menu->title }}</h3>
+                                                                <hr>
+                                                                <span>{{ $menu->price }} ₺</span>
+                                                            </div>
+                                                            <div class="menu-item-content">
+                                                                {{-- Açıklamayı düz metin olarak ve kısa haliyle basıyoruz --}}
+                                                                <div style="color: #636363; font-size: 14px;">
+                                                                    {!! Str::limit(strip_tags($menu->desc), 100) !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="alert alert-warning">
+                                                    Bu kategoride henüz ürün bulunmuyor.
                                                 </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
+                                            @endif
                                         </div>
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-2.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>tender octopus</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Our Menu Item End -->
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-3.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>grilled veal filet</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-4.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>Mexican soup</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
                                     </div>
-                                    <!-- Our Menu List End -->
                                 </div>
                             </div>
-                        </div>
-                        <!-- Pricing Boxes End -->
-
-                        <!-- Pricing Boxes Start -->
-                        <div class="pricing-boxes tab-pane fade" id="see-food" role="tabpanel">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6">
-                                    <!-- Pricing Image Start -->
-                                    <div class="pricing-image">
-                                        <figure class="image-anime">
-                                            <img src="assets/images/pricing-tab-image-2.jpg" alt="">
-                                        </figure>
-                                    </div>
-                                    <!-- Pricing Image End -->
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <!-- Our Menu List Start -->
-                                    <div class="our-menu-list">
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-1.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>chips & dip</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-2.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>tender octopus</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Our Menu Item End -->
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-3.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>grilled veal filet</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-4.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>Mexican soup</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-                                    </div>
-                                    <!-- Our Menu List End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pricing Boxes End -->
-
-                        <!-- Pricing Boxes Start -->
-                        <div class="pricing-boxes tab-pane fade" id="desserts" role="tabpanel">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6">
-                                    <!-- Pricing Image Start -->
-                                    <div class="pricing-image">
-                                        <figure class="image-anime">
-                                            <img src="assets/images/pricing-tab-image-3.jpg" alt="">
-                                        </figure>
-                                    </div>
-                                    <!-- Pricing Image End -->
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <!-- Our Menu List Start -->
-                                    <div class="our-menu-list">
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-1.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>chips & dip</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-2.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>tender octopus</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Our Menu Item End -->
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-3.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>grilled veal filet</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-4.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>Mexican soup</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-                                    </div>
-                                    <!-- Our Menu List End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pricing Boxes End -->
-
-                        <!-- Pricing Boxes Start -->
-                        <div class="pricing-boxes tab-pane fade" id="drink" role="tabpanel">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6">
-                                    <!-- Pricing Image Start -->
-                                    <div class="pricing-image">
-                                        <figure class="image-anime">
-                                            <img src="assets/images/pricing-tab-image-4.jpg" alt="">
-                                        </figure>
-                                    </div>
-                                    <!-- Pricing Image End -->
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <!-- Our Menu List Start -->
-                                    <div class="our-menu-list">
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-1.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>chips & dip</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-2.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>tender octopus</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Our Menu Item End -->
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-3.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>grilled veal filet</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-
-                                        <!-- Our Menu Item Start -->
-                                        <div class="menu-list-item">
-                                            <!-- Our Menu Image Start -->
-                                            <div class="menu-list-image">
-                                                <figure>
-                                                    <img src="assets/images/pricing-menu-4.png" alt="">
-                                                </figure>
-                                            </div>
-                                            <!-- Our Menu Image End -->
-
-                                            <!-- Menu Item Body Start -->
-                                            <div class="menu-item-body">
-                                                <!-- Menu Item Title Start -->
-                                                <div class="menu-item-title">
-                                                    <h3>Mexican soup</h3>
-                                                    <hr>
-                                                    <span>$16.00</span>
-                                                </div>
-                                                <!-- Menu Item Title End -->
-
-                                                <!-- Menu Item Content Start -->
-                                                <div class="menu-item-content">
-                                                    <p>A perfect pairing of crispy, freshly made chips and rich,
-                                                        flavorful dips that bring a burst of taste in every bite.</p>
-                                                </div>
-                                                <!-- Menu Item Content End -->
-                                            </div>
-                                            <!-- Menu Item Body End -->
-                                        </div>
-                                        <!-- Our Menu Item End -->
-                                    </div>
-                                    <!-- Our Menu List End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pricing Boxes End -->
-
+                        @endforeach
                         <div class="section-footer-text wow fadeInUp" data-wow-delay="0.2s">
-                            <p>craving the perfect brew? <a href="book-table.html">visit us today!</a></p>
+                            <p>Daha fazla seçenek mi arıyorsunuz? <a href="{{ route('site.menu') }}">Tüm menüyü incelemek için tıklayın!</a></p>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Our Pricing Section End -->
+    @endif

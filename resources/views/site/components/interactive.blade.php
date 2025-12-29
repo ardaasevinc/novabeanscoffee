@@ -1,80 +1,41 @@
-
-    <!-- Interactive Process Layout Start -->
+@if($blogCategories->count() > 4)
     <div class="interactive interactive-process-layout">
-        <!-- Interactive Process Wrapper Start -->
         <div class="interactive-interactive-process-wrapper interactive-wrapper">
             <div class="interactive-con">
-                <!-- Interactive Inner Grid Start -->
+
                 <div class="interactive-con-inner interactive-grid">
-                    <!-- Interactive Process Item Start -->
-                    <div class="interactive-process-item">
-                        <div class="interactive-inner-process activate" data-index="0">
-                            <div class="process-content-wap">
-                                <div class="process-inner-content-wap">
-                                    <p>Open for dining</p>
-                                    <h2><a href="#">Full catering</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Interactive Process Item End -->
+                    @foreach($blogCategories as $category)
+                        <div class="interactive-process-item">
+                            {{-- İlk elemana 'activate' sınıfı veriyoruz, data-index döngüden geliyor (0, 1, 2...) --}}
+                            <div class="interactive-inner-process {{ $loop->first ? 'activate' : '' }}"
+                                data-index="{{ $loop->index }}">
+                                <div class="process-content-wap">
+                                    <div class="process-inner-content-wap">
+                                        {{-- HTML taglerini temizleyip 30 karakter ile sınırlıyoruz --}}
+                                        <p>{{ Str::limit(strip_tags($category->desc), 30) }}</p>
 
-                    <!-- Interactive Process Item Start -->
-                    <div class="interactive-process-item">
-                        <div class="interactive-inner-process" data-index="1">
-                            <div class="process-content-wap">
-                                <div class="process-inner-content-wap">
-                                    <p>Rituals for focus, health & slowness</p>
-                                    <h2><a href="#">Tea selection</a></h2>
+                                        <h2>
+                                            {{-- Slug ile detay/kategori sayfasına yönlendirme --}}
+                                            <a href="{{ route('site.blog.detail', $category->slug) }}">
+                                                {{ $category->title }}
+                                            </a>
+                                        </h2>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Interactive Process Item End -->
-
-                    <!-- Interactive Process Item Start -->
-                    <div class="interactive-process-item">
-                        <div class="interactive-inner-process" data-index="2">
-                            <div class="process-content-wap">
-                                <div class="process-inner-content-wap">
-                                    <p>Book now</p>
-                                    <h2><a href="#">Private dining</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Interactive Process Item End -->
-
-                    <!-- Interactive Process Item Start -->
-                    <div class="interactive-process-item">
-                        <div class="interactive-inner-process" data-index="3">
-                            <div class="process-content-wap">
-                                <div class="process-inner-content-wap">
-                                    <p>Come's to diner now</p>
-                                    <h2><a href="#">Laguna beach</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Interactive Process Item End -->
+                    @endforeach
                 </div>
-                <!-- Interactive Inner Grid End -->
-
-                <!-- Interactive Process Image Start -->
                 <div class="interactive-process-list-image">
-                    <div class="interactive-process-image img-0 show"
-                        data-bg="assets/images/interactive-process-image-1.jpg"
-                        style="background-image: url('assets/images/interactive-process-image-1.jpg');"></div>
-                    <div class="interactive-process-image img-1" data-bg="assets/images/interactive-process-image-2.jpg"
-                        style="background-image: url('assets/images/interactive-process-image-2.jpg');"></div>
-                    <div class="interactive-process-image img-2" data-bg="assets/images/interactive-process-image-3.jpg"
-                        style="background-image: url('assets/images/interactive-process-image-3.jpg');"></div>
-                    <div class="interactive-process-image img-3" data-bg="assets/images/interactive-process-image-4.jpg"
-                        style="background-image: url('assets/images/interactive-process-image-4.jpg');"></div>
+                    @foreach($blogCategories as $category)
+                        {{-- Resimlerde img-0, img-1 gibi classlar olmalı. İlk resim 'show' alır --}}
+                        <div class="interactive-process-image img-{{ $loop->index }} {{ $loop->first ? 'show' : '' }}"
+                            data-bg="{{ asset('uploads/' . $category->img) }}"
+                            style="background-image: url('{{ asset('uploads/' . $category->img) }}');">
+                        </div>
+                    @endforeach
                 </div>
-                <!-- Interactive Process Image End -->
             </div>
         </div>
-        <!-- Interactive Process Wrapper End -->
     </div>
-    <!-- Interactive Process Layout End -->
+@endif

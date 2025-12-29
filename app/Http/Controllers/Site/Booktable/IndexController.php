@@ -9,6 +9,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('site.book-table.index');
+        $page_title = 'Rezervasyon';
+        return view('site.book-table.index', compact('page_title'));
     }
 }

@@ -1,85 +1,94 @@
 @extends('layouts.site')
 
 @section('content')
-<!-- Page Single Post Start -->
+    {{-- Page Header Component'i --}}
+    {{-- Controller'dan gönderdiğimiz $page_title burada başlık olarak kullanılır --}}
+    @include('site.components.page-header')
+
     <div class="page-single-post">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- Post Featured Image Start -->
-                    <div class="post-image">
-                        <figure class="image-anime reveal">
-                            <img src="assets/images/post-2.jpg" alt="">
-                        </figure>
-                    </div>
-                    <!-- Post Featured Image Start -->
 
-                    <!-- Post Single Content Start -->
-                    <div class="post-content">
-                        <!-- Post Entry Start -->
-                        <div class="post-entry">
-                            <p class="wow fadeInUp">Discover the joy of creating your perfect coffee blend. Select from a variety of premium beans, roast levels, and flavors to craft a coffee that's uniquely yours. Whether you prefer bold and rich or smooth and subtle, our expert team will help you design a blend tailored to your taste preferences. Experience coffee like never before with a personaliz"Explore the fascinating world of coffee through our latest blogs. Learn how to master the art of espresso brewing and discover unique methods to elevate your daily coffee experience. Dive into the rich flavors of single-origin beans and uncover the perfect dessert pairings to complement your favorite brew. Stay informed about sustainable coffee practices and the impact of ethical sourcing on communities and the environment. Delve into the science of roasting and how it transforms raw beans into aromatic, flavorful coffee. Whether you're a casual drinker or a coffee enthusiast, there's something here for everyone."ed touch!</p>
-
-                            <p class="wow fadeInUp" data-wow-delay="0.2s">Discover the art and science of coffee with our blogs. From brewing tips and flavor pairings to the impact of ethical sourcing and roasting techniques, explore how to make every cup memorable. Perfect for coffee lovers and enthusiasts alike!</p>
-                            
-                            <blockquote class="wow fadeInUp" data-wow-delay="0.4s">
-                                <p>Discover the art and science of coffee with our blogs. From brewing tips and flavor pairings to the impact of ethical sourcing and roasting techniques, explore how to make every cup memorable and truly exceptional. Perfect for coffee lovers and enthusiasts alike!</p>
-                            </blockquote>
-
-                            <p class="wow fadeInUp" data-wow-delay="0.6s">Delve into the world of coffee with insights on brewing techniques, ethical sourcing, and flavor combinations. Discover the stories behind the beans and learn how to make each cup a rich and satisfying experience. Perfect for those who appreciate the art of coffee.</p>
-
-                            <h2 class="wow fadeInUp" data-wow-delay="0.8s">Crafting Perfect Coffee Every Time</h2>
-
-                            <p class="wow fadeInUp" data-wow-delay="1s">Discover the art and precision behind brewing the perfect cup of coffee. With carefully selected beans and expert techniques, each brew is crafted to deliver rich, bold flavors that elevate your coffee experience.</p>
-
-                            <ul class="wow fadeInUp" data-wow-delay="1.2s">
-                                <li>Master the Brewing Process Unlock the Secrets to Perfect Coffee Every Time</li>
-                                <li>From Bean to Brew Explore the Journey of Coffee from Origin to Cup</li>
-                                <li>Expert Brewing Tips Enhance the Richness and Depth of Your Coffee Experience</li>
-                                <li>Savor the Difference How Premium Coffee Beans Make Every Sip Extraordinary</li>
-                                <li>Crafting the Ideal Cup Discover the Techniques for Brewing the Perfect Coffee</li>
-                            </ul>
-
-                            <p class="wow fadeInUp" data-wow-delay="1.4s">Perfecting your coffee brewing skills is all about the right techniques and high-quality beans. From selecting the best beans to mastering various brewing methods, each step contributes to a richer, more satisfying cup. Explore the art of coffee brewing and elevate your daily experience with expert tips and insights.</p>
+                    {{-- 1. Blog Görseli --}}
+                    @if($blog->img)
+                        <div class="post-image">
+                            <figure class="image-anime reveal">
+                                <img src="{{ asset('uploads/' . $blog->img) }}" alt="{{ $blog->title }}">
+                            </figure>
                         </div>
-                        <!-- Post Entry End -->
+                    @endif
 
-                        <!-- Post Tag Links Start -->
+                    <div class="post-content">
+                        {{-- 2. Blog İçeriği (Rich Text) --}}
+                        <div class="post-entry wow fadeInUp">
+                            {{-- {!! !!} kullanarak HTML etiketlerini çalıştırıyoruz --}}
+                            {!! $blog->desc !!}
+                        </div>
+
+                        {{-- Alt Kısım: Etiketler ve Paylaşım --}}
                         <div class="post-tag-links">
                             <div class="row align-items-center">
+
+                                {{-- 3. Etiketler (Tags) --}}
                                 <div class="col-lg-8">
-                                    <!-- Post Tags Start -->
-                                    <div class="post-tags wow fadeInUp" data-wow-delay="0.5s">
+                                    <div class="post-tags wow fadeInUp" data-wow-delay="0.2s">
                                         <span class="tag-links">
-                                            Tags:
-                                            <a href="#">Brewing Tips</a>
-                                            <a href="#">Premium Beans</a>
-                                            <a href="#">Shop Now</a>
+                                            Etiketler:
+                                            @if(!empty($blog->tags) && is_array($blog->tags))
+                                                @foreach($blog->tags as $tag)
+                                                    <a href="javascript:void(0)">{{ $tag }}</a>
+                                                @endforeach
+                                            @else
+                                                <span>Etiket yok</span>
+                                            @endif
                                         </span>
                                     </div>
-                                    <!-- Post Tags End -->
                                 </div>
 
+                                {{-- 4. Sosyal Medya Paylaşım Butonları --}}
                                 <div class="col-lg-4">
-                                    <!-- Post Social Links Start -->
-                                    <div class="post-social-sharing wow fadeInUp" data-wow-delay="0.5s">
+                                    <div class="post-social-sharing wow fadeInUp" data-wow-delay="0.2s">
                                         <ul>
-                                            <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+                                            {{-- Facebook Paylaş --}}
+                                            <li>
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
+                                                    target="_blank">
+                                                    <i class="fa-brands fa-facebook-f"></i>
+                                                </a>
+                                            </li>
+
+                                            {{-- Twitter (X) Paylaş --}}
+                                            <li>
+                                                <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}&text={{ $blog->title }}"
+                                                    target="_blank">
+                                                    <i class="fa-brands fa-x-twitter"></i>
+                                                </a>
+                                            </li>
+
+                                            {{-- LinkedIn Paylaş --}}
+                                            <li>
+                                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ url()->current() }}"
+                                                    target="_blank">
+                                                    <i class="fa-brands fa-linkedin-in"></i>
+                                                </a>
+                                            </li>
+
+                                            {{-- WhatsApp Paylaş --}}
+                                            <li>
+                                                <a href="https://api.whatsapp.com/send?text={{ $blog->title }} - {{ url()->current() }}"
+                                                    target="_blank">
+                                                    <i class="fa-brands fa-whatsapp"></i>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
-                                    <!-- Post Social Links End -->
                                 </div>
                             </div>
                         </div>
-                        <!-- Post Tag Links End -->
                     </div>
-                    <!-- Post Single Content End -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Page Single Post End -->
 @endsection

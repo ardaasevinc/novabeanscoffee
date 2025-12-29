@@ -1,41 +1,28 @@
- <!-- Scrolling Ticker Section Start -->
-    <div class="our-scrolling-ticker">
-        <!-- Scrolling Ticker Start -->
-        <div class="scrolling-ticker-box">
-            <div class="scrolling-content">
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Espresso</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Americano</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Latte</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cappuccino</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Mocha</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Macchiato</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cold Brew</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Espresso</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Americano</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Latte</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cappuccino</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Mocha</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Macchiato</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cold Brew</span>
-            </div>
+<div class="our-scrolling-ticker">
+    <div class="scrolling-ticker-box">
+        <div class="scrolling-content">
+            
+            @if(isset($tickerItems) && $tickerItems->count() > 0)
+                {{-- 1. DÖNGÜ: Verileri basıyoruz --}}
+                @foreach($tickerItems as $item)
+                    <span>
+                        <img src="{{ asset('assets/images/asterisk-icon.svg') }}" alt="*">
+                        {{ $item->title }}
+                    </span>
+                @endforeach
 
-            <div class="scrolling-content">
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Espresso</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Americano</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Latte</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cappuccino</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Mocha</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Macchiato</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cold Brew</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Espresso</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Americano</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Latte</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cappuccino</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Mocha</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Macchiato</span>
-                <span><img src="assets/images/asterisk-icon.svg" alt="">Cold Brew</span>
-            </div>
+                {{-- 2. DÖNGÜ (TEKRAR): Sonsuz döngü efekti kesilmesin diye verileri tekrar basıyoruz --}}
+                @foreach($tickerItems as $item)
+                    <span>
+                        <img src="{{ asset('assets/images/asterisk-icon.svg') }}" alt="*">
+                        {{ $item->title }}
+                    </span>
+                @endforeach
+            @else
+            
+                <span><img src="assets/images/asterisk-icon.svg" alt="">Nova Kitchen Restaurant için ❤️ ile tasarlanmıştır.</span>
+            @endif
+
         </div>
-        <!-- Scrolling Ticker End -->
     </div>
-    <!-- Scrolling Ticker Section End -->
+    </div>

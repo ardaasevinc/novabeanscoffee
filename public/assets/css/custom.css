@@ -2125,7 +2125,7 @@ body:has(.offcanvas) {
 }
 .page-header {
     position: relative;
-    background-image: url(../images/page-header-bg.jpg);
+    background-image: url(../images/page-header.webp);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;

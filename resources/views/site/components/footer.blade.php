@@ -1,89 +1,102 @@
-<!-- Main Footer Section Start -->
-    <footer class="main-footer parallaxie">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Footer Contact List Start -->
-                    <div class="footer-contact-list">
-                        <!-- Footer Contact Item Start -->
-                        <div class="footer-contact-item">
-                            <div class="icon-box">
-                                <img src="assets/images/icon-phone-accent.svg" alt="">
-                            </div>
-                            <div class="footer-contact-detail">
-                                <h3>Bize Ulaşın</h3>
-                                <p>T. <a href="tel:+90 545 528 01 93">+90 545 528 01 93</a></p>
-                                <p>M. <a href="mailto:info@novakitchen.com.tr">info@novakitchen.com.tr</a></p>
-                            </div>
-                            <div class="footer-contact-button">
-                                <a href="contact.html" class="btn-default btn-highlighted">Bize Ulaşın</a>
-                            </div>
+@if(isset($setting))
+<footer class="main-footer parallaxie">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer-contact-list">
+                    {{-- TELEFON VE EMAIL --}}
+                    <div class="footer-contact-item">
+                        <div class="icon-box">
+                            <img src="{{ asset('assets/images/icon-phone-accent.svg') }}" alt="Telefon">
                         </div>
-                        <!-- Footer Contact Item End -->
-
-                        <!-- Footer Contact Item Start -->
-                        <div class="footer-contact-item">
-                            <div class="icon-box">
-                                <img src="assets/images/icon-location-accent.svg" alt="logo" style="height:80px;">
-                            </div>
-                            <div class="footer-contact-detail">
-                                <h3>adres</h3>
-                                <p>Mescit Sokak Çağlayan Ege Ticaret Merkezi No:1 Kat: 2 İç Kapı No:206, Çatalca, İstanbul 34540
-</p>
-                            </div>
-                            <div class="footer-contact-button">
-                                <a href="{{ url('https://www.google.com/maps/place/Nova+Beans+Coffee/@41.1434348,28.4578381,17z/data=!3m2!4b1!5s0x14b545184996ffa1:0xef7d3f9a3169d0bc!4m6!3m5!1s0x14b54511450974d9:0x19e29aef6922b992!8m2!3d41.1434348!4d28.460413!16s%2Fg%2F11lmj5fpx9?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D') }}" class="btn-default btn-highlighted">Yol Haritası</a>
-                            </div>
+                        <div class="footer-contact-detail">
+                            <h3>Bize Ulaşın</h3>
+                            @if($setting->phone)
+                                <p>T. <a href="tel:{{ str_replace(' ', '', $setting->phone) }}">{{ $setting->phone }}</a></p>
+                            @endif
+                            @if($setting->email)
+                                <p>M. <a href="mailto:{{ $setting->email }}">{{ $setting->email }}</a></p>
+                            @endif
                         </div>
-                        <!-- Footer Contact Item End -->
-
-                        <!-- Footer Contact Item Start -->
-                        <div class="footer-contact-item">
-                            <div class="icon-box">
-                                <img src="assets/images/icon-clock-accent.svg" alt="">
-                            </div>
-                            <div class="footer-contact-detail">
-                                <h3>Çalışma Saatlerimiz</h3>
-                                <p>Haftanın her günü: 08.30 To 02.00</p>
-                                <p>Mutfak Kapanışı 23.00</p>
-                            </div>
-                            <div class="footer-contact-button">
-                                <a href="{{ route('site.book-table') }}" class="btn-default btn-highlighted">Rezervasyon</a>
-                            </div>
+                        <div class="footer-contact-button">
+                            <a href="{{ route('site.contact') }}" class="btn-default btn-highlighted">İletişime Geç</a>
                         </div>
-                        <!-- Footer Contact Item End -->
                     </div>
-                    <!-- Footer Contact List End -->
+
+                    {{-- ADRES --}}
+                    <div class="footer-contact-item">
+                        <div class="icon-box">
+                            <img src="{{ asset('assets/images/icon-location-accent.svg') }}" alt="Konum" style="height:80px;">
+                        </div>
+                        <div class="footer-contact-detail">
+                            <h3>Adres</h3>
+                            {{-- RichEditor olduğu için {!! !!} kullandık --}}
+                            <div style="color: #fff; opacity: 0.8;">
+                                {!! $setting->address !!}
+                            </div>
+                        </div>
+                        <div class="footer-contact-button">
+                            {{-- Adresi Google Maps'te aratacak dinamik link --}}
+                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode(strip_tags($setting->address)) }}" 
+                               target="_blank"
+                               class="btn-default btn-highlighted">Yol Tarifi</a>
+                        </div>
+                    </div>
+
+                    {{-- ÇALIŞMA SAATLERİ (Modelde bu alan olmadığı için sabit bırakıldı) --}}
+                    <div class="footer-contact-item">
+                        <div class="icon-box">
+                            <img src="{{ asset('assets/images/icon-clock-accent.svg') }}" alt="Çalışma Saatleri">
+                        </div>
+                        <div class="footer-contact-detail">
+                            <h3>Çalışma Saatlerimiz</h3>
+                            <p>Haftanın her günü: 08:30 ile 02:00</p>
+                            <p>Mutfak Kapanışı: 23:00</p>
+                        </div>
+                        <div class="footer-contact-button">
+                            <a href="{{ route('site.book-table') }}" class="btn-default btn-highlighted">Rezervasyon</a>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div class="col-lg-12">
-                    <!-- Footer Copyright Start -->
-                    <div class="footer-copyright">
-                        <!-- Footer Copyright Text Start -->
-                        <div class="footer-copyright-text order-md-1 order-3">
-                            <p> © {{ now()->year }} Nova Kitchen için özel tasarlanmıştır.<BR>Tüm Hakları Saklıdır.</p>
-                        </div>
-                        <!-- Footer Copyright Text End -->
-
-                        <!-- Footer Logo Start -->
-                        <div class="footer-logo order-md-2 order-1">
-                            <img src="{{ asset('assets/images/logo.svg') }}" alt="">
-                        </div>
-                        <!-- Footer Logo End -->
-
-                        <!-- Footer Social Links Start -->
-                        <div class="footer-social-links order-md-3 order-2">
-                            <ul>
-                                <li><a href="https://instagram.com/novabeanscoffee.com"><i class="fa-brands fa-instagram"></i></a></li>
-                                {{-- <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li> --}}
-                            </ul>
-                        </div>
-                        <!-- Footer Social Links End -->
+            <div class="col-lg-12">
+                <div class="footer-copyright">
+                    {{-- COPYRIGHT --}}
+                    <div class="footer-copyright-text order-md-1 order-3">
+                        <p>© {{ now()->year }} 
+                           {{ $setting->footer_text ? strip_tags($setting->footer_text) : 'Nova Kitchen' }} 
+                           için özel tasarlanmıştır.<br>Tüm Hakları Saklıdır.</p>
                     </div>
-                    <!-- Footer Copyright End -->
+
+                    {{-- LOGO --}}
+                    <div class="footer-logo order-md-2 order-1">
+                        @if($setting->logo)
+                            <img src="{{ asset('uploads/' . $setting->logo) }}" alt="Logo">
+                        @else
+                            <img src="{{ asset('assets/images/logo.svg') }}" alt="Varsayılan Logo">
+                        @endif
+                    </div>
+
+                    {{-- SOSYAL MEDYA --}}
+                    <div class="footer-social-links order-md-3 order-2">
+                        <ul>
+                            @if($setting->instagram_url)
+                                <li><a href="{{ $setting->instagram_url }}" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+                            @endif
+                            
+                            @if($setting->facebook_url)
+                                <li><a href="{{ $setting->facebook_url }}" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
+                            @endif
+
+                            @if($setting->x_url)
+                                <li><a href="{{ $setting->x_url }}" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
+                            @endif
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Main Footer Section End -->
+    </div>
+</footer>
+@endif
