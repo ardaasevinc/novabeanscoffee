@@ -39,7 +39,7 @@
             display: flex;
             height: 100vh;
             width: 100%;
-            background: #121D23;
+            background: c;
         }
 
         .splash-item {
