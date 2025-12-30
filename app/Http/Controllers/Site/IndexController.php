@@ -43,4 +43,8 @@ class IndexController extends Controller
         $tickerItems = Menu::where('is_published', true)->select('title')->get();
         return view('site.index', compact('page_title', 'heroes', 'about', 'whyChoose', 'menuCategories','blogCategories','offers','tickerItems'));
     }
+
+    public function entry(){
+        return view('site.index2');
+    }
 }

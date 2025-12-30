@@ -12,7 +12,8 @@ use App\Http\Controllers\Site\Services\IndexController as ServicesController;
 use App\Http\Controllers\Site\Reservation\IndexController as ReservationController;
 
 
-Route::get('/', [IndexController::class, 'index'])->name('site.index');
+Route::get('/', [IndexController::class, 'entry'])->name('site.index2');
+Route::get('/anasayfa', [IndexController::class, 'index'])->name('site.index');
 Route::get('/hakkimizda', [AboutController::class, 'index'])->name('site.about');
 Route::get('/bize-ulasin', [ContactController::class, 'index'])->name('site.contact');
 Route::get('/haberler', [BlogController::class, 'index'])->name('site.blog');
@@ -23,3 +24,4 @@ Route::get('/hizmetler/{slug}', [ServicesController::class, 'detail'])->name('si
 Route::post('/iletisim-gonder', [ContactController::class, 'contactStore'])->name('contact.store');
 Route::get('/rezervasyon', [ReservationController::class, 'index'])->name('site.reservation');
 Route::post('/rezervasyon-yap', [ReservationController::class, 'store'])->name('site.reservation.store');
+
