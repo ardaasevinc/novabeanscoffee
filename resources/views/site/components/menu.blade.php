@@ -59,7 +59,7 @@
                                                     <div class="menu-list-item">
                                                         <div class="menu-list-image">
                                                             <figure>
-                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting->icon_192x192 ) }}" 
+                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting?->icon_192x192 ) }}" 
                                                                      alt="{{ $menu->title }}" 
                                                                      style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
                                                             </figure>
