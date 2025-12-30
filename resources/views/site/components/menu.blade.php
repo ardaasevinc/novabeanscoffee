@@ -1,4 +1,11 @@
-@if($menuCategories->count() > 0)
+{{-- Sadece içinde en az bir ürün (home_menus) olan kategorileri filtrele --}}
+@php
+    $visibleCategories = $menuCategories->filter(function($category) {
+        return $category->home_menus->isNotEmpty();
+    });
+@endphp
+
+@if($visibleCategories->count() > 0)
     <div class="our-pricing">
         <div class="container">
             <div class="row section-row">
@@ -7,7 +14,7 @@
                         <h3 class="wow fadeInUp">Menümüz</h3>
                         <h2 class="text-anime-style-3" data-cursor="-opaque">Lezzet dolu anların keyfini çıkarın</h2>
                     </div>
-                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -16,7 +23,7 @@
                         
                         <div class="our-support-nav wow fadeInUp" data-wow-delay="0.2s">
                             <ul class="nav nav-tabs" id="mvTab" role="tablist">
-                                @foreach($menuCategories as $category)
+                                @foreach($visibleCategories as $category)
                                     <li class="nav-item" role="presentation">
                                         {{-- İlk elemana 'active' sınıfı veriyoruz --}}
                                         <button class="btn-default btn-highlighted {{ $loop->first ? 'active' : '' }}" 
@@ -32,7 +39,8 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @foreach($menuCategories as $category)
+
+                        @foreach($visibleCategories as $category)
                             <div class="pricing-boxes tab-pane fade {{ $loop->first ? 'show active' : '' }}" 
                                  id="{{ $category->slug }}" 
                                  role="tabpanel">
@@ -51,45 +59,39 @@
                                         </div>
                                     </div>
 
-                                    {{-- SAĞ: Ürün Listesi (Son 5) --}}
+                                    {{-- SAĞ: Ürün Listesi --}}
                                     <div class="col-lg-6">
                                         <div class="our-menu-list">
-                                            @if($category->home_menus->isNotEmpty())
-                                                @foreach($category->home_menus as $menu)
-                                                    <div class="menu-list-item">
-                                                        <div class="menu-list-image">
-                                                            <figure>
-                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting?->icon_192x192 ) }}" 
-                                                                     alt="{{ $menu->title }}" 
-                                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
-                                                            </figure>
-                                                        </div>
+                                            @foreach($category->home_menus as $menu)
+                                                <div class="menu-list-item">
+                                                    <div class="menu-list-image">
+                                                        <figure>
+                                                            <img src="{{ asset('uploads/' . ($menu->img ?? $setting?->icon_192x192)) }}" 
+                                                                 alt="{{ $menu->title }}" 
+                                                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
+                                                        </figure>
+                                                    </div>
 
-                                                        <div class="menu-item-body">
-                                                            <div class="menu-item-title">
-                                                                <h3>{{ $menu->title }}</h3>
-                                                                <hr>
-                                                                <span>{{ $menu->price }}₺</span>
-                                                            </div>
-                                                            <div class="menu-item-content">
-                                                                {{-- Açıklamayı düz metin olarak ve kısa haliyle basıyoruz --}}
-                                                                <div style="color: #636363; font-size: 14px;">
-                                                                    {!! Str::limit(strip_tags($menu->desc), 100) !!}
-                                                                </div>
+                                                    <div class="menu-item-body">
+                                                        <div class="menu-item-title">
+                                                            <h3>{{ $menu->title }}</h3>
+                                                            <hr>
+                                                            <span>{{ $menu->price }}₺</span>
+                                                        </div>
+                                                        <div class="menu-item-content">
+                                                            <div style="color: #636363; font-size: 14px;">
+                                                                {!! Str::limit(strip_tags($menu->desc), 100) !!}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endforeach
-                                            @else
-                                                <div class="text-gray-500">
-                                                    Bu kategoride henüz ürün bulunmuyor.
                                                 </div>
-                                            @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
+
                         <div class="section-footer-text wow fadeInUp" data-wow-delay="0.2s">
                             <p>Daha fazla seçenek mi arıyorsunuz? <a href="{{ route('site.menu') }}">Tüm menüyü incelemek için tıklayın!</a></p>
                         </div>
@@ -99,4 +101,4 @@
             </div>
         </div>
     </div>
-    @endif
+@endif
