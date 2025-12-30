@@ -39,7 +39,7 @@
             display: flex;
             height: 100vh;
             width: 100%;
-            background: #000;
+            background: #121D23;
         }
 
         .splash-item {
@@ -70,13 +70,13 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6); 
+            background: rgba(18, 29, 35, 0.6); 
             transition: background 0.5s ease;
             z-index: 1;
         }
 
         .splash-item:hover::before {
-            background: rgba(0, 0, 0, 0.4); /* Üzerine gelince biraz aydınlanır */
+            background: rgba(18, 29, 35, 0.4); /* Üzerine gelince biraz aydınlanır */
         }
 
         /* İçeriklerin Katman Üstünde Kalması */
@@ -95,7 +95,7 @@
             justify-content: center;
             padding: 30px;
             transition: 0.5s;
-            background: rgba(0,0,0,0.3);
+            background: rgba(18, 29, 35, 0.3);
             backdrop-filter: blur(5px);
         }
 
