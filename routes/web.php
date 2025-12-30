@@ -25,3 +25,5 @@ Route::post('/iletisim-gonder', [ContactController::class, 'contactStore'])->nam
 Route::get('/rezervasyon', [ReservationController::class, 'index'])->name('site.reservation');
 Route::post('/rezervasyon-yap', [ReservationController::class, 'store'])->name('site.reservation.store');
 
+
+
