@@ -19,7 +19,7 @@
                                     <img src="{{ asset('uploads/' . $service->icon) }}" alt="{{ $service->title }}" style="height: 60px;">
                                 @else
                                     {{-- Varsayılan ikon --}}
-                                    <img src="{{ asset('assets/images/icon-service-1.svg') }}" alt="Hizmet">
+                                    <img src="{{ asset('assets/images/icon-service-nova.svg') }}" alt="Hizmet">
                                 @endif
                             </div>
 

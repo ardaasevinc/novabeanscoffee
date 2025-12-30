@@ -27,7 +27,7 @@
                                             @if(!empty($item['icon']))
                                                 <img src="{{ asset('uploads/' . $item['icon']) }}" alt="{{ $item['title'] ?? 'İkon' }}">
                                             @else
-                                                <img src="{{ asset('assets/images/icon-member-content-2.svg') }}" alt="Nova Kitchen">
+                                                <img src="{{ asset('assets/images/icon-service-nova.svg') }}" alt="Nova Kitchen">
                                             @endif
                                         </div>
                                         <div class="about-body-list-content">
