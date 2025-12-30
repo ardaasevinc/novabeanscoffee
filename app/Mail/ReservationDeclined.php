@@ -20,7 +20,7 @@ class ReservationDeclined extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Rezervasyon Talebiniz Hakkında - Nova Kitchen',
+            subject: 'Rezervasyon Talebiniz Hakkında - Nova Beans Coffee',
         );
     }
 

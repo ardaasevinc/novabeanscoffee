@@ -20,7 +20,7 @@ class ReservationApproved extends Mailable
 
     public function build()
     {
-        return $this->subject('Rezervasyonunuz Onaylandı! - NovaKitchen')
+        return $this->subject('Rezervasyonunuz Onaylandı! - Nova Beans Coffee')
                     ->view('emails.reservation_approved');
     }
 }

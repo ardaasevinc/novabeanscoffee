@@ -20,7 +20,7 @@ class AdminNewReservationNotification extends Mailable
 
     public function build()
     {
-        return $this->subject('Yeni Bir Rezervasyon Talebi Var! - NovaKitchen')
+        return $this->subject('Yeni Bir Rezervasyon Talebi Var! - Nova Beans Coffee')
                     ->view('emails.admin_new_reservation');
     }
 }

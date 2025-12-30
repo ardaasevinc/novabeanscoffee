@@ -20,7 +20,7 @@ class ReservationReceived extends Mailable
 
     public function build()
     {
-        return $this->subject('Rezervasyon Talebiniz Alındı - NovaKitchen')
+        return $this->subject('Rezervasyon Talebiniz Alındı - Nova Beans Coffee')
                     ->view('emails.reservation_received');
     }
 }

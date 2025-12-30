@@ -20,7 +20,7 @@ class NewContactMessageNotification extends Mailable
 
     public function build()
     {
-        return $this->subject('Yeni İletişim Mesajı Var! - NovaKitchen Admin')
+        return $this->subject('Yeni İletişim Mesajı Var! - Nova Beans Coffee Admin')
                     ->view('emails.contact_notification');
     }
 }

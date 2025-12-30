@@ -20,7 +20,7 @@ class ContactFormReceived extends Mailable
 
     public function build()
     {
-        return $this->subject('Mesajınız Bize Ulaştı - NovaKitchen')
+        return $this->subject('Mesajınız Bize Ulaştı - Nova Beans Coffee')
                     ->view('emails.contact_received');
     }
 }
