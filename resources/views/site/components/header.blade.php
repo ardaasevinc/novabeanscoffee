@@ -63,7 +63,7 @@
                             <!-- Toggle Button trigger modal Start -->
                             <button class="btn btn-popup" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><img
-                                    src="assets/images/header-sidebar-btn.svg" alt=""></button>
+                                    src="{{ asset('assets/images/header-sidebar-btn.svg') }}" alt=""></button>
                             <!-- Toggle Button trigger modal End -->
 
                             <!-- Header Sidebar Start -->
