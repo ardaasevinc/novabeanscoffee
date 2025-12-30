@@ -8,7 +8,7 @@
 
     <title>{{ $setting?->meta_title }}</title>
     
-    @if($setting->favicon)
+    @if($setting?->favicon)
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('uploads/' . $setting->favicon) }}">
     @endif
 
