@@ -70,7 +70,7 @@
                     <div class="main-title">Rezervasyon Talebiniz Bize Ulaştı</div>
                     
                     <p>Sayın <strong>{{ $reservation->fname }} {{ $reservation->lname }}</strong>,</p>
-                    <p>Nova Kitchen'a yaptığınız rezervasyon talebi başarıyla tarafımıza ulaşmıştır. Ekibimiz şu anda müsaitlik durumunu kontrol etmektedir.</p>
+                    <p>Nova Beans Coffee'a yaptığınız rezervasyon talebi başarıyla tarafımıza ulaşmıştır. Ekibimiz şu anda müsaitlik durumunu kontrol etmektedir.</p>
 
                     <div class="details-box">
                         <div class="detail-item"><strong>Tarih:</strong> {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('d.m.Y') }}</div>
@@ -86,7 +86,7 @@
 
             <tr>
                 <td class="footer">
-                    <strong>Nova Kitchen Restaurant</strong><br>
+                    <strong>Nova Beans Coffee</strong><br>
                     Ferhatpaşa, Çatalca/İstanbul<br>
                     © {{ date('Y') }} Tüm Hakları Saklıdır.
                 </td>

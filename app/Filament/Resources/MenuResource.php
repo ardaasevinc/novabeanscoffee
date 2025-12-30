@@ -17,8 +17,7 @@ use Filament\Forms\Components\Section;
 class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-cake'; // Menü ikonu
+    protected static ?string $navigationIcon = 'heroicon-o-cake';
     protected static ?string $navigationLabel = 'Menü Ürünleri';
     protected static ?string $navigationGroup = 'Menü & Ürünler';
 
@@ -31,16 +30,13 @@ class MenuResource extends Resource
                         // --- SOL KOLON (4 Birim) ---
                         Group::make()
                             ->schema([
-                                Section::make('Ürün Detayları')
-                                    ->description('Fiyat, kategori ve görsel ayarları.')
+                                Section::make('Durum ve Kategori')
                                     ->schema([
                                         Forms\Components\Toggle::make('is_published')
                                             ->label('Yayında')
                                             ->default(true)
-                                            ->helperText('Ürünü gizlemek için kapatabilirsiniz.')
-                                            ->columnSpanFull(),
+                                            ->inline(false),
 
-                                        // Hızlı kategori ekleme formu
                                         Forms\Components\Select::make('menu_category_id')
                                             ->label('Kategori')
                                             ->relationship('menuCategory', 'title')
@@ -52,85 +48,92 @@ class MenuResource extends Resource
                                                     ->label('Kategori Adı')
                                                     ->required()
                                                     ->live(onBlur: true)
-                                                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $state ? $set('slug', Str::slug($state)) : null),
-                                                
-                                                Forms\Components\TextInput::make('slug')
-                                                    ->label('Slug')
-                                                    ->required(),
-                                            ])
-                                            ->helperText('Bu ürünün ait olduğu menü kategorisi.')
+                                                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
+                                                Forms\Components\TextInput::make('slug')->required(),
+                                            ]),
+                                    ]),
+
+                                Section::make('Fiyatlandırma')
+                                    ->description('Boyutlara göre fiyatları belirleyin.')
+                                    ->schema([
+                                        Forms\Components\Toggle::make('has_sizes')
+                                            ->label('Boyutlu Ürün (S/M/L)')
+                                            ->helperText('Açıksa Orta ve Büyük boy fiyatları girilebilir.')
+                                            ->live() // Değişikliği anlık algılaması için
                                             ->columnSpanFull(),
 
+                                        // Tekli Fiyat veya Küçük Boy Fiyatı
                                         Forms\Components\TextInput::make('price')
-                                            ->label('Fiyat')
-                                            
-                                            ->prefix('₺')
-                                            ->default(0)
-                                            ->helperText('Ürünün satış fiyatı.')
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\TextInput::make('likes')
-                                            ->label('Beğeni Sayısı')
+                                            ->label(fn (Forms\Get $get) => $get('has_sizes') ? 'Küçük Boy (S)' : 'Standart Fiyat')
                                             ->numeric()
-                                            ->default(0)
-                                            ->helperText('Manuel olarak beğeni sayısı girebilirsiniz.')
-                                            ->columnSpanFull(),
+                                            ->prefix('₺')
+                                            ->required()
+                                            ->columnSpan(fn (Forms\Get $get) => $get('has_sizes') ? 1 : 'full'),
 
+                                        // Orta Boy (Sadece has_sizes aktifse görünür)
+                                        Forms\Components\TextInput::make('price_medium')
+                                            ->label('Orta Boy (M)')
+                                            ->numeric()
+                                            ->prefix('₺')
+                                            ->visible(fn (Forms\Get $get) => $get('has_sizes'))
+                                            ->columnSpan(1),
+
+                                        // Büyük Boy (Sadece has_sizes aktifse görünür)
+                                        Forms\Components\TextInput::make('price_large')
+                                            ->label('Büyük Boy (L)')
+                                            ->numeric()
+                                            ->prefix('₺')
+                                            ->visible(fn (Forms\Get $get) => $get('has_sizes'))
+                                            ->columnSpan(1),
+                                    ])->columns(3), // İçerideki alanları 3 sütuna böler
+
+                                Section::make('Medya')
+                                    ->schema([
                                         Forms\Components\FileUpload::make('img')
                                             ->label('Ürün Görseli')
                                             ->image()
-                                            ->disk('uploads') // Uploads diski kullanılıyor
-                                            ->directory('menus') // public/uploads/menus içine
+                                            ->disk('uploads')
+                                            ->directory('menus')
                                             ->imageEditor()
                                             ->columnSpanFull(),
                                     ]),
                             ])
-                            ->columnSpan(4),
+                            ->columnSpan(5), // Sol kolonu biraz genişlettik (fiyatlar sığsın diye)
 
-                        // --- SAĞ KOLON (8 Birim) ---
+                        // --- SAĞ KOLON (7 Birim) ---
                         Group::make()
                             ->schema([
-                                Section::make('İçerik')
+                                Section::make('Ürün Bilgileri')
                                     ->schema([
                                         Forms\Components\TextInput::make('title')
                                             ->label('Ürün Adı')
                                             ->required()
                                             ->live(onBlur: true)
-                                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
-                                            ->columnSpanFull(),
+                                            ->afterStateUpdated(fn ($operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                                         Forms\Components\TextInput::make('slug')
                                             ->label('Slug (URL)')
                                             ->required()
-                                            ->unique(ignoreRecord: true)
-                                            ->columnSpanFull(),
+                                            ->unique(ignoreRecord: true),
 
                                         Forms\Components\RichEditor::make('desc')
-                                            ->label('Açıklama / İçindekiler')
-                                            ->helperText('Ürünün içeriği, malzemeleri vb.')
-                                            ->columnSpanFull(),
+                                            ->label('Açıklama / İçindekiler'),
+                                        
+                                        Forms\Components\TextInput::make('likes')
+                                            ->label('Başlangıç Beğeni Sayısı')
+                                            ->numeric()
+                                            ->default(0),
                                     ]),
 
-                                Section::make('SEO Ayarları')
-                                    ->description('Arama motorları için özel tanımlamalar.')
+                                Section::make('SEO')
                                     ->collapsed()
                                     ->schema([
-                                        Forms\Components\TextInput::make('meta_title')
-                                            ->label('Meta Başlık')
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\Textarea::make('meta_desc')
-                                            ->label('Meta Açıklama')
-                                            ->rows(2)
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\TextInput::make('meta_keywords')
-                                            ->label('Anahtar Kelimeler')
-                                            ->helperText('Virgül ile ayırarak giriniz.')
-                                            ->columnSpanFull(),
+                                        Forms\Components\TextInput::make('meta_title'),
+                                        Forms\Components\Textarea::make('meta_desc')->rows(2),
+                                        Forms\Components\TextInput::make('meta_keywords'),
                                     ]),
                             ])
-                            ->columnSpan(8),
+                            ->columnSpan(7),
                     ]),
             ]);
     }
@@ -141,35 +144,39 @@ class MenuResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('img')
                     ->label('Görsel')
-                    ->disk('uploads') // Tabloda göstermek için diski belirttik
+                    ->disk('uploads')
                     ->circular(),
                 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Ürün Adı')
                     ->searchable()
-                    ->sortable(),
+                    ->description(fn (Menu $record) => $record->has_sizes ? 'Boyutlu Ürün' : 'Standart'),
 
                 Tables\Columns\TextColumn::make('menuCategory.title')
                     ->label('Kategori')
-                    ->sortable()
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Fiyat')
+                    ->label('Fiyat (S/Std)')
+                    ->money('TRY'),
+
+                Tables\Columns\TextColumn::make('price_medium')
+                    ->label('(M)')
                     ->money('TRY')
-                    ->sortable(),
+                    ->placeholder('-'),
+
+                Tables\Columns\TextColumn::make('price_large')
+                    ->label('(L)')
+                    ->money('TRY')
+                    ->placeholder('-'),
 
                 Tables\Columns\IconColumn::make('is_published')
                     ->label('Durum')
                     ->boolean(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('menu_category_id')
-                    ->label('Kategoriye Göre Filtrele')
+                    ->label('Kategori')
                     ->relationship('menuCategory', 'title'),
             ])
             ->actions([
@@ -181,13 +188,6 @@ class MenuResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

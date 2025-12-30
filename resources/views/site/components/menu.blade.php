@@ -25,7 +25,6 @@
                             <ul class="nav nav-tabs" id="mvTab" role="tablist">
                                 @foreach($visibleCategories as $category)
                                     <li class="nav-item" role="presentation">
-                                        {{-- İlk elemana 'active' sınıfı veriyoruz --}}
                                         <button class="btn-default btn-highlighted {{ $loop->first ? 'active' : '' }}" 
                                                 id="{{ $category->slug }}-tab" 
                                                 data-bs-toggle="tab"
@@ -50,11 +49,9 @@
                                     <div class="col-lg-6">
                                         <div class="pricing-image">
                                             <figure class="image-anime">
-                                                @if($category->img)
-                                                    <img src="{{ asset('uploads/' . $category->img) }}" alt="{{ $category->title }}" style="width: 100%; height: auto; border-radius: 20px;">
-                                                @else
-                                                    <img src="{{ asset('assets/images/pricing-tab-image-1.jpg') }}" alt="Varsayılan">
-                                                @endif
+                                                <img src="{{ $category->img ? asset('uploads/' . $category->img) : asset('no-blog-img.webp') }}" 
+                                                     alt="{{ $category->title }}" 
+                                                     style="width: 100%; height: auto; border-radius: 20px;">
                                             </figure>
                                         </div>
                                     </div>
@@ -66,7 +63,7 @@
                                                 <div class="menu-list-item">
                                                     <div class="menu-list-image">
                                                         <figure>
-                                                            <img src="{{ asset('uploads/' . ($menu->img ?? $setting?->icon_192x192)) }}" 
+                                                            <img src="{{ $menu->img ? asset('uploads/' . $menu->img) : asset('assets/images/no-blog-img.webp') }}" 
                                                                  alt="{{ $menu->title }}" 
                                                                  style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
                                                         </figure>
@@ -76,7 +73,21 @@
                                                         <div class="menu-item-title">
                                                             <h3>{{ $menu->title }}</h3>
                                                             <hr>
-                                                            <span>{{ $menu->price }}₺</span>
+                                                            
+                                                            {{-- FİYAT MANTIĞI --}}
+                                                            <div class="menu-prices" style="display: flex; gap: 10px; font-weight: bold; color: #e4b95b;">
+                                                                @if($menu->has_sizes)
+                                                                    {{-- Boyutlu Ürün Fiyatları --}}
+                                                                    @if($menu->price > 0) <span><small style="font-size: 10px; color: #636363;">S:</small> {{ number_format($menu->price, 0) }}₺</span> @endif
+                                                                    @if($menu->price_medium > 0) <span><small style="font-size: 10px; color: #636363;">M:</small> {{ number_format($menu->price_medium, 0) }}₺</span> @endif
+                                                                    @if($menu->price_large > 0) <span><small style="font-size: 10px; color: #636363;">L:</small> {{ number_format($menu->price_large, 0) }}₺</span> @endif
+                                                                @else
+                                                                    {{-- Standart Tek Fiyat --}}
+                                                                    @if($menu->price > 0)
+                                                                        <span>{{ number_format($menu->price, 0) }}₺</span>
+                                                                    @endif
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                         <div class="menu-item-content">
                                                             <div style="color: #636363; font-size: 14px;">

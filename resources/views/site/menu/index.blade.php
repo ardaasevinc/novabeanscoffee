@@ -44,7 +44,7 @@
                                                 <div class="menu-list-item wow fadeInUp" data-wow-delay="{{ 0.2 * $loop->index }}s">
                                                     <div class="menu-list-image">
                                                         <figure>
-                                                            <img src="{{ asset('uploads/' . ($menu->img ?? $setting?->icon_192x192)) }}" 
+                                                            <img src="{{ $menu->img ? asset('uploads/' . $menu->img) : asset('assets/images/no-blog-img.webp') }}" 
                                                                  alt="{{ $menu->title }}"
                                                                  style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
                                                         </figure>

@@ -5,7 +5,7 @@
             <div class="container">
                 <!-- Logo Start -->
                 <a class="navbar-brand" href="{{ route('site.index') }}">
-                    <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" style="height: 60px;">
+                    <img src="{{ asset('uploads/'.$setting?->logo) }}" alt="Logo" style="height: 50px;">
                 </a>
                 <!-- Logo End -->
 
@@ -41,8 +41,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('site.contact') }}">Bize Ulaşın</a>
                             </li>
 
-                            <li class="nav-item"><a class="nav-link"
-                                    href="{{ url('https://novabeanscoffee.com') }}">NovaBeans</a></li>
+                           
 
                             <li class="nav-item highlighted-menu"><a class="nav-link"
                                     href="{{ route('site.reservation') }}">Rezervasyon</a></li>
@@ -75,7 +74,7 @@
                                 <div class="offcanvas-body">
                                     <!-- Header Title Box Start -->
                                     <div class="header-title-box">
-                                        <h2>Nova Kitchen'a <br>Hoş Geldiniz.</h2>
+                                        <h2>Nova Beans Coffee <br>Hoş Geldiniz.</h2>
                                         <p>{{ $setting?->slogan }}</p>
                                     </div>
                                     <!-- Header Title Box End -->

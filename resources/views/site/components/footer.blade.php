@@ -68,7 +68,7 @@
                         {{-- COPYRIGHT --}}
                         <div class="footer-copyright-text order-md-1 order-3">
                             <p>© {{ now()->year }}
-                                {{ $setting->footer_text ? strip_tags($setting->footer_text) : 'Nova Kitchen' }}
+                                {{ $setting->footer_text ? strip_tags($setting->footer_text) : 'Nova Beans Coffee' }}
 
                         </div>
 

@@ -67,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('<assets>
             <images>
             <logo-gray></logo-gray>.svg'))
-            ->darkModeBrandLogo(asset('assets/images/logo-gray.svg'))
+            ->darkModeBrandLogo(asset('assets/images/logo.svg'))
             ->favicon(asset('assets/site/assets/images/favicon.svg'))
 
             /*

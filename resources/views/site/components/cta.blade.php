@@ -5,7 +5,7 @@
                     <div class="cta-box-content">
                         <div class="section-title">
                             <h3 class="wow fadeInUp">Lezzet Parmaklarınızın Ucunda</h3>
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Nova Kitchen Dijital Deneyimi</h2>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">Nova Beans Coffee Dijital Deneyimi</h2>
                             <p class="wow fadeInUp" data-wow-delay="0.2s">Uygulama indirme veya güncelleme derdi olmadan, Nova Kitchen'a her an
                                 ulaşın. Web sitemizi telefonunuzun ana ekranına ekleyerek (PWA), menümüzü inceleyebilir, kolayca rezervasyon oluşturabilirsiniz.</p>
                         </div>

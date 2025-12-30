@@ -98,7 +98,7 @@
 
             <tr>
                 <td class="footer">
-                    <strong>Nova Kitchen Restaurant</strong><br>
+                    <strong>Nova Beans Coffee</strong><br>
                     Ferhatpaşa, Çatalca/İstanbul<br>
                     © {{ date('Y') }} Tüm Hakları Saklıdır.
                 </td>

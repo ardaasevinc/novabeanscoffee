@@ -65,14 +65,14 @@
                     <p>Ekibimiz mesajınızı inceledikten sonra en kısa sürede belirttiğiniz iletişim kanalları üzerinden sizinle irtibata geçecektir.</p>
 
                     <div style="margin-top: 30px;">
-                        <a href="https://novakitchen.com.tr" class="button">Web Sitemize Dön</a>
+                        <a href="https://novabeanscoffee.com" class="button">Web Sitemize Dön</a>
                     </div>
                 </td>
             </tr>
 
             <tr>
                 <td class="footer">
-                    <strong>Nova Kitchen Restaurant</strong><br>
+                    <strong>Nova Beans Coffee</strong><br>
                     Çatalca, İstanbul<br>
                     © {{ date('Y') }} Tüm Hakları Saklıdır.
                 </td>

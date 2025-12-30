@@ -82,7 +82,7 @@
                     <div class="main-title">Küçük Bir Bilgilendirme</div>
                     
                     <p>Sayın <strong>{{ $reservation->fname }} {{ $reservation->lname }}</strong>,</p>
-                    <p>Nova Kitchen'a gösterdiğiniz ilgi için teşekkür ederiz. Rezervasyon talebinizi büyük bir memnuniyetle aldık ancak bir durum paylaşmamız gerekiyor.</p>
+                    <p>Nova Beans Coffee'a gösterdiğiniz ilgi için teşekkür ederiz. Rezervasyon talebinizi büyük bir memnuniyetle aldık ancak bir durum paylaşmamız gerekiyor.</p>
 
                     <p>Üzülerek belirtmek isteriz ki, talep ettiğiniz tarih ve saatteki <strong>yoğunluk nedeniyle</strong> şu an için talebinize olumlu yanıt veremiyoruz.</p>
 
@@ -95,14 +95,14 @@
                     <p>Sizi farklı bir tarihte veya saatte ağırlamayı çok isteriz. Yeni bir talep oluşturmak için web sitemizi tekrar ziyaret edebilirsiniz.</p>
 
                     <div style="margin-top: 25px;">
-                        <a href="https://novakitchen.com.tr" class="button">Farklı Bir Tarih Seç</a>
+                        <a href="https://novabeanscoffee.com" class="button">Farklı Bir Tarih Seç</a>
                     </div>
                 </td>
             </tr>
 
             <tr>
                 <td class="footer">
-                    <strong>Nova Kitchen Restaurant</strong><br>
+                    <strong>Nova Beans Coffee</strong><br>
                     Anlayışınız için teşekkür ederiz.<br>
                     © {{ date('Y') }} Tüm Hakları Saklıdır.
                 </td>

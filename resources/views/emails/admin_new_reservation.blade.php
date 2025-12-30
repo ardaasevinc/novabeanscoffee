@@ -83,7 +83,7 @@
                     </table>
 
                     <div style="text-align: center;">
-                        <a href="https://novakitchen.com.tr/ardaasevinc" class="button">
+                        <a href="https://novabeanscoffee.com/ardaasevinc" class="button">
                             Yönetim Paneline Git
                         </a>
                     </div>
@@ -92,7 +92,7 @@
 
             <tr>
                 <td class="footer">
-                    <strong>Nova Kitchen Restaurant</strong><br>
+                    <strong>Nova Beans Coffee</strong><br>
                     Bu e-posta otomatik olarak gönderilmiştir. <br>
                     © {{ date('Y') }} Tüm Hakları Saklıdır.
                 </td>
