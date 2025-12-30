@@ -104,7 +104,7 @@
                         @endforeach
 
                         <div class="section-footer-text wow fadeInUp" data-wow-delay="0.2s">
-                            <p>Daha fazla seçenek mi arıyorsunuz? <a href="{{ route('site.menu') }}">Tüm menüyü incelemek için tıklayın!</a></p>
+                            <p>Daha fazla seçenek mi arıyorsunuz? <br><a href="{{ route('site.menu') }}">Tüm menüyü incelemek için tıklayın!</a></p>
                         </div>
 
                     </div>
