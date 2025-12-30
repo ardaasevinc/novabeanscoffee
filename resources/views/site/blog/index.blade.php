@@ -17,10 +17,10 @@
                                 <a href="{{ route('site.blog.detail', $blog->slug) }}" data-cursor-text="İncele">
                                     <figure class="image-anime">
                                         @if($blog->img)
-                                            <img src="{{ $blog->img ? asset('uploads/'.$blog->img) : asset('assets/images/no-blog-img.webp') }}" alt="{{ $blog->title }}">
+                                            <img src="{{ asset('uploads/' . $blog->img) }}" alt="{{ $blog->title }}">
                                         @else
-                                            {{-- Resim yoksa placeholder --}}
-                                            <img src="{{ asset('assets/images/post-1.jpg') }}" alt="Varsayılan Resim">
+                                            
+                                            <img src="{{ asset('assets/images/no-blog-img.webp') }}" alt="Varsayılan Resim">
                                         @endif
                                     </figure>
                                 </a>
