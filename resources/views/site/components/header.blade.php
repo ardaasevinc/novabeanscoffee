@@ -76,17 +76,16 @@
                                     <!-- Header Title Box Start -->
                                     <div class="header-title-box">
                                         <h2>Nova Kitchen'a <br>Hoş Geldiniz.</h2>
-                                        <p>MAKE IT NICE</p>
+                                        <p>{{ $setting?->slogan }}</p>
                                     </div>
                                     <!-- Header Title Box End -->
 
                                     <!-- Header Sidebar Info Start -->
                                     <div class="header-sidebar-info">
-                                        <h2><a href="tel:+123456789">+90 545 528 01 93</a></h2>
+                                        <h2><a href="{{ $setting?->phone }}">{{ $setting?->phone }}</a></h2>
                                         <ul>
-                                            <li>Ferhatpaşa Mahallesi Mescit Sokak Çağlayan Ege Ticaret Merkezi No:1 Kat:
-                                                2 Çatalca/İstanbul</li>
-                                            <li><a href="mailto:info@novakitchen.com.tr">info@novakitchen.com.tr</a>
+                                            <li>{{ strip_tags($setting?->address) }}</li>
+                                            <li><a href="mailto:{{ $setting?->email }}">{{ $setting?->email }}</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -96,6 +95,7 @@
                                     <div class="header-sidebar-timing">
                                         <ul>
                                             <li>Haftaiçi : 08.30 - 02.00</li>
+                                            <li>Haftasonu : 08.30 - 02.00</li>
                                             <li>Mutfak Kapanış : 23:00</li>
                                         </ul>
                                     </div>

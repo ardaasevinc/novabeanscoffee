@@ -14,25 +14,52 @@
                             <img src="{{ asset('assets/images/icon-location.svg') }}" alt="Konum">
                             {{ strip_tags($setting?->address) }}
                         </li>
-                        </ul>
-                        </div>
+                    </ul>
                 </div>
+            </div>
 
             <div class="col-md-3">
                 <div class="topbar-social-links">
                     <ul>
-                        <li>
-                            <a href="{{ $setting?->instagram_url }}" target="_blank">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                        </li>
-                        
-                        {{-- <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li> --}}
                        
-                        </ul>
-                        </div>
+                        @if($setting?->phone)
+                            <li>
+                                <a href="https://wa.me/{{ preg_replace('/\D/', '', $setting->phone) }}" target="_blank"
+                                    title="WhatsApp">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            </li>
+                        @endif
+
+                        
+                        @if($setting?->instagram_url)
+                            <li>
+                                <a href="{{ $setting->instagram_url }}" target="_blank" title="Instagram">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                        @endif
+
+                        
+                        @if($setting?->facebook_url)
+                            <li>
+                                <a href="{{ $setting->facebook_url }}" target="_blank" title="Facebook">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                            </li>
+                        @endif
+
+                       
+                        @if($setting?->x_url)
+                            <li>
+                                <a href="{{ $setting->x_url }}" target="_blank" title="X">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
+            </div>
         </div>
-        </div>
-        </div>
+    </div>
+</div>

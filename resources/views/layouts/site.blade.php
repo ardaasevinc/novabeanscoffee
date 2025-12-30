@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     
-    <title>{{ $setting->meta_title ?? 'Nova Kitchen Restaurant' }}</title>
-    <meta name="description" content="{{ $setting->meta_desc ?? '' }}">
-    <meta name="keywords" content="{{ $setting->meta_keywords ?? '' }}">
+    <title>@yield('meta_title', $setting->meta_title ?? 'Nova Kitchen Restaurant')</title>
+    <meta name="description" content="@yield('meta_desc', $setting->meta_desc ?? '')">
+    <meta name="keywords" content="@yield('meta_keywords', $setting->meta_keywords ?? '')">
     <meta name="author" content="Awaiken">
 
     @if($setting->favicon)
@@ -20,13 +20,11 @@
     @endif
 
     <meta name="theme-color" content="{{ $setting->themecolor ?? '#121D23' }}">
-    
     <link rel="manifest" href="{{ asset('manifest.json') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Forum&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <link href="{{ asset('assets/css/slicknav.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}">

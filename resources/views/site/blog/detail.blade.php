@@ -1,8 +1,14 @@
 @extends('layouts.site')
 
 @section('content')
-    {{-- Page Header --}}
-    @include('site.components.page-header')
+{{-- Page Header --}}
+@include('site.components.page-header')
+
+
+@section('title', $blog?->meta_title ?? $setting->meta_title)
+@section('meta_desc', $blog?->meta_desc ?? $setting->meta_desc)
+@section('meta_keywords', $blog?->meta_keywords ?? $setting->meta_keywords)
+
 
     <div class="page-single-post">
         <div class="container">
