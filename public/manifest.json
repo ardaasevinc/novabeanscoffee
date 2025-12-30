@@ -1,7 +1,7 @@
 {
-    "name": "Nova Beans",
+    "name": "Nova Beans Coffee",
     "short_name": "NovaBeans",
-    "start_url": "/",
+    "start_url": "/?utm_source=pwa",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#121D23",
@@ -12,6 +12,12 @@
             "src": "/images/icons/icon-72x72.png",
             "sizes": "72x72",
             "type": "image/png"
+        },
+        {
+            "src": "/images/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any" 
         },
         {
             "src": "/images/icons/icon-192x192.png",
