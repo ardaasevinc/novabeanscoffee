@@ -139,7 +139,7 @@
 
     <div class="splash-wrapper">
         
-        <a href="https://novakitchen.com.tr/anasayfa" class="splash-item kitchen-bg wow fadeInLeft" data-wow-delay="0.2s">
+        <a href="{{ url('https://novakitchen.com.tr/anasayfa') }}" class="splash-item kitchen-bg wow fadeInLeft" data-wow-delay="0.2s">
             <div class="logo-box">
                 <img src="{{ asset('assets/images/logo-kitchen.svg') }}" alt="Nova Kitchen Logo">
             </div>
@@ -147,7 +147,7 @@
             <span class="enter-text">Restoranı Keşfet <i class="fa-solid fa-arrow-right-long"></i></span>
         </a>
 
-        <a href="https://novabeanscoffee.com" class="splash-item coffee-bg wow fadeInRight" data-wow-delay="0.4s">
+        <a href="{{ route('site.index') }}" class="splash-item coffee-bg wow fadeInRight" data-wow-delay="0.4s">
             <div class="logo-box">
                 <img src="{{ asset('assets/images/logo-coffee.svg') }}" alt="Nova Beans Coffee Logo">
             </div>
