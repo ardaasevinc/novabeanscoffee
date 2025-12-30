@@ -114,14 +114,14 @@
             margin-top: 25px;
             font-size: 2.8rem;
             letter-spacing: 4px;
-            text-transform: uppercase;
+            
             text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         .enter-text {
             color: var(--accent-color);
             margin-top: 15px;
-            text-transform: uppercase;
+            
             letter-spacing: 2px;
             font-size: 0.9rem;
             font-weight: 600;
@@ -140,7 +140,7 @@
 
     <div class="splash-wrapper">
         
-        <a href="{{ url('https://novakitchen.com.tr/anasayfa') }}" class="splash-item kitchen-bg wow fadeInLeft" data-wow-delay="0.2s">
+        <a href="{{ url('https://novakitchen.com.tr/anasayfa') }}" class="splash-item kitchen-bg image-anime reveal wow fadeInLeft" data-wow-delay="0.2s">
             <div class="logo-box">
                 <img src="{{ asset('assets/images/logo-kitchen.svg') }}" alt="Nova Kitchen Logo">
             </div>
@@ -148,7 +148,7 @@
             <span class="enter-text">Restoranı Keşfet <i class="fa-solid fa-arrow-right-long"></i></span>
         </a>
 
-        <a href="{{ route('site.index') }}" class="splash-item coffee-bg wow fadeInRight" data-wow-delay="0.4s">
+        <a href="{{ route('site.index') }}" class="splash-item coffee-bg image-anime reveal wow fadeInRight" data-wow-delay="0.4s">
             <div class="logo-box">
                 <img src="{{ asset('assets/images/logo-coffee.svg') }}" alt="Nova Beans Coffee Logo">
             </div>
