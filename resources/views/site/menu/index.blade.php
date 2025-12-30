@@ -9,8 +9,15 @@
             <div class="col-lg-12">
                 <div class="page-menu-box">
                     
-                    @if($menuCategories->count() > 0)
-                        @foreach($menuCategories as $category)
+                    {{-- Sadece içinde ürün (menus) olan kategorileri filtrele --}}
+                    @php
+                        $visibleCategories = $menuCategories->filter(function($category) {
+                            return $category->menus->isNotEmpty();
+                        });
+                    @endphp
+
+                    @if($visibleCategories->count() > 0)
+                        @foreach($visibleCategories as $category)
                             <div class="page-menu-item">
                                 <div class="section-title">
                                     <h3 class="wow fadeInUp">{{ $category->title }}</h3>
@@ -20,6 +27,7 @@
                                         </h2>
                                     @endif
                                 </div>
+
                                 @if($category->img)
                                     <div class="page-menu-image">
                                         <figure class="image-anime reveal">
@@ -27,24 +35,18 @@
                                         </figure>
                                     </div>
                                 @endif
+
                                 <div class="page-menu-list">
-                                    {{-- 
-                                        Ürünleri 2 sütuna bölmek için split(2) kullanıyoruz.
-                                        Eğer ürün yoksa boş döner, hata vermez.
-                                    --}}
+                                    {{-- Ürünleri 2 sütuna bölerek listeliyoruz --}}
                                     @foreach($category->menus->split(2) as $chunk)
                                         <div class="our-menu-list">
                                             @foreach($chunk as $menu)
-                                                {{-- Animasyon gecikmesini döngüye göre ayarlıyoruz --}}
                                                 <div class="menu-list-item wow fadeInUp" data-wow-delay="{{ 0.2 * $loop->index }}s">
                                                     <div class="menu-list-image">
                                                         <figure>
-                                                            @if($menu->img)
-                                                                <img src="{{ asset('uploads/' . $menu->img ?? $setting->icon_192x192) }}" alt="{{ $menu->title }}">
-                                                            @else
-                                                                {{-- Placeholder --}}
-                                                                <img src="{{ asset('assets/images/original-coffee-img-1.png') }}" alt="Menu Item">
-                                                            @endif
+                                                            <img src="{{ asset('uploads/' . ($menu->img ?? $setting?->icon_192x192)) }}" 
+                                                                 alt="{{ $menu->title }}"
+                                                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;">
                                                         </figure>
                                                     </div>
                                                     <div class="menu-item-body">
@@ -54,25 +56,24 @@
                                                             <span>{{ $menu->price }}₺</span>
                                                         </div>
                                                         <div class="menu-item-content">
-                                                            {{-- Açıklama RichText olabilir, strip_tags ile temizliyoruz --}}
                                                             <p>{!! strip_tags($menu->desc) !!}</p>
                                                         </div>
-                                                        </div>
                                                     </div>
-                                                @endforeach
+                                                </div>
+                                            @endforeach
                                         </div>
                                     @endforeach
                                 </div>
-                                </div>
-                            @endforeach
+                            </div>
+                        @endforeach
                     @else
-                        <div class="text-light">
-                            Henüz menü eklenmemiş.
+                        <div class="alert alert-info text-center">
+                            Henüz menü içeriği eklenmemiş.
                         </div>
                     @endif
 
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </div>
