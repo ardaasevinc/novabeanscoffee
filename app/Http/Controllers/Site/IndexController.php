@@ -30,21 +30,26 @@ class IndexController extends Controller
                 $category->menus()
                     ->where('is_published', true)
                     ->latest()
-                    ->take(5) 
+                    ->take(5)
                     ->get()
             );
         }
 
         $offers = Offer::where('is_published', true)
-                   ->orderBy('sort', 'asc')
-                   ->get();
+            ->orderBy('sort', 'asc')
+            ->get();
 
         $blogCategories = BlogCategory::where('is_published', true)->take(4)->get();
-        $tickerItems = Menu::where('is_published', true)->select('title')->get();
-        return view('site.index', compact('page_title', 'heroes', 'about', 'whyChoose', 'menuCategories','blogCategories','offers','tickerItems'));
+        $tickerItems = Menu::where('is_published', true)
+            ->inRandomOrder()
+            ->select('title')
+            ->take(10)
+            ->get();
+        return view('site.index', compact('page_title', 'heroes', 'about', 'whyChoose', 'menuCategories', 'blogCategories', 'offers', 'tickerItems'));
     }
 
-    public function entry(){
+    public function entry()
+    {
         return view('site.index2');
     }
 }
