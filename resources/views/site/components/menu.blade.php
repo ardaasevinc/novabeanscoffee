@@ -81,7 +81,7 @@
                                                     </div>
                                                 @endforeach
                                             @else
-                                                <div class="alert alert-warning">
+                                                <div class="text-gray-500">
                                                     Bu kategoride henüz ürün bulunmuyor.
                                                 </div>
                                             @endif
