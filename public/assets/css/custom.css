@@ -1,3 +1,30 @@
+/* Poppins Medium (500) */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/webfonts/poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Poppins SemiBold (600) */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/webfonts/poppins/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Poppins Bold (700) */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/webfonts/poppins/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+
+
 :root {
     --primary-color: #ffffff;
     --secondary-color: #121d23;
@@ -8,7 +35,7 @@
     --dark-divider-color: #ffffff1a;
     --error-color: rgb(230, 87, 87);
     --default-font: "Jost", serif;
-    --accent-font: "Forum", serif;
+    --accent-font: "Poppins", serif;
 }
 body {
     font-family: var(--default-font);
@@ -351,7 +378,7 @@ html {
     font-family: var(--accent-font);
     font-size: 70px;
     /* text-transform: uppercase; */
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.1em;
     margin-bottom: 0;
     cursor: none;
