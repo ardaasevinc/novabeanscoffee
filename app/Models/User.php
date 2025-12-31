@@ -54,6 +54,6 @@ class User extends Authenticatable implements FilamentUser
     {
         // Production ortamında sadece belirli e-posta adreslerine izin veriyoruz.
         // Kendi e-posta adresini buraya ekleyebilirsin.
-        return str_ends_with($this->email, '@gmail.com') || $this->email === 'admin@novabeanscoffee.com';
+        return str_ends_with($this->email, '@gmail.com') || $this->email === 'ardaasevinc@gmail.com';
     }
 }
