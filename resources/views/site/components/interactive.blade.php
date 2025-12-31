@@ -1,10 +1,10 @@
-@if($blogCategories->count() > 4)
+@if ($blogCategories->count() > 3)
     <div class="interactive interactive-process-layout">
         <div class="interactive-interactive-process-wrapper interactive-wrapper">
             <div class="interactive-con">
 
                 <div class="interactive-con-inner interactive-grid">
-                    @foreach($blogCategories as $category)
+                    @foreach ($blogCategories as $category)
                         <div class="interactive-process-item">
                             {{-- İlk elemana 'activate' sınıfı veriyoruz, data-index döngüden geliyor (0, 1, 2...) --}}
                             <div class="interactive-inner-process {{ $loop->first ? 'activate' : '' }}"
@@ -15,8 +15,7 @@
                                         <p>{{ Str::limit(strip_tags($category->desc), 30) }}</p>
 
                                         <h2>
-                                            {{-- Slug ile detay/kategori sayfasına yönlendirme --}}
-                                            <a href="{{ route('site.blog.detail', $category->slug) }}">
+                                            <a href="{{ route('site.blog.category', $category->slug) }}">
                                                 {{ $category->title }}
                                             </a>
                                         </h2>
@@ -27,7 +26,7 @@
                     @endforeach
                 </div>
                 <div class="interactive-process-list-image">
-                    @foreach($blogCategories as $category)
+                    @foreach ($blogCategories as $category)
                         {{-- Resimlerde img-0, img-1 gibi classlar olmalı. İlk resim 'show' alır --}}
                         <div class="interactive-process-image img-{{ $loop->index }} {{ $loop->first ? 'show' : '' }}"
                             data-bg="{{ asset('uploads/' . $category->img) }}"

@@ -9,20 +9,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Blog extends Model
 {
-    use HasFactory,HasImageDeleting;
-    
+    use HasFactory, HasImageDeleting;
 
     protected $guarded = [];
 
     protected $casts = [
         'is_published' => 'boolean',
-        'tags' => 'array', // JSON veriyi diziye çevirir
+        'tags'         => 'array',
     ];
 
-    public function blogCategory(): BelongsTo
+    protected array $imageFields = ['img'];
+
+    /**
+     * Filament'te hataya sebep olan kısım burasıydı.
+     * Fonksiyon adını 'category' olarak sabitledik.
+     */
+    public function category(): BelongsTo
     {
         return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
 
-    protected array $imageFields =['img'];
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

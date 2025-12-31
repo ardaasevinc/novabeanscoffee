@@ -2,24 +2,48 @@
 
 namespace App\Models;
 
-use App\PhotoDelete\HasImageDeleting; // 1. Trait'i içeri aktar
+use App\PhotoDelete\HasImageDeleting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class BlogCategory extends Model
 {
-    // 2. Trait'i kullan
     use HasFactory, HasImageDeleting;
 
+    /**
+     * Toplu atama yapılmayacak alanlar.
+     * Boş bırakılması tüm alanların doldurulabilir olduğu anlamına gelir.
+     */
     protected $guarded = [];
 
+    /**
+     * Tip dönüşümleri.
+     */
     protected $casts = [
         'is_published' => 'boolean',
     ];
 
-    // 3. Silinecek dosya sütunlarını belirle
-    // Eğer veritabanında sütun adı 'img' değilse burayı değiştir (örn: ['icon'] veya ['banner'])
+    /**
+     * HasImageDeleting Trait'i için silinecek görsel sütunları.
+     */
     protected array $imageFields = ['img'];
-    
-    public function blogs() { return $this->hasMany(Blog::class); }
+
+    /**
+     * İlişki: Bu kategoriye ait blog yazıları.
+     * Migration dosyanızdaki 'blog_category_id' sütununu referans alır.
+     */
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'blog_category_id');
+    }
+
+    /**
+     * URL'lerde 'id' yerine 'slug' kullanmak istiyorsanız bu metodu ekleyin.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

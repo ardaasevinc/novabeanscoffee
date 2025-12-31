@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Blog; // Modeli eklemeyi unutma
 use Illuminate\Http\Request;
+use App\Models\BlogCategory;
 
 class IndexController extends Controller
 {
@@ -33,4 +34,20 @@ class IndexController extends Controller
 
         return view('site.blog.detail', compact('page_title', 'blog'));
     }
+
+    public function categoryIndex($slug)
+{
+    // 1. Önce kategoriyi buluyoruz
+    $category = BlogCategory::where('slug', $slug)->where('is_published', true)->firstOrFail();
+
+    // 2. Bu kategoriye ait olan blogları çekiyoruz
+    $blogs = Blog::where('blog_category_id', $category->id)
+                 ->where('is_published', true)
+                 ->orderBy('created_at', 'desc')
+                 ->paginate(10);
+
+                 $page_title = $category->title;
+
+    return view('site.blog.index', compact('category', 'blogs','page_title'));
+}
 }

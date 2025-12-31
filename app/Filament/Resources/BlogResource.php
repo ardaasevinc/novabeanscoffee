@@ -17,7 +17,6 @@ use Filament\Forms\Components\Section;
 class BlogResource extends Resource
 {
     protected static ?string $model = Blog::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'Blog Yazıları';
     protected static ?string $navigationGroup = 'Blog Yönetimi';
@@ -28,100 +27,70 @@ class BlogResource extends Resource
             ->schema([
                 Grid::make(12)
                     ->schema([
-                        // --- SOL KOLON (4 Birim) ---
                         Group::make()
                             ->schema([
                                 Section::make('Yayın ve Kategori')
-                                    ->description('Görsel, kategori ve etiket ayarları.')
                                     ->schema([
                                         Forms\Components\Toggle::make('is_published')
                                             ->label('Yayında')
                                             ->default(true)
-                                            ->helperText('Yazıyı geçici olarak gizlemek için kapatabilirsiniz.')
                                             ->columnSpanFull(),
 
-                                        // Kategori Seçimi (Hızlı ekleme özellikli)
+                                        // DÜZELTİLDİ: relationship('category', ...)
                                         Forms\Components\Select::make('blog_category_id')
                                             ->label('Kategori')
-                                            ->relationship('blogCategory', 'title')
+                                            ->relationship('category', 'title')
                                             ->searchable()
                                             ->preload()
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('title')
-                                                    ->label('Kategori Adı')
                                                     ->required()
                                                     ->live(onBlur: true)
-                                                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $state ? $set('slug', Str::slug($state)) : null),
-                                                Forms\Components\TextInput::make('slug')
-                                                    ->label('Slug')
-                                                    ->required(),
+                                                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('slug', Str::slug($state))),
+                                                Forms\Components\TextInput::make('slug')->required(),
                                             ])
                                             ->required()
-                                            ->helperText('Yazının ait olduğu kategori.')
                                             ->columnSpanFull(),
 
                                         Forms\Components\TagsInput::make('tags')
-                                            ->label('Etiketler (Tags)')
-                                            ->separator(',')
-                                            ->helperText('Enter tuşuna basarak yeni etiket ekleyebilirsiniz.')
+                                            ->label('Etiketler')
                                             ->columnSpanFull(),
 
                                         Forms\Components\FileUpload::make('img')
                                             ->label('Kapak Görseli')
                                             ->image()
-                                            ->disk('uploads') // Uploads diski
-                                            ->directory('blogs') // public/uploads/blogs içine
-                                            ->imageEditor()
+                                            ->disk('uploads')
+                                            ->directory('blogs')
                                             ->columnSpanFull(),
                                     ]),
-                            ])
-                            ->columnSpan(4),
+                            ])->columnSpan(4),
 
-                        // --- SAĞ KOLON (8 Birim) ---
                         Group::make()
                             ->schema([
                                 Section::make('Blog İçeriği')
                                     ->schema([
                                         Forms\Components\TextInput::make('title')
-                                            ->label('Blog Başlığı')
                                             ->required()
                                             ->live(onBlur: true)
-                                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
-                                            ->columnSpanFull(),
+                                            ->afterStateUpdated(fn($operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                                         Forms\Components\TextInput::make('slug')
-                                            ->label('URL (Slug)')
                                             ->required()
-                                            ->unique(ignoreRecord: true)
-                                            ->columnSpanFull(),
+                                            ->unique(ignoreRecord: true),
 
                                         Forms\Components\RichEditor::make('desc')
                                             ->label('İçerik')
-                                            ->helperText('Blog yazısının tamamını buraya giriniz.')
                                             ->columnSpanFull(),
                                     ]),
 
                                 Section::make('SEO Ayarları')
-                                    ->description('Google ve arama motorları için ayarlar.')
                                     ->collapsed()
                                     ->schema([
-                                        Forms\Components\TextInput::make('meta_title')
-                                            ->label('Meta Başlık')
-                                            ->placeholder('Varsayılan olarak yazı başlığı kullanılır.')
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\Textarea::make('meta_desc')
-                                            ->label('Meta Açıklama')
-                                            ->rows(2)
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\TextInput::make('meta_keywords')
-                                            ->label('Anahtar Kelimeler')
-                                            ->helperText('Virgül ile ayırınız.')
-                                            ->columnSpanFull(),
+                                        Forms\Components\TextInput::make('meta_title'),
+                                        Forms\Components\Textarea::make('meta_desc'),
+                                        Forms\Components\TextInput::make('meta_keywords'),
                                     ]),
-                            ])
-                            ->columnSpan(8),
+                            ])->columnSpan(8),
                     ]),
             ]);
     }
@@ -130,52 +99,26 @@ class BlogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('img')
-                    ->label('Kapak')
-                    ->disk('uploads') // Tabloda göstermek için diski belirttik
-                    ->height(50),
+                Tables\Columns\ImageColumn::make('img')->disk('uploads'),
+                Tables\Columns\TextColumn::make('title')->searchable()->limit(30),
 
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Başlık')
-                    ->searchable()
-                    ->limit(30),
-
-                Tables\Columns\TextColumn::make('blogCategory.title')
+                // DÜZELTİLDİ: category.title
+                Tables\Columns\TextColumn::make('category.title')
                     ->label('Kategori')
                     ->badge()
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_published')
-                    ->label('Durum')
-                    ->boolean(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Oluşturulma')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\IconColumn::make('is_published')->boolean(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                // DÜZELTİLDİ: relationship('category', ...)
                 Tables\Filters\SelectFilter::make('blog_category_id')
                     ->label('Kategori')
-                    ->relationship('blogCategory', 'title'),
+                    ->relationship('category', 'title'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ->actions([Tables\Actions\EditAction::make(), Tables\Actions\DeleteAction::make()])
+            ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
 
     public static function getPages(): array
