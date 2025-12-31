@@ -29,7 +29,7 @@ class IndexController extends Controller
                     ->where('is_published', true)
                     ->firstOrFail();
 
-        // Sayfa başlığı blog başlığı olsun
+        
         $page_title = $blog->title;
 
         return view('site.blog.detail', compact('page_title', 'blog'));
