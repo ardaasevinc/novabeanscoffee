@@ -6,7 +6,7 @@
                 <div class="interactive-con-inner interactive-grid">
                     @foreach($blogCategories as $category)
                         <div class="interactive-process-item">
-                            {{-- İlk elemana 'activate' sınıfı veriyoruz, data-index döngüden geliyor (0, 1, 2...) --}}
+                            {{-- İlk elemana 'activate' sınıfı veriyoruz, data-index döngüden geliyor --}}
                             <div class="interactive-inner-process {{ $loop->first ? 'activate' : '' }}"
                                 data-index="{{ $loop->index }}">
                                 <div class="process-content-wap">
@@ -15,8 +15,8 @@
                                         <p>{{ Str::limit(strip_tags($category->desc), 30) }}</p>
 
                                         <h2>
-                                            {{-- Slug ile detay/kategori sayfasına yönlendirme --}}
-                                            <a href="{{ route('site.blog.detail', $category->slug) }}">
+                                            {{-- Blog kategorisine ait yazıların listesine gider --}}
+                                            <a href="{{ route('site.blog.category', $category->slug) }}">
                                                 {{ $category->title }}
                                             </a>
                                         </h2>
