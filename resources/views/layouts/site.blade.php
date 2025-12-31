@@ -16,12 +16,12 @@
     <meta name="keywords" content="@yield('meta_keywords', $setting->meta_keywords ?? '')">
     <meta name="author" content="Awaiken">
 
-    @if($setting->favicon)
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('uploads/' . $setting->favicon) }}">
+    @if($setting?->favicon)
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('uploads/' . $setting?->favicon) }}">
     @endif
     
-    @if($setting->icon_192x192)
-        <link rel="apple-touch-icon" href="{{ asset('uploads/' . $setting->icon_192x192) }}">
+    @if($setting?->icon_192x192)
+        <link rel="apple-touch-icon" href="{{ asset('uploads/' . $setting?->icon_192x192) }}">
     @endif
 
     <meta name="theme-color" content="{{ $setting->themecolor ?? '#121D23' }}">
