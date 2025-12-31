@@ -39,7 +39,7 @@ class IndexController extends Controller
             ->orderBy('sort', 'asc')
             ->get();
 
-        $blogCategories = BlogCategory::where('is_published', true)->take(5)->get();
+        $blogCategories = BlogCategory::where('is_published', true)->take(4)->get();
         $tickerItems = Menu::where('is_published', true)
             ->inRandomOrder()
             ->select('title')
