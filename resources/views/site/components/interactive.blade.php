@@ -37,4 +37,27 @@
             </div>
         </div>
     </div>
+    <style>
+.interactive-con-inner {
+    display: flex !important; /* Yan yana dizilmeyi zorunlu kılar */
+    overflow-x: auto !important; /* Yatay kaydırmayı açar */
+    white-space: nowrap; /* İçeriğin alt satıra geçmesini engeller */
+    -webkit-overflow-scrolling: touch; /* Mobilde pürüzsüz kaydırma sağlar */
+    padding-bottom: 10px; /* Scrollbar içeriğe yapışmasın diye */
+}
+
+.interactive-process-item {
+    flex: 0 0 auto; /* Öğelerin kendi genişliğini korumasını sağlar, sıkıştırmaz */
+    width: 300px; /* Ya da tasarımına uygun sabit bir genişlik */
+}
+
+/* Scrollbar'ı daha zarif yapmak istersen (isteğe bağlı) */
+.interactive-con-inner::-webkit-scrollbar {
+    height: 5px;
+}
+.interactive-con-inner::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+</style>
 @endif
