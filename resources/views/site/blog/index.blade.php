@@ -42,7 +42,7 @@
                 @endforeach
             @else
                 <div class="col-12">
-                    <div class="alert alert-info">Henüz blog yazısı eklenmemiş.</div>
+                    <div class="text-light">Henüz blog yazısı eklenmemiş.</div>
                 </div>
             @endif
 
