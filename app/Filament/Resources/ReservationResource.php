@@ -4,13 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReservationResource\Pages;
 use App\Models\Reservation;
-use App\Mail\ReservationApproved; // Onay maili sınıfımız
+use App\Mail\ReservationApproved;
+use App\Mail\ReservationDeclined; // EKLENDİ: Ret maili sınıfı
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log; // EKLENDİ: Hata logları için
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -19,13 +21,11 @@ class ReservationResource extends Resource
 {
     protected static ?string $model = Reservation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days'; // Takvim ikonu
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
     protected static ?string $navigationLabel = 'Rezervasyonlar';
     protected static ?string $pluralModelLabel = 'Masa Rezervasyonları';
     protected static ?string $navigationGroup = 'Müşteri İlişkileri';
 
-    // Rezervasyonların admin panelinden manuel oluşturulmasını (Create) kapatıyoruz.
-    // Çünkü rezervasyonlar siteden gelmeli. (İstersen açabilirsin)
     public static function canCreate(): bool
     {
         return false;
@@ -98,14 +98,13 @@ class ReservationResource extends Resource
 
                 Tables\Columns\TextColumn::make('reservation_date')
                     ->label('Tarih')
-                    ->date('d.m.Y') // Gün.Ay.Yıl formatı
+                    ->date('d.m.Y')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('reservation_time')
                     ->label('Saat')
                     ->sortable(),
 
-                // Durum Rozeti (Renkli)
                 Tables\Columns\TextColumn::make('status')
                     ->label('Durum')
                     ->badge()
@@ -116,9 +115,9 @@ class ReservationResource extends Resource
                         default => $state,
                     })
                     ->color(fn (string $state): string => match ($state) {
-                        'pending' => 'warning', // Sarı
-                        'approved' => 'success', // Yeşil
-                        'declined' => 'danger',  // Kırmızı
+                        'pending' => 'warning',
+                        'approved' => 'success',
+                        'declined' => 'danger',
                         default => 'gray',
                     }),
                     
@@ -128,50 +127,71 @@ class ReservationResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('created_at', 'desc') // En yeniler en üstte
+            ->defaultSort('created_at', 'desc')
             ->actions([
-                // --- ÖZEL ONAY BUTONU ---
+                // --- ONAY BUTONU ---
                 Tables\Actions\Action::make('approve')
                     ->label('Onayla')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->visible(fn (Reservation $record) => $record->status === 'pending') // Sadece bekleyenlerde görünsün
+                    ->visible(fn(Reservation $record) => $record->status === 'pending')
                     ->requiresConfirmation()
                     ->modalHeading('Rezervasyonu Onayla')
                     ->modalDescription('Rezervasyon onaylanacak ve müşteriye bilgilendirme e-postası gönderilecektir. Emin misiniz?')
-                    ->modalSubmitActionLabel('Evet, Onayla ve Mail Gönder')
+                    ->modalSubmitActionLabel('Evet, Onayla')
                     ->action(function (Reservation $record) {
-                        // 1. Durumu güncelle
                         $record->update(['status' => 'approved']);
 
-                        // 2. Mail Gönder
                         try {
                             Mail::to($record->email)->send(new ReservationApproved($record));
 
                             Notification::make()
                                 ->title('Rezervasyon Onaylandı')
-                                ->body('Müşteriye onay maili başarıyla gönderildi.')
+                                ->body('Müşteriye onay maili gönderildi.')
                                 ->success()
                                 ->send();
                         } catch (\Exception $e) {
+                            Log::error('Onay Mail Hatası: ' . $e->getMessage());
                             Notification::make()
-                                ->title('Hata')
-                                ->body('Onaylandı fakat mail gönderilemedi. Mail ayarlarınızı kontrol edin.')
+                                ->title('Mail Gönderilemedi')
+                                ->body('Durum güncellendi ancak mail hatası oluştu.')
                                 ->warning()
                                 ->send();
                         }
                     }),
 
-                // Reddet Butonu
+                // --- REDDET BUTONU (GÜNCELLENDİ) ---
                 Tables\Actions\Action::make('decline')
                     ->label('Reddet')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->visible(fn (Reservation $record) => $record->status === 'pending')
                     ->requiresConfirmation()
+                    ->modalHeading('Rezervasyonu Reddet')
+                    ->modalDescription('Bu işlem geri alınamaz ve müşteriye ret maili gönderilir. Devam etmek istiyor musunuz?')
+                    ->modalSubmitActionLabel('Evet, Reddet')
                     ->action(function (Reservation $record) {
+                        // 1. Durumu güncelle
                         $record->update(['status' => 'declined']);
-                        Notification::make()->title('Rezervasyon reddedildi.')->danger()->send();
+
+                        // 2. Mail Gönder (EKLENEN KISIM)
+                        try {
+                            Mail::to($record->email)->send(new ReservationDeclined($record));
+
+                            Notification::make()
+                                ->title('Rezervasyon Reddedildi')
+                                ->body('Müşteriye ret bilgilendirmesi gönderildi.')
+                                ->success() // İşlem başarılı (Kırmızı buton ama işlem başarılı olduğu için success notification uygun)
+                                ->send();
+                        } catch (\Exception $e) {
+                            Log::error('Ret Maili Hatası (ID: ' . $record->id . '): ' . $e->getMessage());
+
+                            Notification::make()
+                                ->title('Mail Gönderilemedi')
+                                ->body('Durum reddedildi olarak güncellendi ancak mail iletilemedi. Lütfen logları kontrol edin.')
+                                ->warning()
+                                ->send();
+                        }
                     }),
 
                 Tables\Actions\ViewAction::make(),
@@ -195,7 +215,6 @@ class ReservationResource extends Resource
     {
         return [
             'index' => Pages\ListReservations::route('/'),
-            // 'create' => Pages\CreateReservation::route('/create'), // Kapattığımız için gerek yok
             'edit' => Pages\EditReservation::route('/{record}/edit'),
         ];
     }
