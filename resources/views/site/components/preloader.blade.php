@@ -2,7 +2,7 @@
 	<div class="preloader">
 		<div class="loading-container">
 			<div class="loading"></div>
-			<div id="loading-icon"><img src="assets/images/loader-nova.svg" alt=""></div>
+			<div id="loading-icon"><img src="assets/images/loader-novabeans.svg" alt=""></div>
 		</div>
 	</div>
 	<!-- Preloader End -->
