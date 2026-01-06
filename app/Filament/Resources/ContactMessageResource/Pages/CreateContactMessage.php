@@ -8,5 +8,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateContactMessage extends CreateRecord
 {
+
+    
     protected static string $resource = ContactMessageResource::class;
 }

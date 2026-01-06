@@ -8,6 +8,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditScrollTicker extends EditRecord
 {
+
+    
     protected static string $resource = ScrollTickerResource::class;
 
     protected function getHeaderActions(): array

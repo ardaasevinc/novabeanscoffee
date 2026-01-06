@@ -8,5 +8,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateMenuCategory extends CreateRecord
 {
+
+    
     protected static string $resource = MenuCategoryResource::class;
 }

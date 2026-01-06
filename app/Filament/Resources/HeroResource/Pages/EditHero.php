@@ -8,6 +8,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditHero extends EditRecord
 {
+
+    
     protected static string $resource = HeroResource::class;
 
     protected function getHeaderActions(): array

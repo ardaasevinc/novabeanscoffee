@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 
 class EditReservation extends EditRecord
 {
+
+    
     protected static string $resource = ReservationResource::class;
 
     protected function getHeaderActions(): array

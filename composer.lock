@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5baf5c517a05e4bd777b22540ed280d0",
+    "content-hash": "64d3c861df923b5ba6e8043ea6c4062e",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -71,6 +71,56 @@
                 "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.3.5"
             },
             "time": "2025-12-04T13:38:21+00:00"
+        },
+        {
+            "name": "ardaasevinc/filament-activity-log",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ardaasevinc/filament-activity-log.git",
+                "reference": "c792ab067b56d108899c5dccee6c36c4df148c56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ardaasevinc/filament-activity-log/zipball/c792ab067b56d108899c5dccee6c36c4df148c56",
+                "reference": "c792ab067b56d108899c5dccee6c36c4df148c56",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "laravel/framework": "^11.0 || ^12.0",
+                "php": "^8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ardaasevinc\\FilamentActivityLog\\Providers\\FilamentActivityLogServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ardaasevinc\\FilamentActivityLog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arda Sevinç",
+                    "email": "ardaasevinc@gmail.com"
+                }
+            ],
+            "description": "Laravel + Filament için sade ve güçlü activity log paketi",
+            "support": {
+                "issues": "https://github.com/ardaasevinc/filament-activity-log/issues",
+                "source": "https://github.com/ardaasevinc/filament-activity-log/tree/main"
+            },
+            "time": "2026-01-06T12:33:58+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -11360,7 +11410,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "ardaasevinc/filament-activity-log": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -8,6 +8,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditWhyChoose extends EditRecord
 {
+
+    
     protected static string $resource = WhyChooseResource::class;
 
     protected function getHeaderActions(): array
