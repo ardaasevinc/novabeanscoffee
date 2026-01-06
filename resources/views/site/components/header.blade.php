@@ -38,13 +38,11 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('site.blog') }}">Blog</a></li>
                             @endif
 
-                            <li class="nav-item"><a class="nav-link" href="{{ route('site.contact') }}">Bize Ulaşın</a>
-                            </li>
+                           
 
                            
 
-                            <li class="nav-item highlighted-menu"><a class="nav-link"
-                                    href="{{ route('site.reservation') }}">Rezervasyon</a></li>
+                           
                         </ul>
                     </div>
 
@@ -53,7 +51,7 @@
                         <!-- Header Btn Start -->
                         <div class="header-btn">
                             <a href="{{ route('site.reservation') }}"
-                                class="btn-default btn-highlighted">Rezervasyon</a>
+                                class="btn-default btn-highlighted">Bize Ulaşın</a>
                         </div>
                         <!-- Header Btn End -->
 

@@ -43,7 +43,7 @@
 
                                 {{-- Sağ Buton --}}
                                 @if($item->right_btn && Route::has($item->right_btn))
-                                    <a href="{{ route($item->right_btn) }}" class="btn-default btn-highlighted">Rezervasyon Yap</a>
+                                    <a href="{{ route($item->right_btn) }}" class="btn-default btn-highlighted">Bize Ulaşın</a>
                                 @endif
                             </div>
                         </div>

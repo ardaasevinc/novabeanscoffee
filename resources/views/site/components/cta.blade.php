@@ -11,7 +11,7 @@
                         </div>
                         <div class="cta-box-buttons wow fadeInUp" data-wow-delay="0.4s">
                             <a href="{{ route('site.menu') }}" class="btn-default"><i class="fa-solid fa-book-open"></i> Menüyü İncele</a>
-                            <a href="{{ route('site.reservation') }}" class="btn-default"><i class="fa-solid fa-calendar-check"></i> Rezervasyon Yap</a>
+                            <a href="{{ route('site.contact') }}" class="btn-default"><i class="fa-solid fa-calendar-check"></i> Bize Ulaşın</a>
                         </div>
                         </div>
                     </div>
