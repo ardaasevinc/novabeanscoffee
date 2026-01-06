@@ -20,6 +20,8 @@ class ContactMessageResource extends Resource
     protected static ?string $navigationLabel = 'Gelen Mesajlar';
     protected static ?string $pluralModelLabel = 'İletişim Mesajları';
 
+    protected static ?string $label = 'iletişim mesajı';
+
     // Mesajlar üzerinde değişiklik yapılmasın, sadece görüntülensin diye
     public static function canCreate(): bool
     {

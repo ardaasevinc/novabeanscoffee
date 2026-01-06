@@ -21,6 +21,8 @@ class ServiceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver'; // Hizmet ikonu
     protected static ?string $navigationLabel = 'Hizmetler';
     protected static ?string $navigationGroup = 'Kurumsal';
+    protected static ?string $pluralModelLabel = 'Hizmetlerimiz';
+    protected static ?string $label = 'Hizmet';
 
     public static function form(Form $form): Form
     {

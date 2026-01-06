@@ -21,7 +21,9 @@ class BlogCategoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-hashtag'; // Blog/Kategori ikonu
     protected static ?string $navigationLabel = 'Blog Kategorileri';
     protected static ?string $navigationGroup = 'Blog Yönetimi';
+    protected static ?string $label = 'Kategori';
 
+    protected static ?string $pluralModelLabel = 'Haber Kategorileri';
     public static function form(Form $form): Form
     {
         return $form

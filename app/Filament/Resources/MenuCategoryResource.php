@@ -21,6 +21,9 @@ class MenuCategoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group'; // Kategori grubu ikonu
     protected static ?string $navigationLabel = 'Menü Kategorileri';
     protected static ?string $navigationGroup = 'Menü & Ürünler'; // Gruplama
+    protected static ?string $pluralModelLabel = 'Menü Kategorileri';
+
+    protected static ?string $label = 'Kategori';
 
     public static function form(Form $form): Form
     {

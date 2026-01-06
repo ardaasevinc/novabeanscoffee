@@ -20,6 +20,8 @@ class ScrollTickerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-megaphone'; // Duyuru/Ticker ikon
     protected static ?string $navigationLabel = 'Kayan Yazılar';
+    protected static ?string $pluralModelLabel = 'Kayan Yazılar';
+    protected static ?string $label = 'Yazı';
 
     public static function form(Form $form): Form
     {

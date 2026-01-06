@@ -4,6 +4,15 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MenuResource\Pages;
 use App\Models\Menu;
+// Import İşlemi İçin Gerekli Sınıflar
+use App\Imports\MenuImport;
+use Maatwebsite\Excel\Facades\Excel;
+// Export İşlemi İçin Gerekli Sınıflar (pxlrbt paketi)
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use pxlrbt\FilamentExcel\Columns\Column;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +22,19 @@ use Illuminate\Support\Str;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\FileUpload;
+use Filament\Notifications\Notification;
+// Storage import'u kaldırıldı.
 
 class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-cake';
     protected static ?string $navigationLabel = 'Menü Ürünleri';
     protected static ?string $navigationGroup = 'Menü & Ürünler';
+    protected static ?string $pluralModelLabel = 'Menü';
+    protected static ?string $label = 'Ürün';
 
     public static function form(Form $form): Form
     {
@@ -30,12 +45,13 @@ class MenuResource extends Resource
                         // --- SOL KOLON (4 Birim) ---
                         Group::make()
                             ->schema([
-                                Section::make('Durum ve Kategori')
+                                Section::make('Ürün Detayları')
                                     ->schema([
                                         Forms\Components\Toggle::make('is_published')
                                             ->label('Yayında')
                                             ->default(true)
-                                            ->inline(false),
+                                            ->helperText('Ürünü gizlemek için kapatabilirsiniz.')
+                                            ->columnSpanFull(),
 
                                         Forms\Components\Select::make('menu_category_id')
                                             ->label('Kategori')
@@ -48,92 +64,70 @@ class MenuResource extends Resource
                                                     ->label('Kategori Adı')
                                                     ->required()
                                                     ->live(onBlur: true)
-                                                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state))),
-                                                Forms\Components\TextInput::make('slug')->required(),
-                                            ]),
-                                    ]),
+                                                    ->afterStateUpdated(fn(string $operation, $state, Forms\Set $set) => $state ? $set('slug', Str::slug($state)) : null),
 
-                                Section::make('Fiyatlandırma')
-                                    ->description('Boyutlara göre fiyatları belirleyin.')
-                                    ->schema([
-                                        Forms\Components\Toggle::make('has_sizes')
-                                            ->label('Boyutlu Ürün (S/M/L)')
-                                            ->helperText('Açıksa Orta ve Büyük boy fiyatları girilebilir.')
-                                            ->live() // Değişikliği anlık algılaması için
+                                                Forms\Components\TextInput::make('slug')
+                                                    ->label('Slug')
+                                                    ->required(),
+                                            ])
                                             ->columnSpanFull(),
 
-                                        // Tekli Fiyat veya Küçük Boy Fiyatı
                                         Forms\Components\TextInput::make('price')
-                                            ->label(fn (Forms\Get $get) => $get('has_sizes') ? 'Küçük Boy (S)' : 'Standart Fiyat')
-                                            ->numeric()
+                                            ->label('Fiyat')
                                             ->prefix('₺')
-                                            ->required()
-                                            ->columnSpan(fn (Forms\Get $get) => $get('has_sizes') ? 1 : 'full'),
+                                            ->default(0)
+                                            ->columnSpanFull(),
 
-                                        // Orta Boy (Sadece has_sizes aktifse görünür)
-                                        Forms\Components\TextInput::make('price_medium')
-                                            ->label('Orta Boy (M)')
+                                        Forms\Components\TextInput::make('likes')
+                                            ->label('Beğeni Sayısı')
                                             ->numeric()
-                                            ->prefix('₺')
-                                            ->visible(fn (Forms\Get $get) => $get('has_sizes'))
-                                            ->columnSpan(1),
+                                            ->default(0)
+                                            ->columnSpanFull(),
 
-                                        // Büyük Boy (Sadece has_sizes aktifse görünür)
-                                        Forms\Components\TextInput::make('price_large')
-                                            ->label('Büyük Boy (L)')
-                                            ->numeric()
-                                            ->prefix('₺')
-                                            ->visible(fn (Forms\Get $get) => $get('has_sizes'))
-                                            ->columnSpan(1),
-                                    ])->columns(3), // İçerideki alanları 3 sütuna böler
-
-                                Section::make('Medya')
-                                    ->schema([
+                                        // --- GÖRSEL YÜKLEME ---
                                         Forms\Components\FileUpload::make('img')
                                             ->label('Ürün Görseli')
                                             ->image()
-                                            ->disk('uploads')
+                                            ->disk('uploads') // Senin sistemindeki disk
                                             ->directory('menus')
                                             ->imageEditor()
                                             ->columnSpanFull(),
                                     ]),
                             ])
-                            ->columnSpan(5), // Sol kolonu biraz genişlettik (fiyatlar sığsın diye)
+                            ->columnSpan(4),
 
-                        // --- SAĞ KOLON (7 Birim) ---
+                        // --- SAĞ KOLON (8 Birim) ---
                         Group::make()
                             ->schema([
-                                Section::make('Ürün Bilgileri')
+                                Section::make('İçerik')
                                     ->schema([
                                         Forms\Components\TextInput::make('title')
                                             ->label('Ürün Adı')
                                             ->required()
                                             ->live(onBlur: true)
-                                            ->afterStateUpdated(fn ($operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                                            ->afterStateUpdated(fn(string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
+                                            ->columnSpanFull(),
 
                                         Forms\Components\TextInput::make('slug')
                                             ->label('Slug (URL)')
                                             ->required()
-                                            ->unique(ignoreRecord: true),
+                                            ->unique(ignoreRecord: true)
+                                            ->columnSpanFull(),
 
                                         Forms\Components\RichEditor::make('desc')
-                                            ->label('Açıklama / İçindekiler'),
-                                        
-                                        Forms\Components\TextInput::make('likes')
-                                            ->label('Başlangıç Beğeni Sayısı')
-                                            ->numeric()
-                                            ->default(0),
+                                            ->label('Açıklama / İçindekiler')
+                                            ->columnSpanFull(),
                                     ]),
 
-                                Section::make('SEO')
+                                Section::make('SEO Ayarları')
                                     ->collapsed()
                                     ->schema([
-                                        Forms\Components\TextInput::make('meta_title'),
-                                        Forms\Components\Textarea::make('meta_desc')->rows(2),
-                                        Forms\Components\TextInput::make('meta_keywords'),
+                                        Forms\Components\TextInput::make('meta_title')->label('Meta Başlık')->columnSpanFull(),
+                                        Forms\Components\Textarea::make('meta_desc')->label('Meta Açıklama')->rows(2)->columnSpanFull(),
+                                        Forms\Components\TextInput::make('meta_keywords')->label('Anahtar Kelimeler')->columnSpanFull(),
                                     ]),
                             ])
-                            ->columnSpan(7),
+                            ->columnSpan(8),
                     ]),
             ]);
     }
@@ -141,6 +135,75 @@ class MenuResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                // --- 1. XLSX YÜKLEME (IMPORT) ---
+                Tables\Actions\Action::make('importExcel')
+                    ->label('Excel Yükle (XLSX)')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->color('primary')
+                    ->form([
+                        FileUpload::make('file')
+                            ->label('Excel Dosyası (.xlsx)')
+                            ->disk('uploads')        // Dosyayı uploads diskine kaydet
+                            ->directory('menuexcel') // menuexcel klasörü altına
+                            ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                        // DEĞİŞİKLİK: Storage Facade yerine doğrudan public_path kullanıyoruz.
+                        // Dosyanın yolu: public/uploads/menuexcel/dosya.xlsx olacak şekilde ayarlandı.
+                        $path = public_path('uploads/' . $data['file']);
+
+                        if (!file_exists($path)) {
+                            Notification::make()
+                                ->title('Hata')
+                                ->body('Dosya bulunamadı. Yol: ' . $path)
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        try {
+                            // Import işlemini başlat
+                            Excel::import(new MenuImport, $path);
+
+                            Notification::make()
+                                ->title('Yükleme Başarılı')
+                                ->body('Ürünler başarıyla eklendi.')
+                                ->success()
+                                ->send();
+
+                            // DEĞİŞİKLİK: Storage::delete yerine saf PHP unlink komutu
+                            // İşlem bitince dosyayı siliyoruz.
+                            if (file_exists($path)) {
+                                unlink($path);
+                            }
+
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('Hata')
+                                ->body('Dosya okunurken hata oluştu: ' . $e->getMessage())
+                                ->danger()
+                                ->persistent()
+                                ->send();
+                        }
+                    }),
+
+                // --- 2. XLSX İNDİRME (EXPORT) ---
+                ExportAction::make()
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromTable() // Tablodaki sütunları otomatik al
+                            ->withFilename('Menu-Listesi-' . date('d-m-Y'))
+                            ->withColumns([
+                                // Ekstra sütun eklemek istersen:
+                                Column::make('desc')->heading('Açıklama'),
+                            ])
+                    ])
+                    ->label('Excel İndir (XLSX)')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success'),
+            ])
             ->columns([
                 Tables\Columns\ImageColumn::make('img')
                     ->label('Görsel')
@@ -150,33 +213,29 @@ class MenuResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Ürün Adı')
                     ->searchable()
-                    ->description(fn (Menu $record) => $record->has_sizes ? 'Boyutlu Ürün' : 'Standart'),
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('menuCategory.title')
                     ->label('Kategori')
+                    ->sortable()
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Fiyat (S/Std)')
-                    ->money('TRY'),
-
-                Tables\Columns\TextColumn::make('price_medium')
-                    ->label('(M)')
+                    ->label('Fiyat')
                     ->money('TRY')
-                    ->placeholder('-'),
-
-                Tables\Columns\TextColumn::make('price_large')
-                    ->label('(L)')
-                    ->money('TRY')
-                    ->placeholder('-'),
+                    ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_published')
                     ->label('Durum')
                     ->boolean(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('menu_category_id')
-                    ->label('Kategori')
+                    ->label('Kategoriye Göre Filtrele')
                     ->relationship('menuCategory', 'title'),
             ])
             ->actions([
@@ -186,8 +245,24 @@ class MenuResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+
+                    // Toplu Seçimden Excel İndirme
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()
+                                ->fromTable()
+                                ->withFilename('Secilen-Urunler-' . date('Y-m-d'))
+                        ])
+                        ->label('Seçilenleri İndir'),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array

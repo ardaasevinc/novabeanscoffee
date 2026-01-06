@@ -20,6 +20,10 @@ class SettingResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth'; // Ayarlar için uygun ikon
     protected static ?string $navigationLabel = 'Site Ayarları';
 
+    protected static ?string $pluralModelLabel = 'Site Ayarları';
+
+    protected static ?string $label = 'Genel Ayar';
+
     public static function form(Form $form): Form
     {
         return $form

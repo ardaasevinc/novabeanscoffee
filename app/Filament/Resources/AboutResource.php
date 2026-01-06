@@ -18,9 +18,11 @@ use Filament\Forms\Components\Repeater;
 class AboutResource extends Resource
 {
     protected static ?string $model = About::class;
+    protected static ?string $label = 'Hakkımızda';
 
     protected static ?string $navigationIcon = 'heroicon-o-information-circle';
     protected static ?string $navigationLabel = 'Hakkımızda';
+    protected static ?string $pluralModelLabel = 'Hakkımızda';
 
     public static function form(Form $form): Form
     {

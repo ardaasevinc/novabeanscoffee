@@ -20,7 +20,11 @@ class HeroResource extends Resource
     protected static ?string $model = Hero::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
-    protected static ?string $navigationLabel = 'Slider / Hero';
+    protected static ?string $navigationLabel = 'Slider ';
+
+    protected static ?string $pluralModelLabel = 'Reklam Alanı';
+
+    protected static ?string $label = 'Slider';
 
     public static function form(Form $form): Form
     {

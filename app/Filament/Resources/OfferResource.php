@@ -25,6 +25,7 @@ class OfferResource extends Resource
     protected static ?string $navigationLabel = 'Neler Sunuyoruz?';
     protected static ?string $pluralModelLabel = 'Teklifler / Maddeler';
     protected static ?string $navigationGroup = 'Kurumsal';
+    protected static ?string $label = 'Öneri';
 
     public static function form(Form $form): Form
     {

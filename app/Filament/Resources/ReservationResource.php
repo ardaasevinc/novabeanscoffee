@@ -25,6 +25,7 @@ class ReservationResource extends Resource
     protected static ?string $navigationLabel = 'Rezervasyonlar';
     protected static ?string $pluralModelLabel = 'Masa Rezervasyonları';
     protected static ?string $navigationGroup = 'Müşteri İlişkileri';
+    protected static ?string $label = 'Rezervasyon';
 
     public static function canCreate(): bool
     {

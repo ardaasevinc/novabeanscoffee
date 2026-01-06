@@ -21,6 +21,9 @@ class FaqResource extends Resource
     protected static ?string $navigationLabel = 'S.S.S.';
     protected static ?string $pluralModelLabel = 'Sıkça Sorulan Sorular';
     protected static ?string $navigationGroup = 'Kurumsal';
+    protected static ?string $label = 'Soru / Cevap';
+
+
 
     public static function form(Form $form): Form
     {

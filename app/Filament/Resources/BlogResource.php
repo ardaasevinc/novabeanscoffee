@@ -20,6 +20,8 @@ class BlogResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'Blog Yazıları';
     protected static ?string $navigationGroup = 'Blog Yönetimi';
+    protected static ?string $pluralModelLabel = 'Haberler';
+    protected static ?string $label = 'Haber';
 
     public static function form(Form $form): Form
     {
