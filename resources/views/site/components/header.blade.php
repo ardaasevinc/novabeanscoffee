@@ -50,7 +50,7 @@
                     <div class="header-button-box">
                         <!-- Header Btn Start -->
                         <div class="header-btn">
-                            <a href="{{ route('site.reservation') }}"
+                            <a href="{{ route('site.contact') }}"
                                 class="btn-default btn-highlighted">Bize Ulaşın</a>
                         </div>
                         <!-- Header Btn End -->
