@@ -12,12 +12,19 @@ class IndexController extends Controller
     {
         $page_title = 'Menü';
 
-        $menuCategories = MenuCategory::where('is_published', true)
-        ->with(['menus' => function($q) {
-            $q->where('is_published', true);
-        }])
-        ->get();
-       
-        return view('site.menu.index', compact('page_title','menuCategories'));
+        $menuCategories = MenuCategory::query()
+            ->where('is_published', true)
+            // Kategorileri Filament'te belirlediğimiz sıraya göre çekiyoruz
+            ->orderBy('sort_order', 'asc')
+            ->with([
+                'menus' => function ($q) {
+                    $q->where('is_published', true);
+                    // Eğer ürünlerde de (Menu modeli) sıralama varsa buraya ekleyebilirsin:
+                    // $q->orderBy('sort_order', 'asc');
+                }
+            ])
+            ->get();
+
+        return view('site.menu.index', compact('page_title', 'menuCategories'));
     }
 }
