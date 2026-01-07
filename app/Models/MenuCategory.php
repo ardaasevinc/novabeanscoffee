@@ -16,6 +16,7 @@ class MenuCategory extends Model
 
     protected $casts = [
         'is_published' => 'boolean',
+        'sort_order' => 'integer',
     ];
 
     // 3. Silinecek resim sütunu tanımlandı

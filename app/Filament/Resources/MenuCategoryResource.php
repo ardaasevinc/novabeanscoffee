@@ -18,11 +18,10 @@ class MenuCategoryResource extends Resource
 {
     protected static ?string $model = MenuCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group'; // Kategori grubu ikonu
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
     protected static ?string $navigationLabel = 'Menü Kategorileri';
-    protected static ?string $navigationGroup = 'Menü & Ürünler'; // Gruplama
+    protected static ?string $navigationGroup = 'Menü & Ürünler';
     protected static ?string $pluralModelLabel = 'Menü Kategorileri';
-
     protected static ?string $label = 'Kategori';
 
     public static function form(Form $form): Form
@@ -48,8 +47,8 @@ class MenuCategoryResource extends Resource
                                         Forms\Components\FileUpload::make('img')
                                             ->label('Kategori Banner')
                                             ->image()
-                                            ->disk('uploads') // Uploads diski kullanılıyor
-                                            ->directory('menu_categories') // public/uploads/menu_categories içine
+                                            ->disk('uploads')
+                                            ->directory('menu_categories')
                                             ->imageEditor()
                                             ->helperText('Boyut: 1920x768 px. Sayfa üstünde geniş banner olarak kullanılır.')
                                             ->columnSpanFull(),
@@ -82,6 +81,10 @@ class MenuCategoryResource extends Resource
                                             ->label('Açıklama')
                                             ->helperText('Kategori sayfasında başlığın altında yer alacak tanıtım yazısı.')
                                             ->columnSpanFull(),
+
+                                        // Opsiyonel: Sıra numarasını formda da görmek istersen:
+                                        Forms\Components\Hidden::make('sort_order')
+                                            ->default(0),
                                     ]),
                             ])
                             ->columnSpan(8),
@@ -92,10 +95,14 @@ class MenuCategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Sürükle-bırak özelliğini aktifleştiriyoruz
+            ->reorderable('sort_order')
+            // Tabloyu varsayılan olarak sıralama sütununa göre diziyoruz
+            ->defaultSort('sort_order', 'asc')
             ->columns([
                 Tables\Columns\ImageColumn::make('img')
                     ->label('Banner')
-                    ->disk('uploads') // Tabloda göstermek için disk belirtildi
+                    ->disk('uploads')
                     ->height(50),
                 
                 Tables\Columns\TextColumn::make('title')
@@ -107,13 +114,19 @@ class MenuCategoryResource extends Resource
                     ->label('Durum')
                     ->boolean(),
 
+                // Sıralama numarasını takip etmek için eklenebilir
+                Tables\Columns\TextColumn::make('sort_order')
+                    ->label('Sıra')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+               Tables\Filters\TernaryFilter::make('is_published')
+                    ->label('Sadece Yayındakiler')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -128,9 +141,7 @@ class MenuCategoryResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
