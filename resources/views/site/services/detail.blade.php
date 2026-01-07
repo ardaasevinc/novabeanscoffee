@@ -29,24 +29,8 @@
 
                     {{-- İletişim Kutusu (CTA) --}}
                     <div class="sidebar-cta-box wow fadeInUp" data-wow-delay="0.25s">
-                        <div class="cta-client-images">
-                             {{-- Buradaki resimler statik kalabilir veya random user çekilebilir --}}
-                            <div class="cta-client-img">
-                                <figure class="image-anime">
-                                    <img src="{{ asset('assets/images/satisfy-client-img-1.jpg') }}" alt="">
-                                </figure>
-                            </div>
-                            <div class="cta-client-img">
-                                <figure class="image-anime">
-                                    <img src="{{ asset('assets/images/satisfy-client-img-2.jpg') }}" alt="">
-                                </figure>
-                            </div>
-                            <div class="cta-client-img">
-                                <figure class="image-anime">
-                                    <img src="{{ asset('assets/images/satisfy-client-img-3.jpg') }}" alt="">
-                                </figure>
-                            </div>
-                        </div>
+                       
+                        
 
                         <div class="sidebar-cta-body">
                             <h3>Sorunuz mu var?</h3>
@@ -81,17 +65,7 @@
             <div class="col-lg-8">
                 <div class="service-single-content">
                     
-                    {{-- Hizmet Görseli --}}
-                    <div class="service-feature-image">
-                        <figure class="image-anime reveal">
-                            @if($service->icon)
-                                {{-- Service Resource'da 'icon' olarak tanımlamıştık, burada büyük görsel olarak kullanıyoruz --}}
-                                <img src="{{ asset('uploads/' . $service->icon) }}" alt="{{ $service->title }}" style="width: 100%; border-radius: 20px;">
-                            @else
-                                <img src="{{ asset('assets/images/service-single-img.jpg') }}" alt="Varsayılan Görsel">
-                            @endif
-                        </figure>
-                    </div>
+                    
 
                     {{-- Hizmet İçeriği (Rich Text) --}}
                     <div class="service-entry">
