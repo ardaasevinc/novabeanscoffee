@@ -21,7 +21,9 @@ class IndexController extends Controller
         $heroes = Hero::where('is_published', true)->get();
         $about = About::where('is_published', true)->first();
         $whyChoose = WhyChoose::where('is_published', true)->first();
-        $menuCategories = MenuCategory::where('is_published', true)->get();
+        $menuCategories = MenuCategory::where('is_published', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
 
         foreach ($menuCategories as $category) {
             // Model'e eklediğimiz menus() ilişkisini burada kullanıyoruz
