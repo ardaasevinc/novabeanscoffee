@@ -162,4 +162,10 @@ class AboutResource extends Resource
             'edit' => Pages\EditAbout::route('/{record}/edit'),
         ];
     }
+
+        public static function canCreate(): bool
+{
+    
+    return static::getModel()::count() < 1;
+}
 }
