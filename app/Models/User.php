@@ -52,10 +52,14 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Filament Admin paneline erişim yetkisi.
      */
-    public function canAccessPanel(Panel $panel): bool
-    {
-        // Production ortamında sadece belirli e-posta adreslerine izin veriyoruz.
-        // Kendi e-posta adresini buraya ekleyebilirsin.
-        return str_ends_with($this->email, '@gmail.com') || $this->email === 'ardaasevinc@gmail.com';
-    }
+  public function canAccessPanel(Panel $panel): bool
+{
+    /**
+     * Erişim Kuralları:
+     * 1. E-posta adresi '@novakitchen.com.tr' ile biten tüm kullanıcılar.
+     * 2. Özel olarak tanımlanmış yönetici e-posta adresi.
+     */
+    return str_ends_with($this->email, '@novakitchen.com.tr') || 
+           $this->email === 'ardaasevinc@gmail.com';
+}
 }
