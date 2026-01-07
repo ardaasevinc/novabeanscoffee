@@ -9,6 +9,7 @@ use App\Models\ContactMessage;
 use App\Mail\ContactFormReceived;
 use App\Mail\NewContactMessageNotification;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Setting;
 
 class IndexController extends Controller
 {
@@ -39,7 +40,7 @@ class IndexController extends Controller
 
             // B) Yöneticiye "Yeni mesaj var" maili gönder
             // Buraya bildirim gitmesini istediğin yönetici mailini yaz
-            $adminEmail = 'info@selquor.com'; // Veya env('MAIL_FROM_ADDRESS')
+            $adminEmail = Setting::first()?->email ?? 'info@selquor.com';
             Mail::to($adminEmail)->send(new NewContactMessageNotification($contactMessage));
 
         } catch (\Exception $e) {
