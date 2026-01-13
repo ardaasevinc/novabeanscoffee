@@ -75,7 +75,7 @@
     /* Mobil Uyumluluk */
     @media (max-width: 768px) {
         .wp-float-btn {
-            bottom: 90px; /* Instagram butonunun üzerinde */
+            bottom: 30px; /* Instagram butonunun üzerinde */
             right: 50%;
             transform: translateX(50%);
             width: max-content;
