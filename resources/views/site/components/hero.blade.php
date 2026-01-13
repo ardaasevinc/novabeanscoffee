@@ -11,7 +11,7 @@
                     {{-- Video Yoksa Resim (Uploads klasöründen) --}}
                     <img src="{{ asset('uploads/' . $item->image) }}" 
                          alt="{{ $item->title }}" 
-                         style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;">
+                         style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">
                 @endif
             </div>
 
