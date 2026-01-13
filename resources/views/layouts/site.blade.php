@@ -48,6 +48,7 @@
 
     @yield('content')
 
+    @include('site.components.whatsapp')
     @include('site.components.footer')
 
 
