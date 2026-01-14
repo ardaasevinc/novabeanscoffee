@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/mousecursor.css') }}">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" media="screen">
+    
 </head>
 
 <body>
@@ -50,6 +51,7 @@
 
     @include('site.components.whatsapp')
     @include('site.components.footer')
+    @livewire('like-feedback')
 
 
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>

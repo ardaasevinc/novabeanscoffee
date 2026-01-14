@@ -6,7 +6,7 @@
         position: fixed;
         bottom: 30px; /* Instagram butonunun üstünde durması için (ayarlanabilir) */
         right: 30px;
-        z-index: 9999;
+        z-index: 99999;
         padding: 2px;
         border-radius: 50px;
         overflow: hidden;
