@@ -11,6 +11,7 @@ use App\Models\MenuCategory;
 use App\Models\BlogCategory;
 use App\Models\Offer;
 use App\Models\Menu;
+use App\Models\Like;
 
 
 class IndexController extends Controller
@@ -47,7 +48,13 @@ class IndexController extends Controller
             ->select('title')
             ->take(10)
             ->get();
-        return view('site.index', compact('page_title', 'heroes', 'about', 'whyChoose', 'menuCategories', 'blogCategories', 'offers', 'tickerItems'));
+
+
+            $testimonials = Like::where('is_published', true)
+            ->latest()
+            ->take(10)
+            ->get();
+        return view('site.index', compact('page_title', 'heroes', 'about', 'whyChoose', 'menuCategories', 'blogCategories', 'offers', 'tickerItems','testimonials'));
     }
 
 

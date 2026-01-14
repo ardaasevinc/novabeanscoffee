@@ -9,6 +9,7 @@
     {{-- @include('site.components.intro-video') --}}
     @include('site.components.menu')
     @include('site.components.interactive')
+    @include('site.components.testimonials')
     @include('site.components.offer')
     {{-- @include('site.components.about-restaurant') --}}
     @include('site.components.cta')
