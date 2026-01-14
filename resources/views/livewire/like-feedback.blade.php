@@ -187,7 +187,7 @@
                 <div style="font-size: 32px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(201,165,129,0.3));">✨</div>
                 <h4 class="nova-main-title" style="font-size: 16px;">Geri Bildirim Alındı</h4>
                 <div class="nova-success-info">Nova Beans Coffee olarak görüşlerinize önem veriyoruz. Bizi Google'da da desteklemek ister misiniz?</div>
-                <button onclick="window.open('https://search.google.com/local/writereview?placeid=SENIN_PLACE_ID', '_blank')" 
+                <button onclick="window.open('https://search.google.com/local/writereview?placeid=ChIJ2XQJRRFFtRQRkrkiae-a4hk', '_blank')" 
                         style="background: #E4CCB4; color: #121D23; border: none; padding: 14px 24px; border-radius: 12px; font-weight: 800; font-size: 11px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; width: 100%;">
                     Google'da Yorum Yap
                 </button>
