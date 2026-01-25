@@ -56,6 +56,7 @@
     @include('site.components.footer')
     @livewire('like-feedback')
 
+    @yield('scripts')
 
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
