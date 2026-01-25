@@ -147,10 +147,10 @@
                                     </div>
                                 </div>
                             </form>
-                            @section('scripts')
-                                <script src="{{ url('https://challenges.cloudflare.com/turnstile/v0/api.js') }}" async
-                                    defer></script>
-                            @endsection
+                           
+                             <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+                            
                         </div>
                     </div>
                 </div>
