@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Site\Contact;
 
 use App\Http\Controllers\Controller;
@@ -10,85 +11,57 @@ use App\Mail\NewContactMessageNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log; // Log eklemeyi unutma
 
 class IndexController extends Controller
 {
     public function index()
     {
+        // View içerisinde $setting zaten bir ViewShare veya Global veri değilse 
+        // burada çekip göndermek gerekebilir.
+        $setting = Setting::first();
         $page_title = 'Bize Ulaşın';
-        return view('site.contact.index', compact('page_title'));
+        return view('site.contact.index', compact('page_title', 'setting'));
     }
 
-    /**
-     * Form Gönderme - Kayıt + Mail + Turnstile Doğrulama
-     */
     public function contactStore(Request $request)
     {
-        /* ==========================================================
-         * 0) FORM VALİDATİON
-         * ========================================================== */
+        // 1) VALIDATION (Turnstile dahil)
         $request->validate([
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'message' => 'required|string',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'message' => 'required|string|max:2000',
+            'cf-turnstile-response' => 'required' // Formdan gelen token
         ]);
 
-        /* ==========================================================
-         * 1) CLOUDFLARE TURNSTILE DOĞRULAMASI
-         * ========================================================== */
-        $verify = Http::asForm()->post(
-            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-            [
-                'secret' => env('CF_TURNSTILE_SECRET_KEY'),
-                'response' => $request->input('cf-turnstile-response'),
-                'remoteip' => $request->ip(),
-            ]
-        )->json();
+        // 2) TURNSTILE DOĞRULAMA (HTTP Client)
+        $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            'secret' => config('services.turnstile.secret'), // config üzerinden güvenli erişim
+            'response' => $request->input('cf-turnstile-response'),
+            'remoteip' => $request->ip(),
+        ]);
 
-        if (!($verify['success'] ?? false)) {
-            return back()->with('error', 'Lütfen doğrulamayı tamamlayın.');
+        if (!$response->json('success')) {
+            return back()->withErrors(['captcha' => 'Güvenlik doğrulaması başarısız oldu.'])->withInput();
         }
 
-        /* ==========================================================
-         * 2) DB KAYIT
-         * ========================================================== */
-        $contactMessage = ContactMessage::create([
-            'fname' => $request->fname,
-            'lname' => $request->lname,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'message' => $request->message,
-        ]);
+        // 3) DB KAYIT (Sadece validated veriyi almak daha güvenlidir)
+        $contactMessage = ContactMessage::create($request->only(['fname', 'lname', 'email', 'phone', 'message']));
 
-        /* ==========================================================
-         * 3) MAİL GÖNDERİMİ
-         * ========================================================== */
+        // 4) MAİL GÖNDERİMİ
         try {
-            // Kullanıcıya otomatik mail
-            Mail::to($request->email)->send(
-                new ContactFormReceived($contactMessage)
-            );
+            $adminEmail = Setting::first()?->email ?? config('mail.from.address');
 
-            // Yöneticiye bilgilendirme maili
-            $adminEmail = Setting::first()?->email ?? 'info@selquor.com';
-
-            Mail::to($adminEmail)->send(
-                new NewContactMessageNotification($contactMessage)
-            );
+            // Mail gönderimlerini hızlandırmak için (eğer Queue ayarlıysa) ->queue() kullanabilirsin
+            Mail::to($request->email)->send(new ContactFormReceived($contactMessage));
+            Mail::to($adminEmail)->send(new NewContactMessageNotification($contactMessage));
 
         } catch (\Exception $e) {
-            // Mail hataları loglanabilir, kullanıcıya yansıtılmıyor.
-            // Log::error($e->getMessage());
+            Log::error('İletişim Formu Mail Hatası: ' . $e->getMessage());
         }
 
-        /* ==========================================================
-         * 4) BAŞARILI GERİ DÖNÜŞ
-         * ========================================================== */
-        return back()->with(
-            'success',
-            'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.'
-        );
+        return back()->with('success', 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.');
     }
 }
