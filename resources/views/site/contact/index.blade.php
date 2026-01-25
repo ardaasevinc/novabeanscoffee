@@ -134,7 +134,8 @@
                                             placeholder="Mesajınız" required>{{ old('message') }}</textarea>
                                     </div>
 
-                                    <div class="cf-turnstile my-3" data-sitekey="{{ env('CF_TURNSTILE_SITE_KEY') }}">
+                                    <div class="cf-turnstile my-3"
+                                        data-sitekey="{{ config('services.turnstile.sitekey') }}">
                                     </div>
 
                                     <div class="col-lg-12">
@@ -147,7 +148,8 @@
                                 </div>
                             </form>
                             @section('scripts')
-                                <script src="{{ url('https://challenges.cloudflare.com/turnstile/v0/api.js') }}" async defer></script>
+                                <script src="{{ url('https://challenges.cloudflare.com/turnstile/v0/api.js') }}" async
+                                    defer></script>
                             @endsection
                         </div>
                     </div>
