@@ -134,6 +134,10 @@
                                             placeholder="Mesajınız" required>{{ old('message') }}</textarea>
                                     </div>
 
+                                  <div class="cf-turnstile my-3"
+     data-sitekey="{{ env('CF_TURNSTILE_SITE_KEY') }}">
+</div>
+
                                     <div class="col-lg-12">
                                         <div class="contact-form-btn">
                                             <button type="submit" class="btn-default">
@@ -143,6 +147,7 @@
                                     </div>
                                 </div>
                             </form>
+                            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
                         </div>
                     </div>

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Site\Contact;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContactMessage;
-// Mail sınıflarını eklemeyi unutma
 use App\Mail\ContactFormReceived;
 use App\Mail\NewContactMessageNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 use App\Models\Setting;
 
 class IndexController extends Controller
@@ -19,9 +19,14 @@ class IndexController extends Controller
         return view('site.contact.index', compact('page_title'));
     }
 
-    // Formu Kaydetme Metodu
+    /**
+     * Form Gönderme - Kayıt + Mail + Turnstile Doğrulama
+     */
     public function contactStore(Request $request)
     {
+        /* ==========================================================
+         * 0) FORM VALİDATİON
+         * ========================================================== */
         $request->validate([
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
@@ -30,24 +35,60 @@ class IndexController extends Controller
             'message' => 'required|string',
         ]);
 
-        // 1. Veritabanına Kayıt
-        $contactMessage = ContactMessage::create($request->all());
+        /* ==========================================================
+         * 1) CLOUDFLARE TURNSTILE DOĞRULAMASI
+         * ========================================================== */
+        $verify = Http::asForm()->post(
+            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            [
+                'secret' => env('CF_TURNSTILE_SECRET_KEY'),
+                'response' => $request->input('cf-turnstile-response'),
+                'remoteip' => $request->ip(),
+            ]
+        )->json();
 
-        // 2. Mail Gönderimi (Hata olursa kullanıcıya yansıtma)
-        try {
-            // A) Kullanıcıya "Mesajınız alındı" maili gönder
-            Mail::to($request->email)->send(new ContactFormReceived($contactMessage));
-
-            // B) Yöneticiye "Yeni mesaj var" maili gönder
-            // Buraya bildirim gitmesini istediğin yönetici mailini yaz
-            $adminEmail = Setting::first()?->email ?? 'info@selquor.com';
-            Mail::to($adminEmail)->send(new NewContactMessageNotification($contactMessage));
-
-        } catch (\Exception $e) {
-            // Log::error('İletişim mail hatası: ' . $e->getMessage());
-            // Mail gitmese bile kullanıcıya başarılı mesajı dönüyoruz.
+        if (!($verify['success'] ?? false)) {
+            return back()->with('error', 'Lütfen doğrulamayı tamamlayın.');
         }
 
-        return back()->with('success', 'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.');
+        /* ==========================================================
+         * 2) DB KAYIT
+         * ========================================================== */
+        $contactMessage = ContactMessage::create([
+            'fname' => $request->fname,
+            'lname' => $request->lname,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'message' => $request->message,
+        ]);
+
+        /* ==========================================================
+         * 3) MAİL GÖNDERİMİ
+         * ========================================================== */
+        try {
+            // Kullanıcıya otomatik mail
+            Mail::to($request->email)->send(
+                new ContactFormReceived($contactMessage)
+            );
+
+            // Yöneticiye bilgilendirme maili
+            $adminEmail = Setting::first()?->email ?? 'info@selquor.com';
+
+            Mail::to($adminEmail)->send(
+                new NewContactMessageNotification($contactMessage)
+            );
+
+        } catch (\Exception $e) {
+            // Mail hataları loglanabilir, kullanıcıya yansıtılmıyor.
+            // Log::error($e->getMessage());
+        }
+
+        /* ==========================================================
+         * 4) BAŞARILI GERİ DÖNÜŞ
+         * ========================================================== */
+        return back()->with(
+            'success',
+            'Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.'
+        );
     }
 }
