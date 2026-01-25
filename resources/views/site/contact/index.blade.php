@@ -103,78 +103,46 @@
                         <div class="contact-form">
                             {{-- ID'yi contactForm yerine laravelContactForm yaptık --}}
                             <form id="laravelContactForm" action="{{ route('contact.store') }}" method="POST"
-      class="wow fadeInUp" data-wow-delay="0.4s">
-    @csrf
+                                class="wow fadeInUp" data-wow-delay="0.4s">
+                                @csrf
+                                @honeypot
 
-    <div class="row">
-        <div class="form-group col-md-6 mb-5">
-            <input
-                type="text"
-                name="fname"
-                class="form-control"
-                id="fname"
-                placeholder="Adınız"
-                value="{{ old('fname') }}"
-                required
-            >
-        </div>
 
-        <div class="form-group col-md-6 mb-5">
-            <input
-                type="text"
-                name="lname"
-                class="form-control"
-                id="lname"
-                placeholder="Soyadınız"
-                value="{{ old('lname') }}"
-                required
-            >
-        </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6 mb-5">
+                                        <input type="text" name="fname" class="form-control" id="fname" placeholder="Adınız"
+                                            value="{{ old('fname') }}" required>
+                                    </div>
 
-        <div class="form-group col-md-6 mb-5">
-            <input
-                type="email"
-                name="email"
-                class="form-control"
-                id="email"
-                placeholder="E-posta Adresi"
-                value="{{ old('email') }}"
-                required
-            >
-        </div>
+                                    <div class="form-group col-md-6 mb-5">
+                                        <input type="text" name="lname" class="form-control" id="lname"
+                                            placeholder="Soyadınız" value="{{ old('lname') }}" required>
+                                    </div>
 
-        <div class="form-group col-md-6 mb-5">
-            <input
-                type="text"
-                name="phone"
-                class="form-control"
-                id="phone"
-                placeholder="Telefon Numarası"
-                value="{{ old('phone') }}"
-                required
-            >
-        </div>
+                                    <div class="form-group col-md-6 mb-5">
+                                        <input type="email" name="email" class="form-control" id="email"
+                                            placeholder="E-posta Adresi" value="{{ old('email') }}" required>
+                                    </div>
 
-        <div class="form-group col-md-12 mb-5">
-            <textarea
-                name="message"
-                class="form-control"
-                id="message"
-                rows="3"
-                placeholder="Mesajınız"
-                required
-            >{{ old('message') }}</textarea>
-        </div>
+                                    <div class="form-group col-md-6 mb-5">
+                                        <input type="text" name="phone" class="form-control" id="phone"
+                                            placeholder="Telefon Numarası" value="{{ old('phone') }}" required>
+                                    </div>
 
-        <div class="col-lg-12">
-            <div class="contact-form-btn">
-                <button type="submit" class="btn-default">
-                    Mesajı Gönder
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
+                                    <div class="form-group col-md-12 mb-5">
+                                        <textarea name="message" class="form-control" id="message" rows="3"
+                                            placeholder="Mesajınız" required>{{ old('message') }}</textarea>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="contact-form-btn">
+                                            <button type="submit" class="btn-default">
+                                                Mesajı Gönder
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
                         </div>
                     </div>
