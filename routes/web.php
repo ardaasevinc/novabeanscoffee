@@ -27,3 +27,6 @@ Route::post('/rezervasyon-yap', [ReservationController::class, 'store'])->name('
 
 Route::get('/blog/kategori/{slug}', [BlogController::class, 'categoryIndex'])->name('site.blog.category');
 
+Route::fallback(function () {
+    return redirect()->route('site.index');
+});
