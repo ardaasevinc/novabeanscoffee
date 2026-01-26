@@ -66,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Selquor')
             ->brandLogo(asset('assets/images/logo.svg'))
             ->darkModeBrandLogo(asset('assets/images/logo.svg'))
-            ->favicon(asset('assets/site/assets/images/favicon.svg'))
+            ->favicon(asset('assets/images/favicon.svg'))
 
             /*
             |--------------------------------------------------------------------------
