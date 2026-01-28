@@ -54,7 +54,7 @@
 
     @include('site.components.whatsapp')
     @include('site.components.footer')
-    @livewire('like-feedback')
+    {{-- @livewire('like-feedback') --}}
 
     @yield('scripts')
 
