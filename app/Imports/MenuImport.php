@@ -65,17 +65,25 @@ class MenuImport implements ToModel, WithHeadingRow
         $cleanPrice = (float) $rawPrice;
         // -------------------------------------------
 
-        return new Menu([
-            'title'            => $title,
-            'slug'             => $slug,
-            'menu_category_id' => $categoryId,
-            'price'            => $cleanPrice, // Temizlenmiş fiyatı kullanıyoruz
-            'likes'            => $row['begeni'] ?? $row['likes'] ?? 0,
-            'desc'             => $row['aciklama'] ?? $row['desc'] ?? null,
-            'img'              => $row['gorsel'] ?? $row['img'] ?? null,
-            'meta_title'       => $row['seo_baslik'] ?? null,
-            'meta_desc'        => $row['seo_aciklama'] ?? null,
-            'is_published'     => $isPublished,
-        ]);
+       return new Menu([
+    'title'            => $title,
+    'slug'             => $slug,
+    'menu_category_id' => $categoryId,
+    'price'            => $cleanPrice, // Küçük veya Standart fiyat
+    
+    // Yeni eklenen boyutlu fiyat alanları
+    'price_medium'     => $row['orta_fiyat'] ?? $row['price_medium'] ?? null,
+    'price_large'      => $row['buyuk_fiyat'] ?? $row['price_large'] ?? null,
+    
+    // Boyut var mı yok mu kontrolü (Excel'de 1/0 veya true/false olabilir)
+    'has_sizes'        => $row['boyutlu'] ?? $row['has_sizes'] ?? false,
+
+    'likes'            => $row['begeni'] ?? $row['likes'] ?? 0,
+    'desc'             => $row['aciklama'] ?? $row['desc'] ?? null,
+    'img'              => $row['gorsel'] ?? $row['img'] ?? null,
+    'meta_title'       => $row['seo_baslik'] ?? null,
+    'meta_desc'        => $row['seo_aciklama'] ?? null,
+    'is_published'     => $isPublished,
+]);
     }
 }

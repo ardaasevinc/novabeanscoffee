@@ -4,10 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MenuResource\Pages;
 use App\Models\Menu;
-// Import İşlemi İçin Gerekli Sınıflar
 use App\Imports\MenuImport;
 use Maatwebsite\Excel\Facades\Excel;
-// Export İşlemi İçin Gerekli Sınıflar (pxlrbt paketi)
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
@@ -24,7 +22,6 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
-// Storage import'u kaldırıldı.
 
 class MenuResource extends Resource
 {
@@ -72,10 +69,33 @@ class MenuResource extends Resource
                                             ])
                                             ->columnSpanFull(),
 
+                                        // --- FİYATLANDIRMA BÖLÜMÜ ---
+                                        Forms\Components\Toggle::make('has_sizes')
+                                            ->label('Farklı Boyutları Var')
+                                            ->helperText('Aktif edilirse Medium ve Large fiyatları girilebilir.')
+                                            ->live() // Değişimi anlık izle
+                                            ->columnSpanFull(),
+
                                         Forms\Components\TextInput::make('price')
-                                            ->label('Fiyat')
+                                            ->label(fn(Forms\Get $get) => $get('has_sizes') ? 'Fiyat (Small / Standart)' : 'Fiyat')
                                             ->prefix('₺')
+                                            ->numeric()
                                             ->default(0)
+                                            ->columnSpanFull(),
+
+                                        // Sadece has_sizes true ise görünürler
+                                        Forms\Components\TextInput::make('price_medium')
+                                            ->label('Fiyat (Medium)')
+                                            ->prefix('₺')
+                                            ->numeric()
+                                            ->visible(fn(Forms\Get $get): bool => $get('has_sizes'))
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('price_large')
+                                            ->label('Fiyat (Large)')
+                                            ->prefix('₺')
+                                            ->numeric()
+                                            ->visible(fn(Forms\Get $get): bool => $get('has_sizes'))
                                             ->columnSpanFull(),
 
                                         Forms\Components\TextInput::make('likes')
@@ -84,11 +104,10 @@ class MenuResource extends Resource
                                             ->default(0)
                                             ->columnSpanFull(),
 
-                                        // --- GÖRSEL YÜKLEME ---
                                         Forms\Components\FileUpload::make('img')
                                             ->label('Ürün Görseli')
                                             ->image()
-                                            ->disk('uploads') // Senin sistemindeki disk
+                                            ->disk('uploads')
                                             ->directory('menus')
                                             ->imageEditor()
                                             ->columnSpanFull(),
@@ -136,7 +155,6 @@ class MenuResource extends Resource
     {
         return $table
             ->headerActions([
-                // --- 1. XLSX YÜKLEME (IMPORT) ---
                 Tables\Actions\Action::make('importExcel')
                     ->label('Excel Yükle (XLSX)')
                     ->icon('heroicon-o-arrow-up-tray')
@@ -144,63 +162,40 @@ class MenuResource extends Resource
                     ->form([
                         FileUpload::make('file')
                             ->label('Excel Dosyası (.xlsx)')
-                            ->disk('uploads')        // Dosyayı uploads diskine kaydet
-                            ->directory('menuexcel') // menuexcel klasörü altına
+                            ->disk('uploads')
+                            ->directory('menuexcel')
                             ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                             ->required(),
                     ])
                     ->action(function (array $data) {
-                        // DEĞİŞİKLİK: Storage Facade yerine doğrudan public_path kullanıyoruz.
-                        // Dosyanın yolu: public/uploads/menuexcel/dosya.xlsx olacak şekilde ayarlandı.
                         $path = public_path('uploads/' . $data['file']);
-
                         if (!file_exists($path)) {
-                            Notification::make()
-                                ->title('Hata')
-                                ->body('Dosya bulunamadı. Yol: ' . $path)
-                                ->danger()
-                                ->send();
+                            Notification::make()->title('Hata')->body('Dosya bulunamadı.')->danger()->send();
                             return;
                         }
-
                         try {
-                            // Import işlemini başlat
                             Excel::import(new MenuImport, $path);
-
-                            Notification::make()
-                                ->title('Yükleme Başarılı')
-                                ->body('Ürünler başarıyla eklendi.')
-                                ->success()
-                                ->send();
-
-                            // DEĞİŞİKLİK: Storage::delete yerine saf PHP unlink komutu
-                            // İşlem bitince dosyayı siliyoruz.
+                            Notification::make()->title('Başarılı')->body('Ürünler eklendi.')->success()->send();
                             if (file_exists($path)) {
                                 unlink($path);
                             }
-
                         } catch (\Exception $e) {
-                            Notification::make()
-                                ->title('Hata')
-                                ->body('Dosya okunurken hata oluştu: ' . $e->getMessage())
-                                ->danger()
-                                ->persistent()
-                                ->send();
+                            Notification::make()->title('Hata')->body($e->getMessage())->danger()->send();
                         }
                     }),
 
-                // --- 2. XLSX İNDİRME (EXPORT) ---
                 ExportAction::make()
                     ->exports([
                         ExcelExport::make()
-                            ->fromTable() // Tablodaki sütunları otomatik al
+                            ->fromTable()
                             ->withFilename('Menu-Listesi-' . date('d-m-Y'))
                             ->withColumns([
-                                // Ekstra sütun eklemek istersen:
-                                Column::make('desc')->heading('Açıklama'),
+                                Column::make('price_medium')->heading('Orta Boy Fiyat'),
+                                Column::make('price_large')->heading('Büyük Boy Fiyat'),
+                                Column::make('has_sizes')->heading('Boyutlu mu?'),
                             ])
                     ])
-                    ->label('Excel İndir (XLSX)')
+                    ->label('Excel İndir')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('success'),
             ])
@@ -223,7 +218,13 @@ class MenuResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Fiyat')
                     ->money('TRY')
-                    ->sortable(),
+                    ->sortable()
+                    ->description(fn(Menu $record): string => $record->has_sizes ? "M: ₺{$record->price_medium} / L: ₺{$record->price_large}" : ''),
+
+                Tables\Columns\IconColumn::make('has_sizes')
+                    ->label('Boyutlu')
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\IconColumn::make('is_published')
                     ->label('Durum')
@@ -245,8 +246,6 @@ class MenuResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-
-                    // Toplu Seçimden Excel İndirme
                     ExportBulkAction::make()
                         ->exports([
                             ExcelExport::make()
@@ -260,9 +259,7 @@ class MenuResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

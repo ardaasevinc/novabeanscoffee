@@ -53,8 +53,28 @@
                                                         <div class="menu-item-title">
                                                             <h3>{{ $menu->title }}</h3>
                                                             <hr>
-                                                            <span>{{ $menu->price }}₺</span>
+                                                            
+                                                            {{-- Fiyat Bölümü Başlangıcı --}}
+                                                            <div class="menu-prices" style="display: flex; gap: 8px; align-items: center;">
+                                                                @if($menu->has_sizes)
+                                                                    {{-- Boyutlu Fiyat Gösterimi --}}
+                                                                    @if($menu->price)
+                                                                        <span style="font-size: 14px; white-space: nowrap;">S: {{ $menu->price }}₺</span>
+                                                                    @endif
+                                                                    @if($menu->price_medium)
+                                                                        <span style="font-size: 14px; white-space: nowrap;">M: {{ $menu->price_medium }}₺</span>
+                                                                    @endif
+                                                                    @if($menu->price_large)
+                                                                        <span style="font-size: 14px; white-space: nowrap;">L: {{ $menu->price_large }}₺</span>
+                                                                    @endif
+                                                                @else
+                                                                    {{-- Standart Tek Fiyat --}}
+                                                                    <span>{{ $menu->price }}₺</span>
+                                                                @endif
+                                                            </div>
+                                                            {{-- Fiyat Bölümü Bitişi --}}
                                                         </div>
+                                                        
                                                         <div class="menu-item-content">
                                                             <p>{!! strip_tags($menu->desc) !!}</p>
                                                         </div>
