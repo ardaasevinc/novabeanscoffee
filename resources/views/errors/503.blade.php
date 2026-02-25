@@ -1,30 +1,47 @@
-@extends('layouts.site')
-@section('content')
-<!-- error section start -->
-    <div class="error-page">
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çok Yakında</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0eee9; /* Hafif gri arka plan */
+        }
+        .bg-container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+            color: #212529;
+            letter-spacing: -1px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        /* Basit bir giriş animasyonu */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-container">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Error Page Image Start -->
-                    <div class="error-page-image wow fadeInUp">
-                        <img src="assets/images/503-image.png" alt="">
-                    </div>
-                    <!-- Error Page Image End -->
-                    
-                    <!-- Error Page Content Start -->
-                    <div class="error-page-content">
-                        <div class="section-title">
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Mutfağımızda Yeni Lezzetler Pişiyor</h2>
-                        </div>
-                        <div class="error-page-content-body">
-                            <p class="wow fadeInUp" data-wow-delay="0.25s">Size daha iyi bir deneyim sunabilmek için dijital mutfağımızda küçük bir tadilat yapıyoruz. Şeflerimiz hazırlıklarını tamamlarken gösterdiğiniz sabır için teşekkür ederiz. Çok yakında, daha lezzetli bir şekilde karşınızda olacağız.</p>
-                            <a class="btn-default wow fadeInUp" data-wow-delay="0.5s" href="./"><span>Nova Kitchen</span></a>
-                        </div>
-                    </div>
-                    <!-- Error Page Content End -->
-                </div>
-            </div>
+            <h1 class="display-1">Çok Yakında</h1>
+            <p class="lead text-secondary">Sizler için harika bir şey hazırlıyoruz.</p>
         </div>
     </div>
-    <!-- error section end -->
-@endsection
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
