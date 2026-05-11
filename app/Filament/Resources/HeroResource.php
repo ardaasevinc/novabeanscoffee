@@ -54,6 +54,8 @@ class HeroResource extends Resource
                                             ->image()
                                             ->disk('uploads') // Uploads diskini kullan
                                             ->directory('heroes') // public/uploads/heroes içine kaydeder
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
 
                                         Forms\Components\TextInput::make('video_url')

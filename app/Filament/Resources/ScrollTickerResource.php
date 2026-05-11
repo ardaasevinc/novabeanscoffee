@@ -44,6 +44,8 @@ class ScrollTickerResource extends Resource
                                             ->image()
                                             ->disk('uploads') // Uploads diski
                                             ->directory('tickers') // public/uploads/tickers içine
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
                                     ]),
                             ])

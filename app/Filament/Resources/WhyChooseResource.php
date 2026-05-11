@@ -96,6 +96,8 @@ class WhyChooseResource extends Resource
                                                     ->image()
                                                     ->disk('uploads') // Uploads diski
                                                     ->directory('why_choose') // public/uploads/why_choose içine
+                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                                    ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                                     ->columnSpanFull(),
 
                                                 Forms\Components\TextInput::make('title')

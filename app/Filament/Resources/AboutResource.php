@@ -77,6 +77,8 @@ class AboutResource extends Resource
                                                     ->image()
                                                     ->disk('uploads') // Config'de tanımladığımız disk
                                                     ->directory('about') // uploads/about içine atar
+                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                                    ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                                     ->columnSpanFull(),
 
                                                 Forms\Components\TextInput::make('title')

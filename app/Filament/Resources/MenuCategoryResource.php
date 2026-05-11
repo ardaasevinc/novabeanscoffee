@@ -51,6 +51,8 @@ class MenuCategoryResource extends Resource
                                             ->directory('menu_categories')
                                             ->imageEditor()
                                             ->helperText('Boyut: 1920x768 px. Sayfa üstünde geniş banner olarak kullanılır.')
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
                                     ]),
                             ])

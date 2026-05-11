@@ -63,6 +63,8 @@ class BlogResource extends Resource
                                             ->image()
                                             ->disk('uploads')
                                             ->directory('blogs')
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
                                     ]),
                             ])->columnSpan(4),

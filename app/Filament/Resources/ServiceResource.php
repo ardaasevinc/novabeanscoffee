@@ -51,6 +51,8 @@ class ServiceResource extends Resource
                                             ->directory('services') // public/uploads/services içine
                                             ->imageEditor()
                                             ->helperText('Hizmeti temsil eden ikon veya fotoğraf.')
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
                                     ]),
                             ])

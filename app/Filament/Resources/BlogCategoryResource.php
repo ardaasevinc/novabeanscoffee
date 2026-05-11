@@ -51,6 +51,8 @@ class BlogCategoryResource extends Resource
                                             ->directory('blog_categories') // public/uploads/blog_categories altına kaydeder
                                             ->imageEditor()
                                             ->helperText('Liste sayfalarında görünecek kapak görseli.')
+                                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                                            ->getUploadedFileNameForStorageUsing(fn ($file): string => Str::uuid() . '.' . $file->guessExtension())
                                             ->columnSpanFull(),
                                     ]),
                             ])
