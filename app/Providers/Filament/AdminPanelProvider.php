@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->spa()
             ->id('ardaasevinc')
-            ->path('ardaasevinc')
+            ->path('314agency')
 
             /*
             |--------------------------------------------------------------------------
