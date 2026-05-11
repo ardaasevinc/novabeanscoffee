@@ -18,7 +18,8 @@ class ThreatProtection
     private const WHITELIST        = [        // asla banlanmaz
         '127.0.0.1',
         '::1',
-        '128.140.43.196',                     // arda sunucusu
+        '128.140.43.196',                     // serdar sunucusu
+        '78.182.128.133',                     // serdar (yönetici)
     ];
 
     // Gerçek shell/exploit tarama patternları
