@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+package-lock.json
+public/uploads/*
+!public/uploads/.htaccess
+public/assets/.user.ini
+public/assets/images/.htaccess
+public/build/
+node_modules/
