@@ -86,8 +86,8 @@ class ThreatProtection
 
     private function trackResponse(Request $request, string $ip, int $status): void
     {
-        // 404/403 sayacı — tarama tespiti
-        if (in_array($status, [403, 404], true)) {
+        // 404 sayacı — tarama tespiti (403 sayılmaz: korumalı sayfalar admin'i de banlardı)
+        if ($status === 404) {
             $key   = "threat:scan:{$ip}";
             $count = Cache::increment($key);
 
