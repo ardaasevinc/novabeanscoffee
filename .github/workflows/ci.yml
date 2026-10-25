@@ -43,7 +43,8 @@ jobs:
 
       - name: Paketler
         if: hashFiles('composer.json') != ''
-        run: composer install --no-interaction --prefer-dist --no-progress
+        # --no-scripts: bazı uygulamalar açılışta veritabanı sorguluyor; CI'da veritabanı yok, açılış test adımında denenir
+        run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Güvenlik açığı taraması (composer audit)
         if: hashFiles('composer.json') != ''
@@ -53,7 +54,9 @@ jobs:
         if: hashFiles('composer.json') != ''
         run: |
           cp .env.example .env 2>/dev/null || touch .env
-          php artisan key:generate --force
+          # Anahtar uygulamayı açmadan üretilir (açılışta veritabanı sorgulayan uygulamalar burada düşmesin)
+          sed -i '/^APP_KEY=/d' .env
+          echo "APP_KEY=base64:$(openssl rand -base64 32)" >> .env
 
       - name: Önyüz derlemesi
         if: hashFiles('package.json') != ''
@@ -72,7 +75,9 @@ jobs:
           SESSION_DRIVER: array
           QUEUE_CONNECTION: sync
           MAIL_MAILER: array
-        run: php artisan test --compact
+        run: |
+          php artisan package:discover --ansi
+          php artisan test --compact
 
       - name: Test sonucu (zorunlu değilse uyarı)
         if: steps.testler.outcome == 'failure'
