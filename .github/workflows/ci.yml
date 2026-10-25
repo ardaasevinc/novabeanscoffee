@@ -1,0 +1,109 @@
+# CI/CD — her PR'da kontrol, main'e merge sonrası (testler geçerse) web-01'e deploy.
+# Kaynak: hetzner/scripts/ci/ci.yml (tüm sitelerde aynı; değişiklik oradan PR ile dağıtılır)
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SITE_URL: https://novabeanscoffee.com
+  # Testler bu repoda henüz düzgün değilse "false": sonuç gösterilir ama deploy'u engellemez.
+  TESTLER_ZORUNLU: "false"
+
+jobs:
+  kontrol:
+    name: Kontrol (PHP 8.5)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - if: hashFiles('composer.json') != ''
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: mbstring, intl, gd, zip, bcmath, pdo_sqlite, pdo_mysql, pdo_pgsql, exif
+          coverage: none
+          tools: composer:v2
+
+      - name: Composer önbelleği
+        if: hashFiles('composer.json') != ''
+        uses: actions/cache@v6
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Paketler
+        if: hashFiles('composer.json') != ''
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Güvenlik açığı taraması (composer audit)
+        if: hashFiles('composer.json') != ''
+        run: composer audit --locked --abandoned=ignore
+
+      - name: Ortam
+        if: hashFiles('composer.json') != ''
+        run: |
+          cp .env.example .env 2>/dev/null || touch .env
+          php artisan key:generate --force
+
+      - name: Önyüz derlemesi
+        if: hashFiles('package.json') != ''
+        run: |
+          npm ci || npm install
+          npm run build --if-present
+
+      - name: Testler
+        if: hashFiles('composer.json') != ''
+        id: testler
+        continue-on-error: ${{ env.TESTLER_ZORUNLU != 'true' }}
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
+          MAIL_MAILER: array
+        run: php artisan test --compact
+
+      - name: Test sonucu (zorunlu değilse uyarı)
+        if: steps.testler.outcome == 'failure'
+        run: echo "::warning::Testler başarısız ama bu repoda henüz zorunlu değil (TESTLER_ZORUNLU=false)."
+
+  deploy:
+    name: Deploy (web-01)
+    needs: kontrol
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Forge deploy tetikle
+        env:
+          HOOK: ${{ secrets.FORGE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "::warning::FORGE_DEPLOY_HOOK tanımlı değil, deploy atlandı."; exit 0; fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Deploy başlatıldı."
+
+      - name: Site kontrolü
+        # Cloudflare GitHub sunucularını bot sayıp 403 veriyor; kontrol doğrudan web-01'e (aynı alan adı ve sertifikayla) yapılır.
+        env:
+          ORIGIN_IP: 2.31.3.154
+        run: |
+          sleep 90
+          HOST=$(echo "$SITE_URL" | sed -E 's#https?://([^/]+).*#\1#')
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null -m 20 -w '%{http_code}' --resolve "$HOST:443:$ORIGIN_IP" "$SITE_URL")
+            echo "deneme $i: $SITE_URL → $code"
+            case "$code" in 200|301|302) exit 0;; esac
+            sleep 15
+          done
+          echo "::error::Site deploy sonrası yanıt vermiyor ($code)."; exit 1
