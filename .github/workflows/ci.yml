@@ -1,4 +1,4 @@
-# CI/CD — her PR'da kontrol, main'e merge sonrası (testler geçerse) web-01'e deploy.
+# CI/CD — her PR'da kontrol + sır taraması, main'e merge sonrası (ikisi de geçerse) web-01'e deploy ve sürüm etiketi.
 # Kaynak: hetzner/scripts/ci/ci.yml (tüm sitelerde aynı; değişiklik oradan PR ile dağıtılır)
 name: CI/CD
 
@@ -83,22 +83,62 @@ jobs:
         if: steps.testler.outcome == 'failure'
         run: echo "::warning::Testler başarısız ama bu repoda henüz zorunlu değil (TESTLER_ZORUNLU=false)."
 
+  sir-taramasi:
+    name: Sır taraması (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks kurulumu
+        env:
+          SURUM: 8.21.2
+          SHA256: 5bc41815076e6ed6ef8fbecc9d9b75bcae31f39029ceb55da08086315316e3ba
+        run: |
+          curl -fsSL -o gl.tgz "https://github.com/gitleaks/gitleaks/releases/download/v${SURUM}/gitleaks_${SURUM}_linux_x64.tar.gz"
+          echo "$SHA256  gl.tgz" | sha256sum -c -
+          tar -xzf gl.tgz gitleaks && rm gl.tgz && sudo mv gitleaks /usr/local/bin/
+
+      - name: Yeni commit'lerde sır var mı
+        # Bu değişiklikle gelen commit'ler taranır; şifre/token/anahtar bulunursa kırmızı olur ve deploy yapılmaz.
+        env:
+          BAS: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BAS" ] || [ "$BAS" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BAS^{commit}" 2>/dev/null; then
+            ARALIK="-1"
+          else
+            ARALIK="$BAS..HEAD"
+          fi
+          gitleaks git --log-opts="$ARALIK" --redact --no-banner -v
+
+      - name: Deponun tamamı (bilgi amaçlı)
+        # Önceden girmiş sırları gösterir; deploy'u engellemez. Bulunan sır geçmişte kalsa bile değiştirilmelidir.
+        continue-on-error: true
+        run: gitleaks dir . --redact --no-banner -v
+
   deploy:
     name: Deploy (web-01)
-    needs: kontrol
+    needs: [kontrol, sir-taramasi]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
       - name: Forge deploy tetikle
+        id: tetik
         env:
           HOOK: ${{ secrets.FORGE_DEPLOY_HOOK }}
         run: |
           if [ -z "$HOOK" ]; then echo "::warning::FORGE_DEPLOY_HOOK tanımlı değil, deploy atlandı."; exit 0; fi
           curl -fsS -X POST "$HOOK" > /dev/null
+          echo "tetiklendi=true" >> "$GITHUB_OUTPUT"
           echo "Deploy başlatıldı."
 
       - name: Site kontrolü
+        if: steps.tetik.outputs.tetiklendi == 'true'
         # Cloudflare GitHub sunucularını bot sayıp 403 veriyor; kontrol doğrudan web-01'e (aynı alan adı ve sertifikayla) yapılır.
         env:
           ORIGIN_IP: 2.31.3.154
@@ -112,3 +152,14 @@ jobs:
             sleep 15
           done
           echo "::error::Site deploy sonrası yanıt vermiyor ($code)."; exit 1
+
+      - name: Sürüm etiketi
+        # Canlıya çıkan her sürüm Releases sayfasında tarih ve değişiklik listesiyle kayda geçer.
+        if: steps.tetik.outputs.tetiklendi == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="canli-$(TZ=Europe/Istanbul date +%Y%m%d-%H%M)"
+          gh release create "$TAG" -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Canlı · $(TZ=Europe/Istanbul date '+%d.%m.%Y %H:%M')" --generate-notes
+          echo "Sürüm etiketi: $TAG"
