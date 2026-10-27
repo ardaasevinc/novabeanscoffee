@@ -48,6 +48,13 @@ jobs:
 
       - name: Güvenlik açığı taraması (composer audit)
         if: hashFiles('composer.json') != ''
+        # Canlıya giden paketler: açık varsa kırmızı, deploy olmaz.
+        run: composer audit --locked --no-dev --abandoned=ignore
+
+      - name: Geliştirme paketleri taraması (bilgi amaçlı)
+        if: hashFiles('composer.json') != ''
+        # Test/geliştirme paketleri (phpunit vb.) sunucuya kurulmaz (--no-dev); açıkları gece güvenlik PR'larıyla kapanır.
+        continue-on-error: true
         run: composer audit --locked --abandoned=ignore
 
       - name: Ortam
