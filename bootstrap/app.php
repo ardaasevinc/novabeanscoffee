@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Kubernetes'te istek Traefik üzerinden gelir: https ve ziyaretçi IP'si X-Forwarded-* başlıklarından okunur.
+        $middleware->trustProxies(at: '*');
+
         $middleware->prepend(\App\Http\Middleware\ThreatProtection::class);
         $middleware->appendToGroup('web', \Spatie\Honeypot\ProtectAgainstSpam::class);
     })

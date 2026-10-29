@@ -1,0 +1,21 @@
+# Her deploy'da veritabanı migration'ı: yeni image ayağa kalkmadan önce çalışır.
+# Pipeline eski job'ı silip bunu uygular ve bitmesini bekler.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  namespace: ${NAMESPACE}
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      restartPolicy: Never
+      imagePullSecrets: [{name: registry}]
+      containers:
+        - name: migrate
+          image: ${IMAGE}
+          command: ["php", "artisan", "migrate", "--force"]
+          envFrom:
+            - configMapRef: {name: ayarlar}
+            - secretRef: {name: gizli}

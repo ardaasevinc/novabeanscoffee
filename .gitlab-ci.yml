@@ -1,0 +1,106 @@
+# novabeanscoffee.com — GitLab CI/CD (k8s-01).
+# build: image derlenir ve registry'ye gönderilir · test: testler, paket açıkları, sır taraması
+# deploy: kubectl ile, GitLab agent üzerinden.
+#   test dalı → test ortamı (novabeanstest.selquor.com), otomatik — ayrı veritabanı (novabeans_test)
+#   main dalı → canlı (novabeanscoffee.com), elle onaylanır (GitLab'da ▶ düğmesi)
+stages: [build, test, deploy]
+
+include:
+  # GitLab'ın hazır sır taraması (ücretsiz sürümde var).
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+variables:
+  IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  BUILDKIT_HOST: tcp://buildkitd.buildkit:1234
+
+# BuildKit istemcisi: derlemeyi cluster'daki buildkitd yapar (docker build'in yerine).
+.buildkit:
+  image:
+    name: moby/buildkit:v0.34.1
+    entrypoint: [""]
+  before_script:
+    - mkdir -p ~/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf '%s:%s' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')\"}}}" > ~/.docker/config.json
+
+build:
+  stage: build
+  extends: .buildkit
+  script:
+    - buildctl build --frontend dockerfile.v0 --local context=. --local dockerfile=.
+        --opt target=uygulama
+        --output type=image,name=$IMAGE,push=true
+
+phpunit:
+  stage: test
+  extends: .buildkit
+  # Testleri henüz zorunlu olmayan projelerde kırmızı test deploy'u durdurmaz (GitHub'daki TESTLER_ZORUNLU gibi).
+  allow_failure: true
+  script:
+    # Dockerfile'daki "test" hedefi: canlı image'ın üstüne geliştirme paketleri + php artisan test.
+    - buildctl build --frontend dockerfile.v0 --local context=. --local dockerfile=. --opt target=test
+
+composer-audit:
+  stage: test
+  image: composer:2
+  script:
+    - composer audit --locked --no-dev --abandoned=ignore
+
+# Ortak deploy adımları; ortamlar sadece değişkenlerde ayrılır.
+.deploy:
+  stage: deploy
+  image: alpine:3.22
+  variables:
+    KUBECTL_SURUM: v1.36.5
+  before_script:
+    - apk add --no-cache curl gettext >/dev/null
+    - curl -fsSLo /usr/local/bin/kubectl "https://dl.k8s.io/release/$KUBECTL_SURUM/bin/linux/arm64/kubectl"
+    - echo "$(curl -fsSL https://dl.k8s.io/release/$KUBECTL_SURUM/bin/linux/arm64/kubectl.sha256)  /usr/local/bin/kubectl" | sha256sum -c -
+    - chmod +x /usr/local/bin/kubectl
+    - kubectl config use-context selquor/platform:k8s-01
+  script:
+    - kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+    # Ayarlar: gizli olmayanlar repodan (config/*.env), gizliler GitLab değişkenlerinden.
+    - kubectl -n $NAMESPACE create configmap ayarlar --from-env-file=$AYAR_DOSYASI --dry-run=client -o yaml | kubectl apply -f -
+    - kubectl -n $NAMESPACE create secret generic gizli --from-env-file="$GIZLI_DOSYA" --dry-run=client -o yaml | kubectl apply -f -
+    - kubectl -n $NAMESPACE create secret docker-registry registry --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD --dry-run=client -o yaml | kubectl apply -f -
+    # Migration, yeni sürüm açılmadan önce.
+    - kubectl -n $NAMESPACE delete job migrate --ignore-not-found
+    - envsubst '${NAMESPACE} ${HOST} ${IMAGE}' < k8s/migrate.yaml | kubectl apply -f -
+    - kubectl -n $NAMESPACE wait --for=condition=complete job/migrate --timeout=300s || { kubectl -n $NAMESPACE logs job/migrate; exit 1; }
+    - envsubst '${NAMESPACE} ${HOST} ${IMAGE}' < k8s/uygulama.yaml | kubectl apply -f -
+    - if [ "$WWW" = "1" ]; then envsubst '${NAMESPACE} ${HOST}' < k8s/www.yaml | kubectl apply -f -; fi
+    - kubectl -n $NAMESPACE rollout status deploy/web --timeout=300s
+    # Zamanlanmış işler ve kuyruk sadece canlıda çalışır (test, canlı verinin kopyasıyla dış servislere istek atmasın).
+    - if [ "$ZAMANLAYICI" = "0" ]; then kubectl -n $NAMESPACE scale deploy/zamanlayici --replicas=0; else kubectl -n $NAMESPACE rollout status deploy/zamanlayici --timeout=300s; fi
+    # Site içeriden cevap veriyor mu.
+    - kubectl -n $NAMESPACE run kontrol-$CI_JOB_ID --rm -i --restart=Never --image=curlimages/curl:8.11.1 -- curl -fsS -o /dev/null -w "%{http_code}\n" http://web.$NAMESPACE.svc/up
+
+deploy-test:
+  extends: .deploy
+  environment:
+    name: test
+    url: https://novabeanstest.selquor.com
+  variables:
+    NAMESPACE: novabeans-test
+    HOST: novabeanstest.selquor.com
+    ZAMANLAYICI: "0"
+    AYAR_DOSYASI: config/test.env
+    GIZLI_DOSYA: $TEST_SECRETS
+  rules:
+    - if: $CI_COMMIT_BRANCH == "test"
+
+deploy-canli:
+  extends: .deploy
+  environment:
+    name: production
+    url: https://novabeanscoffee.com
+  variables:
+    NAMESPACE: novabeans
+    HOST: novabeanscoffee.com
+    WWW: "1"
+    AYAR_DOSYASI: config/prod.env
+    GIZLI_DOSYA: $PROD_SECRETS
+  rules:
+    # Canlıya otomatik gitmez: pipeline yeşil olunca GitLab'da ▶ ile başlatılır.
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
