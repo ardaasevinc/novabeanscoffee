@@ -22,9 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-        $setting = Setting::where('is_published', true)->first();
-        View::share('setting', $setting);
-    }
+        // Paylaşılan veriler açılışta değil, bir view render edilince ve istek başına bir kez sorgulanır:
+        // açılışta tablo yokken (ilk kurulum, testler) paylaşım atlanıp layout'ta "tanımsız değişken" hatası oluşmaz,
+        // JSON/API istekleri ve artisan komutları da gereksiz sorgu atmaz.
+        View::composer('*', function ($view) {
+            $view->with('setting', once(fn () => Setting::where('is_published', true)->first()));
+        });
     }
 }
