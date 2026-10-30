@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Response;
 
 class ThreatProtection
@@ -18,8 +19,7 @@ class ThreatProtection
     private const WHITELIST        = [        // asla banlanmaz
         '127.0.0.1',
         '::1',
-        '128.140.43.196',                     // serdar sunucusu
-        '78.182.128.133',                     // serdar (yönetici)
+        '2.31.43.210',                        // yonetim-01: site izleme (izleme.sh)
     ];
 
     // Gerçek shell/exploit tarama patternları
@@ -34,9 +34,20 @@ class ThreatProtection
 
     public function handle(Request $request, Closure $next): Response
     {
+        // Gerçek ziyaretçi IP'si: TrustProxies (bootstrap/app.php) Cloudflare'den gelen X-Forwarded-For'u işledikten sonra.
         $ip = $request->ip();
 
         if ($this->isWhitelisted($ip)) {
+            return $next($request);
+        }
+
+        // Emniyet: Cloudflare aralığındaki bir IP asla banlanmaz ve engellenmez, yalnızca loglanır. Görünüyorsa gerçek
+        // ziyaretçi IP'si çözülememiştir; o kenar IP'sini banlamak oradan geçen bütün ziyaretçileri engellerdi.
+        if ($this->isCloudflare($ip)) {
+            if ($this->isScanning($request, $ip)) {
+                Log::channel('single')->warning('ThreatProtection: Cloudflare IP ban atlandı', ['ip' => $ip, 'path' => $request->path()]);
+            }
+
             return $next($request);
         }
 
@@ -64,6 +75,14 @@ class ThreatProtection
     private function isWhitelisted(string $ip): bool
     {
         return in_array($ip, self::WHITELIST, true);
+    }
+
+    private function isCloudflare(string $ip): bool
+    {
+        static $araliklar = null;
+        $araliklar ??= require base_path('bootstrap/cloudflare-ips.php');
+
+        return IpUtils::checkIp($ip, $araliklar);
     }
 
     private function isScanning(Request $request, string $ip): bool
@@ -131,6 +150,7 @@ class ThreatProtection
 
     private function blocked(string $ip, string $reason): Response
     {
-        abort(403, 'Access denied.');
+        // X-Engel: izleme ve hata ayıklamada 403'ün bu ara katmandan geldiği anlaşılsın (izleme.sh AYRINTI satırı).
+        abort(403, 'Access denied.', ['X-Engel' => 'threat-ban']);
     }
 }
