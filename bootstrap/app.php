@@ -11,8 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Kubernetes'te istek Traefik üzerinden gelir: https ve ziyaretçi IP'si X-Forwarded-* başlıklarından okunur.
-        $middleware->trustProxies(at: '*');
+        // Kubernetes'te istek Cloudflare → Traefik üzerinden gelir: https ve ziyaretçi IP'si X-Forwarded-* başlıklarından okunur.
+        // Güvenilen vekiller (Cloudflare + pod ağı) config/*.env'deki TRUSTED_PROXIES'te.
+        $middleware->trustProxies(at: env('TRUSTED_PROXIES', '*'));
 
         $middleware->prepend(\App\Http\Middleware\ThreatProtection::class);
         $middleware->appendToGroup('web', \Spatie\Honeypot\ProtectAgainstSpam::class);
