@@ -1,4 +1,4 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@0e8c80f) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@51516b3) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # www.${HOST} → https://${HOST} kalıcı yönlendirme (sadece canlıda; pipeline WWW=1 ise uygular).
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
