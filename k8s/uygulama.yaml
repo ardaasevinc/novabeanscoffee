@@ -1,10 +1,13 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@ce3677a) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@0e8c80f) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # Kubernetes tanımları. Pipeline ${...} değerlerini doldurur (envsubst):
 #   NAMESPACE  <site> | <site>-test      HOST   canlı adres | <site>test.selquor.com
 #   IMAGE      registry.selquor.com/<grup>/<site>:<commit>
 # Ayarlar: ConfigMap "ayarlar" (config/*.env) · Secret "gizli" (GitLab PROD_SECRETS / TEST_SECRETS)
 # Gizli dosyalar: Secret "dosyalar" (GitLab PROD_DOSYA_* / TEST_DOSYA_*) → /app/storage/gizli/ (salt okunur)
 # Diskler (PVC) diskler.yaml'da: bir kez oluşturulur, sonra deploy'lar dokunmaz.
+# Adlar (31.10.2026): Deployment'lar ${NAMESPACE}-app (web) ve ${NAMESPACE}-isler (zamanlayıcı + kuyruk); pod adları
+#   böylece "pecka-app-…", "pecka-isler-…" olur. Etiketler (app: web / app: zamanlayici) ve Service/Ingress adı "web"
+#   değişmedi: Service eski ve yeni pod'ları birlikte seçer, geçişte kesinti olmaz. Eski adlı Deployment'ları pipeline siler.
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -13,7 +16,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: ${NAMESPACE}-app
   namespace: ${NAMESPACE}
 spec:
   replicas: 1
@@ -69,7 +72,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zamanlayici
+  name: ${NAMESPACE}-isler
   namespace: ${NAMESPACE}
 spec:
   replicas: ${ZAMANLAYICI_KOPYA}
