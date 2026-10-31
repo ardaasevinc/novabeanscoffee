@@ -1,0 +1,51 @@
+# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# FrankenPHP (Caddy) ayarı — ortak şablon. Image'ın varsayılan Caddyfile'ı + iki ek:
+#  1) Ziyaretçinin gerçek IP'si: istek Cloudflare → Traefik → pod yolundan gelir. Caddy X-Forwarded-For'u
+#     sadece güvenilen vekillerden (Cloudflare + k3s pod ağı) kabul eder ve PHP'nin REMOTE_ADDR'ı
+#     gerçek ziyaretçi olur (nginx'teki real_ip gibi). Laravel'de her middleware, sırası ne olursa olsun,
+#     doğru IP'yi görür. Sahte X-Forwarded-For işe yaramaz (sağdan ilk güvenilmeyen IP alınır).
+#     PHP'ye giden X-Forwarded-For da sadece bu IP olur: Laravel'in trustProxies ayarı ('*' ya da liste)
+#     ne olursa olsun request()->ip() ziyaretçiyi verir.
+#     HTTPS=on: TLS Traefik'te biter; http istekleri Traefik'te https'e yönlendirilir.
+#  2) public/ altında index.php dışındaki PHP dosyaları çalıştırılmaz (ör. uploads/'a yüklenmiş .php).
+# Cloudflare listesi: https://www.cloudflare.com/ips (2026-10-30)
+{
+	skip_install_trust
+
+	servers {
+		trusted_proxies static 10.42.0.0/16 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+		client_ip_headers X-Forwarded-For
+		trusted_proxies_strict
+	}
+
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:localhost} {
+	root {$SERVER_ROOT:public/}
+	@compressible not path /.well-known/mercure
+	encode @compressible zstd br gzip
+
+	@php_dosyasi {
+		path_regexp \.(php|phtml|phar)$
+		not path /index.php
+	}
+	respond @php_dosyasi 404
+
+	request_header X-Forwarded-For {client_ip}
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	php_server {
+		env REMOTE_ADDR {client_ip}
+		env HTTPS on
+	}
+}
+
+import Caddyfile.d/*.caddyfile

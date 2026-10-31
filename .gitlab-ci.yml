@@ -1,12 +1,12 @@
-# novabeanscoffee.com — GitLab CI/CD (k8s-01). Pipeline, Dockerfile ve Kubernetes dosyaları ortak şablondan:
-# selquor/ci-sablon (laravel.yml). Projeye özel bir dosya gerekirse aynı adla buraya eklenir.
+# novabeanscoffee.com — GitLab CI/CD. Pipeline selquor/ci-sablon'dan (laravel.yml); Dockerfile, docker/ ve k8s/ o şablonun
+# birebir kopyasıdır (sablon-dagit.sh). Projeye özel olan yalnızca aşağıdaki değişkenlerdir (envanter/k8s-siteler.tsv).
 include:
   - {project: selquor/ci-sablon, ref: main, file: laravel.yml}
 
 variables:
   APP: novabeans
   HOST: novabeanscoffee.com
-  TESTHOST: novabeanstest.selquor.com
   MOTOR: mysql
   WWW: "1"
   TEST_ZORUNLU: "0"
+  TEST_SQLITE: "0"

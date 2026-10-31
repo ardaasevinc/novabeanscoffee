@@ -1,0 +1,28 @@
+# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# Kalıcı diskler. Pipeline bunları sadece yoksa oluşturur (kubectl create); var olan diske dokunulmaz
+# (boyut ya da ayar farkı deploy'u durdurmaz, veri risk altına girmez).
+# Yüklenen dosyalar (public/uploads). Pod'lar yeniden başlasa da kalır.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: uploads
+  namespace: ${NAMESPACE}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 2Gi
+---
+# storage/app: Filament/Livewire yüklemeleri (storage/app/public → /storage) ve uygulamanın yazdığı dosyalar.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-app
+  namespace: ${NAMESPACE}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi

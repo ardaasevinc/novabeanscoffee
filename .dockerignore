@@ -1,0 +1,25 @@
+# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+.git
+.github
+.claude
+.gitlab-ci.yml
+k8s
+config/*.env
+node_modules
+vendor
+.env
+.env.*
+!.env.example
+auth.json
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+public/build
+public/storage
+public/hot
+# Gizli dosyalar image'a asla girmez; Kubernetes'te Secret olarak bağlanır.
+*firebase-adminsdk*.json
+*credentials*.json
+*.md
