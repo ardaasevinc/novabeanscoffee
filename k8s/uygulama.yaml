@@ -1,4 +1,4 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@ce3677a) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # Kubernetes tanımları. Pipeline ${...} değerlerini doldurur (envsubst):
 #   NAMESPACE  <site> | <site>-test      HOST   canlı adres | <site>test.selquor.com
 #   IMAGE      registry.selquor.com/<grup>/<site>:<commit>
@@ -65,13 +65,14 @@ spec:
           secret: {secretName: dosyalar, optional: true}
 ---
 # Zamanlanmış işler (routes/console.php) ve kuyruk. Web ile aynı image ve ayarlar.
+# Kopya sayısını pipeline verir: ZAMANLAYICI "0" olan projede 0 (zamanlayıcı/kuyruk hiç açılmaz), diğerlerinde 1.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zamanlayici
   namespace: ${NAMESPACE}
 spec:
-  replicas: 1
+  replicas: ${ZAMANLAYICI_KOPYA}
   strategy: {type: Recreate}
   selector:
     matchLabels: {app: zamanlayici}

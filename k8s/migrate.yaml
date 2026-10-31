@@ -1,4 +1,4 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@ce3677a) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # Her deploy'da veritabanı migration'ı: yeni image ayağa kalkmadan önce çalışır.
 # Pipeline eski job'ı silip bunu uygular ve bitmesini bekler.
 apiVersion: batch/v1

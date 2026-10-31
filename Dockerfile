@@ -1,4 +1,4 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@ce3677a) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # syntax=docker/dockerfile:1
 # Laravel — Kubernetes image'ı (FrankenPHP: PHP + web sunucusu tek konteynerde).
 # Ortak şablon: selquor/ci-sablon (laravel/Dockerfile). Projede kendi Dockerfile'ı varsa o kullanılır.

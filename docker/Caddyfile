@@ -1,4 +1,4 @@
-# ŞABLON KOPYASI (selquor/ci-sablon@2473881) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
+# ŞABLON KOPYASI (selquor/ci-sablon@ce3677a) — bu dosyayı projede düzenlemeyin; şablon değişince sablon-dagit.sh hepsini günceller.
 # FrankenPHP (Caddy) ayarı — ortak şablon. Image'ın varsayılan Caddyfile'ı + iki ek:
 #  1) Ziyaretçinin gerçek IP'si: istek Cloudflare → Traefik → pod yolundan gelir. Caddy X-Forwarded-For'u
 #     sadece güvenilen vekillerden (Cloudflare + k3s pod ağı) kabul eder ve PHP'nin REMOTE_ADDR'ı
